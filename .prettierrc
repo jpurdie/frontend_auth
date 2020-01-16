@@ -1,5 +1,7 @@
 {
   "semi": false,
   "arrowParens": "always",
-  "singleQuote": true
+  "singleQuote": true,
+  "htmlWhitespaceSensitivity": "ignore",
+  "endOfLine": "auto"
 }
