@@ -1,14 +1,19 @@
 import colors from 'vuetify/es5/util/colors'
+require('dotenv').config()
 
 export default {
   mode: 'spa',
+  env: {
+    apiUrl: process.env.API_URL || 'http://localhost:3000'
+  },
   /*
    ** Headers of the page
    */
   head: {
     titleTemplate: '%s - ' + process.env.npm_package_name,
     title: process.env.npm_package_name || '',
-    meta: [{
+    meta: [
+      {
         charset: 'utf-8'
       },
       {
@@ -21,11 +26,13 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    link: [{
-      rel: 'icon',
-      type: 'image/x-icon',
-      href: '/favicon.ico'
-    }]
+    link: [
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color
@@ -40,7 +47,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: ['~/plugins/axios', '~/plugins/date-time', '~/plugins/vee-validate'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -69,7 +76,9 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: process.env.apiUrl
+  },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
@@ -77,7 +86,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
@@ -110,8 +119,6 @@ export default {
       client_id: process.env.AUTH0_CLIENT_ID,
       response_type: 'token',
       token_type: 'Bearer'
-      //  audience: 'https://frontend-justindpurdie242881.codeanyapp.com/'
     }
   }
-
 }
