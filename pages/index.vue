@@ -2,8 +2,7 @@
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6>
       <div class="text-center">
-        <logo />
-        <vuetify-logo />
+        fdsa
       </div>
       <v-card>
         <v-card-title class="headline">

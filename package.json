@@ -5,7 +5,7 @@
   "author": "justindpurdie",
   "private": true,
   "scripts": {
-    "watch": "nuxt",
+    "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
