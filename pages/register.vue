@@ -1,21 +1,11 @@
 <template>
   <div>
     <v-alert
-      v-if="validationErrors"
-      v-for="(item, index) in validationErrors"
-      v-bind:key="index"
-      show
-      variant="danger"
-    >
-      {{ item.msg + ': ' + item.value }}
-    </v-alert>
-
-    <v-alert
       v-if="errors"
       v-for="(item, index) in errors"
       v-bind:key="index"
       show
-      variant="danger"
+      type="error"
     >
       {{ item.msg }}
     </v-alert>
