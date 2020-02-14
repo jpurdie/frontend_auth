@@ -6,15 +6,15 @@
       v-bind:key="index"
       show
       type="error"
-    >
-      {{ item.msg }}
-    </v-alert>
+    >{{ item.msg }}</v-alert>
 
     <v-card class="elevation-12">
       <v-toolbar color="primary" dark flat>
         <v-toolbar-title>Register</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-toolbar>
+
+      <p>registerStatus {{ registerStatus }}</p>
       <v-card-text>
         <busy-overlay />
         <ValidationObserver ref="obs">
@@ -132,10 +132,15 @@ export default {
     }
   },
   computed: mapGetters({
-    validationErrors: 'userauth/getValidationErrors',
-    errors: 'userauth/getErrors'
+    errors: 'userauth/getErrors',
+    registerStatus: 'userauth/getSignUpStatus'
   }),
   methods: {
+    redirectSuccess() {
+      this.$router.push({
+        path: '/register-success'
+      })
+    },
     async register() {
       console.log('this.$refs')
       console.log(this.$refs)
@@ -153,13 +158,15 @@ export default {
         password: this.password,
         passwordConfirm: this.passwordConfirm
       }
+      const $vm = this
 
-      return this.$store
-        .dispatch('userauth/register', profile)
-        .then((data) => {})
-        .catch((err) => {
-          console.log(err)
-        })
+      this.$store.dispatch('userauth/register', profile).then((response) => {
+          console.log('success promise')
+          $vm.redirectSuccess()
+        }, (error) => {
+          console.log('promise fail')
+        }
+      )
     }
   }
 }
