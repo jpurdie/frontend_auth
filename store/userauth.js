@@ -7,7 +7,8 @@ console.log('inside auth of store')
 
 export const state = () => ({
   org: null,
-  errors: null
+  errors: null,
+  signUpStatus: null
 })
 
 // export const state = { ...initialState };
@@ -25,13 +26,14 @@ export const actions = {
       this.$axios
         .post(`api/v1/organizations`, profile)
         .then(function(response) {
-          if (response !== null && response.status === 200) {
+          if (response !== null && response.status === 201) {
             commit('setSignUpStatus', 'register-success')
             // setAuthToken(response.data.token)
             resolve()
           } else {
             commit('setErrors', [response.data.msg])
             commit('setSignUpStatus', 'register-error')
+            reject(new Error('Registration error'))
           }
         })
         .catch(function(error) {
@@ -39,16 +41,16 @@ export const actions = {
             const errors = error.response.data.errors
             commit('setErrors', errors)
             commit('setSignUpStatus', 'register-error')
-            return reject(error)
+            reject(error)
           } else if (error.response !== null && error.response.status === 409) {
             const errors = error.response.data.errors
             commit('setErrors', errors)
             commit('setSignUpStatus', 'register-error')
-            return reject(error)
+            reject(error)
           } else {
             commit('setErrors', [{ msg: 'Problem registering' }])
             commit('setSignUpStatus', 'register-error')
-            return reject(error)
+            reject(error)
           }
         })
     })
