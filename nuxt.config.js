@@ -69,7 +69,7 @@ export default {
     '@nuxtjs/dotenv'
   ],
   server: {
-    port: 3000, // default: 3000
+    port: 80, // default: 3000
     host: '0.0.0.0' // default: localhost
   },
   /*
@@ -110,15 +110,13 @@ export default {
     extend(config, ctx) {}
   },
   auth: {
-    redirect: {
-      callback: '/'
-    },
-    strategies: {},
-    auth0: {
-      domain: process.env.AUTH0_DOMAIN,
-      client_id: process.env.AUTH0_CLIENT_ID,
-      response_type: 'token',
-      token_type: 'Bearer'
+    strategies: {
+      auth0: {
+        domain: process.env.AUTH0_DOMAIN,
+        client_id: process.env.AUTH0_CLIENT_ID,
+        response_type: 'token',
+        token_type: 'Bearer'
+      }
     }
   }
 }

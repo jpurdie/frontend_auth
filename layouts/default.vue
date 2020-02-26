@@ -43,13 +43,16 @@
           </v-flex>
         </v-layout>
       </v-container>
+      <v-overlay :value="overlay">
+        <v-progress-circular indeterminate size="88"></v-progress-circular>
+      </v-overlay>
     </v-content>
   </v-app>
 </template>
 
 <script>
-// import dotProp from 'dotprop'
-// import NavBar from '~/components/Navbar'
+
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -58,9 +61,14 @@ export default {
   data: () => ({
     items: [{ title: 'Logout', action: 'logout' }]
   }),
-  computed: {
-    picture() {
-      return ''
+  computed: mapGetters({
+    errors: 'userauth/getErrors',
+    registerStatus: 'userauth/getSignUpStatus',
+    overlay: 'getOverlay'
+  }),
+  watch: {
+    overlay(newValue, oldValue) {
+      console.log(`Updating from ${oldValue} to ${newValue}`);
     }
   },
   methods: {

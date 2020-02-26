@@ -13,10 +13,7 @@
         <v-toolbar-title>Register</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-toolbar>
-
-      <p>registerStatus {{ registerStatus }}</p>
       <v-card-text>
-        <busy-overlay />
         <ValidationObserver ref="obs">
           <v-form @keydown.enter="register" @submit.stop.prevent="onSubmit">
             <ValidationProvider name="Organization Name" rules="required|min:2">
@@ -113,11 +110,9 @@
 import { mapGetters } from 'vuex'
 
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import busyOverlay from '~/components/busy-overlay'
 
 export default {
   components: {
-    busyOverlay,
     ValidationProvider,
     ValidationObserver
   },
@@ -137,13 +132,13 @@ export default {
   }),
   methods: {
     redirectSuccess() {
+      this.$store.dispatch('updateOverlay', false)
       this.$router.push({
         path: '/register-success'
       })
     },
     async register() {
-      console.log('this.$refs')
-      console.log(this.$refs)
+      this.$store.dispatch('updateOverlay', true)
 
       const isValid = await this.$refs.obs.validate()
       if (!isValid) {
@@ -161,10 +156,13 @@ export default {
       const $vm = this
 
       this.$store.dispatch('userauth/register', profile).then((response) => {
+          this.$store.dispatch('updateOverlay', true)
           console.log('success promise')
           $vm.redirectSuccess()
         }, (error) => {
+          this.$store.dispatch('updateOverlay', false)
           console.log('promise fail')
+          console.error(error)
         }
       )
     }
