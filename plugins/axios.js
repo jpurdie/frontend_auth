@@ -1,22 +1,32 @@
-// import { getExpFromCookie } from '~/util/auth'
+export default function({ $axios, store, redirect }) {
+  console.log("AXIOS PLUGIN LOADED");
 
-export default function({ $axios, redirect }) {
-  $axios.onRequest((config) => {
-    console.log('Making request to ' + config.url)
-  })
+  $axios.onRequest(request => {
+    console.log("[ REQUEST ]" + request.url);
 
-  $axios.onResponse((resp) => {
-    if (resp.data.token !== null || resp.data.token !== undefined) {
-      $axios.setToken(resp.data.token, 'Bearer')
+    const token = store.$auth.getToken("auth0");
+    if (token !== undefined && token !== null) {
+      request.headers.common.Authorization = token;
     }
-  })
 
-  //
+    return request;
+  });
 
-  $axios.onError((error) => {
-    const code = parseInt(error.response && error.response.status)
+  $axios.onResponse(response => {
+    console.log("[ RESPONSE ]" + response.request.responseURL, response);
+    // TODO: If token expires, perform a silent refresh
+
+    return response;
+  });
+
+  $axios.onError(error => {
+    console.error("[ ERROR ]", error);
+    const code = parseInt(error.response && error.response.status);
     if (code === 401) {
-      redirect('/login')
+      store.state.sessionStorage.authUser = null;
+      return redirect("/");
     }
-  })
+
+    return error;
+  });
 }

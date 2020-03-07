@@ -1,7 +1,4 @@
 {
-  "semi": false,
-  "arrowParens": "always",
-  "singleQuote": true,
-  "htmlWhitespaceSensitivity": "ignore",
-  "endOfLine": "auto"
+  "tabWidth": 2,
+  "useTabs": false
 }

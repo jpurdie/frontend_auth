@@ -18,7 +18,7 @@
           <v-menu :close-on-click="true" top>
             <template v-slot:activator="{ on }">
               <v-btn v-on="on" color="primary" dark>
-                {{ $auth.$state.user.firstName }}
+                {{ $auth.user.nickname }}
               </v-btn>
             </template>
             <v-list>
