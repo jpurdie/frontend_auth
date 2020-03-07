@@ -1,36 +1,36 @@
-import colors from 'vuetify/es5/util/colors'
-require('dotenv').config()
+import colors from "vuetify/es5/util/colors";
+require("dotenv").config();
 
 export default {
-  mode: 'spa',
+  mode: "spa",
   env: {
-    apiUrl: process.env.API_URL || 'http://localhost:3000'
+    apiUrl: process.env.API_URL || "http://localhost:3000"
   },
   /*
    ** Headers of the page
    */
   head: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
-    title: process.env.npm_package_name || '',
+    titleTemplate: "%s - " + process.env.npm_package_name,
+    title: process.env.npm_package_name || "",
     meta: [
       {
-        charset: 'utf-8'
+        charset: "utf-8"
       },
       {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1'
+        name: "viewport",
+        content: "width=device-width, initial-scale=1"
       },
       {
-        hid: 'description',
-        name: 'description',
-        content: process.env.npm_package_description || ''
+        hid: "description",
+        name: "description",
+        content: process.env.npm_package_description || ""
       }
     ],
     link: [
       {
-        rel: 'icon',
-        type: 'image/x-icon',
-        href: '/favicon.ico'
+        rel: "icon",
+        type: "image/x-icon",
+        href: "/favicon.ico"
       }
     ]
   },
@@ -38,7 +38,7 @@ export default {
    ** Customize the progress-bar color
    */
   loading: {
-    color: '#fff'
+    color: "#fff"
   },
   /*
    ** Global CSS
@@ -47,30 +47,30 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/axios', '~/plugins/date-time', '~/plugins/vee-validate'],
+  plugins: ["~/plugins/axios", "~/plugins/date-time", "~/plugins/vee-validate"],
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     // '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify'
+    "@nuxtjs/vuetify"
   ],
   /*
    ** Nuxt.js modules
    */
   modules: [
     // Doc: https://bootstrap-vue.js.org/docs/
-    '@nuxtjs/vuetify',
+    "@nuxtjs/vuetify",
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/auth',
-    '@nuxtjs/axios',
+    "@nuxtjs/auth",
+    "@nuxtjs/axios",
     // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv'
+    "@nuxtjs/dotenv"
   ],
   server: {
     port: 80, // default: 3000
-    host: '0.0.0.0' // default: localhost
+    host: "0.0.0.0" // default: localhost
   },
   /*
    ** Axios module configuration
@@ -84,7 +84,7 @@ export default {
    ** https://github.com/nuxt-community/vuetify-module
    */
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    customVariables: ["~/assets/variables.scss"],
     theme: {
       dark: false,
       themes: {
@@ -110,13 +110,18 @@ export default {
     extend(config, ctx) {}
   },
   auth: {
+    redirect: {
+      login: "/", // redirect user when not connected
+      callback: "/auth/signed-in"
+    },
     strategies: {
+      local: false,
       auth0: {
         domain: process.env.AUTH0_DOMAIN,
         client_id: process.env.AUTH0_CLIENT_ID,
-        response_type: 'token',
-        token_type: 'Bearer'
+        audience: process.env.AUTH0_AUDIENCE,
+        login_hint: "foo"
       }
     }
   }
-}
+};

@@ -3,38 +3,34 @@
 // import {setAuthToken, resetAuthToken} from '~/util/auth'
 // import api from '~/api'
 
-console.log('inside auth of store')
+console.log("inside auth of store");
 
 export const state = () => ({
   overlay: false
-})
+});
 
 // export const state = { ...initialState };
 
 export const actions = {
   updateOverlay({ commit }, overlayStatus) {
-    commit('setOverlay', overlayStatus)
+    commit("setOverlay", overlayStatus);
   },
-  authPing({commit}, accessToken) {
-    const config = {
-      headers: { Authorization: accessToken }
-    }
-    console.log(JSON.stringify(config))
-    this.$axios.get('api/ping', config)
+  authPing({ commit }) {
+    this.$axios.get("api/ping");
   }
-}
+};
 
 export const mutations = {
   setOverlay(state, status) {
-    state.overlay = status
+    state.overlay = status;
   }
-}
+};
 
 export const getters = {
   getOverlay(state) {
-    return state.overlay
+    return state.overlay;
   }
-}
+};
 
 export default {
   namespaced: true,
@@ -42,4 +38,4 @@ export default {
   actions,
   mutations,
   getters
-}
+};
