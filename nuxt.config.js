@@ -119,8 +119,7 @@ export default {
       auth0: {
         domain: process.env.AUTH0_DOMAIN,
         client_id: process.env.AUTH0_CLIENT_ID,
-        audience: process.env.AUTH0_AUDIENCE,
-        login_hint: "foo"
+        audience: process.env.AUTH0_AUDIENCE
       }
     }
   }
