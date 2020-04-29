@@ -13,7 +13,10 @@ export const actions = {
     const sendData = {
       method: "post",
       url: "api/v1/invitations",
-      data: { email: inviteEmail }
+      data: {
+        email: inviteEmail,
+        orgId: "CarterandAnthonyTraders|84445b02-7c63-4df9-b483-449ea43d9ffc"
+      }
     };
     console.log(sendData);
 

@@ -16,7 +16,7 @@ export const actions = {
     commit("setOverlay", overlayStatus);
   },
   authPing({ commit }) {
-    this.$axios.get("api/ping");
+    this.$axios.get("api/ping?org_id=aa6ed69d-7516-48b2-a84c-cb67f4d20866");
   }
 };
 
