@@ -1,6 +1,8 @@
 <template>
   <v-container>
     <v-row>
+      <v-btn color="primary" dark @click="doAuthPing">Ping</v-btn>
+
       <v-dialog v-model="inviteDialog" persistent max-width="750">
         <template v-slot:activator="{ on }">
           <v-btn color="primary" dark v-on="on">Invite Someone</v-btn>
@@ -35,6 +37,9 @@ export default {
   },
   mounted() {},
   methods: {
+    doAuthPing() {
+      this.$store.dispatch("authPing");
+    },
     showinvite() {
       alert("");
     }
