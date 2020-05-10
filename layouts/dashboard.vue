@@ -32,6 +32,7 @@
     <v-app-bar app clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-btn text to="/">Vitae</v-btn>
+      {{ selectedOrg.name }}
       <div class="flex-grow-1"></div>
       <template v-if="$auth.$state.loggedIn">
         <v-menu :close-on-click="true" top>
@@ -59,15 +60,30 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   props: {
     source: String
+  },
+  computed: {
+    ...mapState({
+      selectedOrg: state => state.userauth.selectedOrg
+    })
   },
   data: () => ({
     drawer: null
   }),
   created() {
     this.$vuetify.theme.dark = false;
+  },
+  mounted() {
+    this.doFetchOrgs();
+  },
+  methods: {
+    doFetchOrgs() {
+      this.$store.dispatch("userauth/fetchOrgOptions");
+    }
   }
 };
 </script>

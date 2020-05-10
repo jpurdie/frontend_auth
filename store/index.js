@@ -15,8 +15,9 @@ export const actions = {
   updateOverlay({ commit }, overlayStatus) {
     commit("setOverlay", overlayStatus);
   },
-  authPing({ commit }) {
-    this.$axios.get("api/ping?org_id=aa6ed69d-7516-48b2-a84c-cb67f4d20866");
+  authPing({ commit, rootState }) {
+    const orgId = rootState.userauth.selectedOrg.uuid;
+    this.$axios.get("api/ping?org_id=d" + orgId);
   }
 };
 
@@ -29,6 +30,9 @@ export const mutations = {
 export const getters = {
   getOverlay(state) {
     return state.overlay;
+  },
+  getSelectedOrg(state, getters, rootState) {
+    return rootState.userauth.selectedOrg;
   }
 };
 
