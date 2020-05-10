@@ -15,13 +15,7 @@
         <b-nav-item-dropdown :text="$auth.user.firstName" right>
           <b-dropdown-item @click="$auth.logout()">Logout</b-dropdown-item>
         </b-nav-item-dropdown>
-        <b-img
-          :src="picture"
-          class="mt-1"
-          rounded="circle"
-          width="30px"
-          height="30px"
-        />
+        <b-img :src="picture" class="mt-1" rounded="circle" width="30px" height="30px" />
       </template>
       <template v-else>
         <b-dropdown-item to="/login">Login</b-dropdown-item>
@@ -37,8 +31,8 @@
 export default {
   computed: {
     picture() {
-      return ''
+      return "";
     }
   }
-}
+};
 </script>

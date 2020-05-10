@@ -11,12 +11,12 @@
 export default {
   layout: "dashboard",
   mounted() {
-    this.doAuthPing();
+    //this.doFetchOrgs();
   },
   methods: {
-    doAuthPing() {
-      this.$store.dispatch("authPing");
-    }
+    //  doFetchOrgs() {
+    //  this.$store.dispatch("userauth/fetchOrgOptions");
+    //   }
   }
 };
 </script>

@@ -107,9 +107,9 @@
 </style>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {
   components: {
@@ -119,30 +119,30 @@ export default {
   data() {
     return {
       orgName: null,
-      email: 'lutygipahu@test.asu.edu',
-      password: 'Mock123456',
-      passwordConfirm: 'Mock123456',
-      lastName: '',
-      firstName: ''
-    }
+      email: "lutygipahu@test.asu.edu",
+      password: "Mock123456",
+      passwordConfirm: "Mock123456",
+      lastName: "",
+      firstName: ""
+    };
   },
   computed: mapGetters({
-    errors: 'userauth/getErrors',
-    registerStatus: 'userauth/getSignUpStatus'
+    errors: "userauth/getErrors",
+    registerStatus: "userauth/getSignUpStatus"
   }),
   methods: {
     redirectSuccess() {
-      this.$store.dispatch('updateOverlay', false)
+      this.$store.dispatch("updateOverlay", false);
       this.$router.push({
-        path: '/register-success'
-      })
+        path: "/register-success"
+      });
     },
     async register() {
-      this.$store.dispatch('updateOverlay', true)
+      this.$store.dispatch("updateOverlay", true);
 
-      const isValid = await this.$refs.obs.validate()
+      const isValid = await this.$refs.obs.validate();
       if (!isValid) {
-        return
+        return;
       }
 
       const profile = {
@@ -152,20 +152,22 @@ export default {
         email: this.email,
         password: this.password,
         passwordConfirm: this.passwordConfirm
-      }
-      const $vm = this
+      };
+      const $vm = this;
 
-      this.$store.dispatch('userauth/register', profile).then((response) => {
-          this.$store.dispatch('updateOverlay', true)
-          console.log('success promise')
-          $vm.redirectSuccess()
-        }, (error) => {
-          this.$store.dispatch('updateOverlay', false)
-          console.log('promise fail')
-          console.error(error)
+      this.$store.dispatch("userauth/register", profile).then(
+        response => {
+          this.$store.dispatch("updateOverlay", true);
+          console.log("success promise");
+          $vm.redirectSuccess();
+        },
+        error => {
+          this.$store.dispatch("updateOverlay", false);
+          console.log("promise fail");
+          console.error(error);
         }
-      )
+      );
     }
   }
-}
+};
 </script>

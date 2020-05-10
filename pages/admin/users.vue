@@ -23,12 +23,19 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import inviteForm from "~/components/forms/InviteUser.vue";
 
 export default {
   layout: "dashboard",
   components: {
     inviteForm
+  },
+  computed: {
+    ...mapState({
+      selectedOrg: state => state.userauth.selectedOrg
+    })
   },
   data() {
     return {
