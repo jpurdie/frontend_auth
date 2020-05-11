@@ -29,11 +29,13 @@ export const actions = {
             if (response.data.length === 1) {
               commit("setSelectedOrg", response.data[0]);
             }
+            resolve(response.data);
           }
         })
         .catch(function(error) {
           if (error.response !== null && error.response.status === 422) {
             console.log(error.response);
+            reject(error.response);
           }
         });
     });

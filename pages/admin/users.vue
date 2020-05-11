@@ -28,7 +28,7 @@ import { mapState } from "vuex";
 import inviteForm from "~/components/forms/InviteUser.vue";
 
 export default {
-  layout: "dashboard",
+  layout: "dashboard-layout",
   components: {
     inviteForm
   },
