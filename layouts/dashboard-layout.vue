@@ -40,7 +40,7 @@
             <v-btn v-on="on" color="primary" dark>{{ $auth.user.nickname }}</v-btn>
           </template>
           <v-list>
-            <v-list-item @click="$auth.logout()">
+            <v-list-item @click="doLogout">
               <v-icon>mdi-logout</v-icon>
               <v-list-item-title>Logout</v-list-item-title>
             </v-list-item>
@@ -83,6 +83,16 @@ export default {
   methods: {
     doFetchOrgs() {
       this.$store.dispatch("userauth/fetchOrgOptions");
+    },
+    doLogout() {
+      this.$auth.logout();
+      window.location.href =
+        "https://" +
+        process.env.AUTH0_DOMAIN +
+        "/v2/logout?returnTo=http%3A%2F%2F" +
+        process.env.BASE_URL +
+        "&client_id=" +
+        process.env.AUTH0_CLIENT_ID;
     }
   }
 };

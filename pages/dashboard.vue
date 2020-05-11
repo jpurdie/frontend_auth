@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  layout: "dashboard",
+  layout: "dashboard-layout",
   mounted() {
     //this.doFetchOrgs();
   },

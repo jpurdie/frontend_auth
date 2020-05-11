@@ -7,29 +7,11 @@
         <v-toolbar-items>
           <v-btn text to="/">home</v-btn>
           <v-btn text to="/public">public</v-btn>
-          <v-btn v-if="$auth.$state.loggedIn" text to="/dashboard">
-            Dashboard
-          </v-btn>
         </v-toolbar-items>
 
         <div class="flex-grow-1"></div>
 
-        <template v-if="$auth.$state.loggedIn">
-          <v-menu :close-on-click="true" top>
-            <template v-slot:activator="{ on }">
-              <v-btn v-on="on" color="primary" dark>
-                {{ $auth.user.nickname }}
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item @click="$auth.logout()">
-                <v-icon>mdi-logout</v-icon>
-                <v-list-item-title>Logout</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </template>
-        <template v-else>
+        <template>
           <v-toolbar-items>
             <v-btn v-on:click="dologin" text>Login</v-btn>
             <v-btn text to="/register">Register</v-btn>
@@ -51,20 +33,19 @@
 </template>
 
 <script>
-
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     //  NavBar
   },
   data: () => ({
-    items: [{ title: 'Logout', action: 'logout' }]
+    items: [{ title: "Logout", action: "logout" }]
   }),
   computed: mapGetters({
-    errors: 'userauth/getErrors',
-    registerStatus: 'userauth/getSignUpStatus',
-    overlay: 'getOverlay'
+    errors: "userauth/getErrors",
+    registerStatus: "userauth/getSignUpStatus",
+    overlay: "getOverlay"
   }),
   watch: {
     overlay(newValue, oldValue) {
@@ -73,8 +54,8 @@ export default {
   },
   methods: {
     dologin() {
-      this.$auth.loginWith('auth0')
+      this.$auth.loginWith("auth0");
     }
   }
-}
+};
 </script>
