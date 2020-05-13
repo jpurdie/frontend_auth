@@ -32,15 +32,15 @@ export default {
   components: {
     inviteForm
   },
-  computed: {
-    ...mapState({
-      selectedOrg: state => state.userauth.selectedOrg
-    })
-  },
   data() {
     return {
       inviteDialog: false
     };
+  },
+  computed: {
+    ...mapState({
+      selectedOrg: state => state.userauth.selectedOrg
+    })
   },
   mounted() {},
   methods: {
