@@ -17,7 +17,7 @@ export const actions = {
   },
   authPing({ commit, rootState }) {
     const orgId = rootState.userauth.selectedOrg.uuid;
-    this.$axios.get("api/ping?org_id=d" + orgId);
+    this.$axios.get("api/ping?org_id=" + orgId);
   }
 };
 
