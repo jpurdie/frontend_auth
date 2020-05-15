@@ -9,13 +9,14 @@ export const actions = {
   updateInvateStatus({ commit }, status) {
     commit("setInviteStatus", status);
   },
-  sendInviteEmailReq({ commit }, inviteEmail) {
+  sendInviteEmailReq({ commit, rootState }, inviteEmail) {
+    const orgId = rootState.userauth.selectedOrg.uuid;
+
     const sendData = {
       method: "post",
-      url: "api/v1/invitations",
+      url: "api/v1/invitations?org_id=" + orgId,
       data: {
-        email: inviteEmail,
-        orgId: "CarterandAnthonyTraders|84445b02-7c63-4df9-b483-449ea43d9ffc"
+        email: inviteEmail
       }
     };
     console.log(sendData);
