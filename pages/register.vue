@@ -153,6 +153,7 @@ export default {
         password: this.password,
         passwordConfirm: this.passwordConfirm
       };
+
       const $vm = this;
 
       this.$store.dispatch("userauth/register", profile).then(
