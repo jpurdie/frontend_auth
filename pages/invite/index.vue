@@ -19,7 +19,7 @@
             <ValidationProvider name="First Name" rules="required|min:2">
               <v-text-field
                 slot-scope="{ errors, valid }"
-                v-model="firstName"
+                v-model="profile.firstName"
                 :error-messages="errors"
                 :success="valid"
                 autocomplete="off"
@@ -31,7 +31,7 @@
             <ValidationProvider name="Last Name" rules="required|min:2">
               <v-text-field
                 slot-scope="{ errors, valid }"
-                v-model="lastName"
+                v-model="profile.lastName"
                 :error-messages="errors"
                 :success="valid"
                 autocomplete="off"
@@ -40,10 +40,18 @@
               ></v-text-field>
             </ValidationProvider>
 
+            <v-text-field
+              v-model="invitation.email"
+              disabled
+              label="Email"
+              type="text"
+              autocomplete="off"
+            ></v-text-field>
+
             <ValidationProvider name="Password" rules="required|min:8">
               <v-text-field
                 slot-scope="{ errors, valid }"
-                v-model="password"
+                v-model="profile.password"
                 :error-messages="errors"
                 :success="valid"
                 label="Password"
@@ -56,7 +64,7 @@
             <ValidationProvider name="Password Confirm" rules="required|min:8">
               <v-text-field
                 slot-scope="{ errors, valid }"
-                v-model="passwordConfirm"
+                v-model="profile.passwordConfirm"
                 :error-messages="errors"
                 :success="valid"
                 type="password"
@@ -89,15 +97,17 @@ export default {
   data() {
     return {
       urlToken: undefined,
-      email: "",
-      password: "Mock123456",
-      passwordConfirm: "Mock123456",
-      lastName: "",
-      firstName: ""
+      profile: {
+        password: "Mock123456",
+        passwordConfirm: "Mock123456",
+        lastName: "",
+        firstName: ""
+      }
     };
   },
   computed: mapGetters({
     errors: "userauth/getErrors",
+    invitation: "invitations/getInvitation",
     registerStatus: "userauth/getSignUpStatus"
   }),
   mounted() {
@@ -107,7 +117,35 @@ export default {
     this.validateToken();
   },
   methods: {
-    register() {},
+    async register() {
+      const isValid = await this.$refs.obs.validate();
+      if (!isValid) {
+        return;
+      }
+
+      const acceptDetails = {
+        lastName: this.profile.lastName,
+        firstName: this.profile.firstName,
+        password: this.profile.password,
+        passwordConfirm: this.profile.passwordConfirm,
+        urlToken: this.urlToken
+      };
+      const $vm = this;
+      this.$store.dispatch("updateOverlay", true);
+
+      this.$store.dispatch("invitations/register", acceptDetails).then(
+        response => {
+          $vm.$store.dispatch("updateOverlay", false);
+          console.log("success promise");
+          //  $vm.redirectSuccess();
+        },
+        error => {
+          $vm.$store.dispatch("updateOverlay", false);
+          console.log("promise fail");
+          console.error(error);
+        }
+      );
+    },
     validateToken() {
       this.$store.dispatch("invitations/checkToken", this.urlToken);
     }
