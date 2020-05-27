@@ -3,8 +3,6 @@
 // import {setAuthToken, resetAuthToken} from '~/util/auth'
 // import api from '~/api'
 
-console.log("inside auth of store");
-
 export const state = () => ({
   userOrgs: [],
   selectedOrg: "",

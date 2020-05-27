@@ -66,6 +66,7 @@ export default {
   props: {
     source: String
   },
+  middleware: "authz",
   computed: {
     ...mapState({
       selectedOrg: state => state.userauth.selectedOrg
@@ -76,13 +77,11 @@ export default {
   }),
   created() {
     this.$vuetify.theme.dark = false;
-  },
-  mounted() {
-    this.doFetchOrgs();
+    // this.doFetchOrgs();
   },
   methods: {
     doFetchOrgs() {
-      this.$store.dispatch("userauth/fetchOrgOptions");
+      //      this.$store.dispatch("userauth/fetchOrgOptions");
     },
     doLogout() {
       this.$auth.logout();

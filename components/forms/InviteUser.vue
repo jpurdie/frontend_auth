@@ -3,6 +3,7 @@
     <v-form v-model="valid">
       <ValidationProvider v-slot="{ errors }" name="Email Address" rules="required|email">
         <v-text-field
+          autocomplete="off"
           :append-outer-icon="'mdi-send'"
           @click:append-outer="sendInvitation"
           v-model="inviteEmail"
