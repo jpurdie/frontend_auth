@@ -79,10 +79,6 @@ export default {
     this.$vuetify.theme.dark = false;
     // this.doFetchOrgs();
   },
-  methods: {
-    doFetchOrgs() {
-      //      this.$store.dispatch("userauth/fetchOrgOptions");
-  },
   mounted() {
     this.doFetchOrgs();
   },
@@ -101,5 +97,5 @@ export default {
         process.env.AUTH0_CLIENT_ID;
     }
   }
-}
+};
 </script>
