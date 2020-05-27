@@ -105,6 +105,10 @@ export const actions = {
         console.log(error.config);
       });
   },
+  invitationStatus: ""
+});
+
+export const actions = {
   register({ commit }, acceptDetails) {
     this.$axios
       .post("api/v1/users/", acceptDetails)
@@ -191,9 +195,12 @@ export const mutations = {
 export const getters = {
   getInvitation(state) {
     return state.invitation;
+<<<<<<< HEAD
   },
   getInvitations(state) {
     return state.invitations;
+=======
+>>>>>>> 1f46c7cb1a93a855d49aba8e45f554af6afdc91e
   }
 };
 
