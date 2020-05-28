@@ -1,14 +1,15 @@
 <template>
   <div>
-    <v-alert
-      v-if="errors"
-      v-for="(item, index) in errors"
-      v-bind:key="index"
-      show
-      type="error"
-    >{{ item.msg }}</v-alert>
+    <v-card class="elevation-12" v-if="invitationErrors">
+      <v-alert
+        v-for="(item, index) in invitationErrors"
+        v-bind:key="index"
+        show
+        type="error"
+      >{{ item.message }}</v-alert>
+    </v-card>
 
-    <v-card class="elevation-12">
+    <v-card class="elevation-12" v-if="invitation && invitation.email">
       <v-toolbar color="primary" dark flat>
         <v-toolbar-title>Register</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -108,6 +109,7 @@ export default {
   computed: mapGetters({
     errors: "userauth/getErrors",
     invitation: "invitations/getInvitation",
+    invitationErrors: "invitations/getErrors",
     registerStatus: "userauth/getSignUpStatus"
   }),
   mounted() {

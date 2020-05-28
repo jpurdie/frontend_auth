@@ -63,7 +63,7 @@ export default {
     // Doc: https://bootstrap-vue.js.org/docs/
     "@nuxtjs/vuetify",
     // Doc: https://axios.nuxtjs.org/usage
-    "@nuxtjs/auth",
+    "@nuxtjs/auth-next",
     "@nuxtjs/axios",
     // Doc: https://github.com/nuxt-community/dotenv-module
     "@nuxtjs/dotenv"
@@ -117,8 +117,33 @@ export default {
     strategies: {
       local: false,
       auth0: {
+        scheme: "oauth2",
+        endpoints: {
+          authorization: "https://myppm.auth0.com/authorize",
+          token: undefined,
+          userInfo: "https://myppm.auth0.com/userinfo",
+          logout: "https://myppm.auth0.com/logout"
+        },
+        token: {
+          property: "access_token",
+          type: "Bearer",
+          maxAge: 1800
+        },
+        refreshToken: {
+          property: "refresh_token",
+          maxAge: 60 * 60 * 24 * 30
+        },
+        responseType: "token",
+        grantType: "authorization_code",
+        accessType: undefined,
+        redirectUri: undefined,
+        scope: ["openid", "profile", "email"],
+        state: "UNIQUE_AND_NON_GUESSABLE",
+        codeChallengeMethod: "plain",
+        responseMode: "",
+        acrValues: "",
         domain: process.env.AUTH0_DOMAIN,
-        client_id: process.env.AUTH0_CLIENT_ID,
+        clientId: process.env.AUTH0_CLIENT_ID,
         audience: process.env.AUTH0_AUDIENCE
       }
     }
