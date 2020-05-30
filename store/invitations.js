@@ -1,17 +1,20 @@
-console.log("inside auth of store");
-
 export const state = () => ({
   invitation: { email: "" },
   invitationStatus: "",
   invitations: [],
-  errors: []
+  errors: [],
+  registerStatus: ""
 });
 
 export const actions = {
   register({ commit }, acceptDetails) {
-    this.$axios
+    commit("setRegisterStatus", "");
+
+    return this.$axios
       .post("api/v1/users/", acceptDetails)
       .then(response => {
+        console.log("response", response);
+        commit("setRegisterStatus", "success");
         console.log(response.data);
         console.log(response.status);
         console.log(response.statusText);
@@ -19,8 +22,11 @@ export const actions = {
         console.log(response.config);
       })
       .catch(error => {
+        commit("setRegisterStatus", "fail");
         // Error 😨
         if (error.response) {
+          commit("setErrors", error.response.data);
+
           /*
            * The request was made and the server responded with a
            * status code that falls out of the range of 2xx
@@ -28,6 +34,7 @@ export const actions = {
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
+          return false;
         } else if (error.request) {
           /*
            * The request was made but no response was received, `error.request`
@@ -35,6 +42,7 @@ export const actions = {
            * of http.ClientRequest in Node.js
            */
           console.log(error.request);
+          return false;
         } else {
           // Something happened in setting up the request and triggered an Error
           console.log("Error", error.message);
@@ -55,6 +63,7 @@ export const actions = {
       .catch(error => {
         // Error 😨
         if (error.response) {
+          commit("setErrors", error.response.data);
           /*
            * The request was made and the server responded with a
            * status code that falls out of the range of 2xx
@@ -170,6 +179,9 @@ export const mutations = {
   setInvitation(state, invitation) {
     state.invitation = invitation;
   },
+  setRegisterStatus(state, registerStatus) {
+    state.registerStatus = registerStatus;
+  },
   setErrors(state, errors) {
     state.errors = errors;
   },
@@ -190,6 +202,9 @@ export const getters = {
   },
   getErrors(state) {
     return state.errors;
+  },
+  getRegisterStatus(state) {
+    return state.registerStatus;
   }
 };
 

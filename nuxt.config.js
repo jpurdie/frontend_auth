@@ -65,6 +65,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/auth-next",
     "@nuxtjs/axios",
+    "vue-scrollto/nuxt",
     // Doc: https://github.com/nuxt-community/dotenv-module
     "@nuxtjs/dotenv"
   ],

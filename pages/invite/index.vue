@@ -1,17 +1,20 @@
 <template>
   <div>
-    <v-card class="elevation-12" v-if="invitationErrors">
+    <v-card class="elevation-12" v-if="invitationErrors" id="errors-div">
       <v-alert
         v-for="(item, index) in invitationErrors"
         v-bind:key="index"
         show
         type="error"
-      >{{ item.message }}</v-alert>
+        >{{ item.message }}</v-alert
+      >
     </v-card>
 
     <v-card class="elevation-12" v-if="invitation && invitation.email">
       <v-toolbar color="primary" dark flat>
-        <v-toolbar-title>Register</v-toolbar-title>
+        <v-toolbar-title
+          >Register with {{ invitation.organization.name }}</v-toolbar-title
+        >
         <v-spacer></v-spacer>
       </v-toolbar>
       <v-card-text>
@@ -79,7 +82,9 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn @click="register" color="primary">Register</v-btn>
+        <v-btn :disabled="disableRgstrBtn" @click="register" color="primary"
+          >Register</v-btn
+        >
       </v-card-actions>
     </v-card>
   </div>
@@ -98,6 +103,7 @@ export default {
   data() {
     return {
       urlToken: undefined,
+      disableRgstrBtn: false,
       profile: {
         password: "Mock123456",
         passwordConfirm: "Mock123456",
@@ -110,7 +116,7 @@ export default {
     errors: "userauth/getErrors",
     invitation: "invitations/getInvitation",
     invitationErrors: "invitations/getErrors",
-    registerStatus: "userauth/getSignUpStatus"
+    registerStatus: "invitations/getRegisterStatus"
   }),
   mounted() {
     if (this.$route.query.t !== null && this.$route.query.t !== undefined) {
@@ -119,37 +125,67 @@ export default {
     this.validateToken();
   },
   methods: {
+    dologin() {
+      this.$auth.loginWith("auth0");
+    },
     async register() {
-      const isValid = await this.$refs.obs.validate();
+      const $vm = this;
+
+      $vm.disableRgstrBtn = true;
+      const isValid = await $vm.$refs.obs.validate();
       if (!isValid) {
+        $vm.disableRgstrBtn = false;
         return;
       }
+      $vm.$store.dispatch("updateOverlay", true);
 
       const acceptDetails = {
-        lastName: this.profile.lastName,
-        firstName: this.profile.firstName,
-        password: this.profile.password,
-        passwordConfirm: this.profile.passwordConfirm,
-        urlToken: this.urlToken
+        lastName: $vm.profile.lastName,
+        firstName: $vm.profile.firstName,
+        password: $vm.profile.password,
+        passwordConfirm: $vm.profile.passwordConfirm,
+        urlToken: $vm.urlToken
       };
-      const $vm = this;
-      this.$store.dispatch("updateOverlay", true);
-
-      this.$store.dispatch("invitations/register", acceptDetails).then(
+      console.log("before dispatch");
+      $vm.$store.dispatch("invitations/register", acceptDetails).then(
         response => {
           $vm.$store.dispatch("updateOverlay", false);
-          console.log("success promise");
-          //  $vm.redirectSuccess();
+          if ($vm.registerStatus === "success") {
+            $vm.dologin();
+            return;
+          }
+          $vm.$scrollTo("#errors-div", 200, {
+            offset: -10
+          });
+          $vm.disableRgstrBtn = false;
         },
         error => {
+          $vm.disableRgstrBtn = false;
+          $vm.$store.dispatch("updateOverlay", false);
+          console.error(error);
+          $vm.$scrollTo("#errors-div");
+        }
+      );
+    },
+    async validateToken() {
+      const $vm = this;
+      $vm.$store.dispatch("updateOverlay", true);
+      $vm.disableRgstrBtn = true;
+
+      await $vm.$store.dispatch("invitations/checkToken", $vm.urlToken).then(
+        response => {
+          $vm.disableRgstrBtn = false;
+
+          $vm.$store.dispatch("updateOverlay", false);
+          console.log("success promise");
+        },
+        error => {
+          $vm.disableRgstrBtn = true;
           $vm.$store.dispatch("updateOverlay", false);
           console.log("promise fail");
           console.error(error);
         }
       );
-    },
-    validateToken() {
-      this.$store.dispatch("invitations/checkToken", this.urlToken);
     }
   }
 };
