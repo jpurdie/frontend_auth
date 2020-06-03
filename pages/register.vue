@@ -157,7 +157,7 @@ export default {
       $vm.$store.dispatch("updateOverlay", false);
       $vm.disableRgstrBtn = false;
       if ($vm.errors !== undefined && $vm.errors.length === 0) {
-        //$vm.redirectSuccess();
+        $vm.redirectSuccess();
       }
     }
   }
