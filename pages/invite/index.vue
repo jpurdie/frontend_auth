@@ -6,15 +6,12 @@
         v-bind:key="index"
         show
         type="error"
-        >{{ item.message }}</v-alert
-      >
+      >{{ item.msg }}</v-alert>
     </v-card>
 
     <v-card class="elevation-12" v-if="invitation && invitation.email">
       <v-toolbar color="primary" dark flat>
-        <v-toolbar-title
-          >Register with {{ invitation.organization.name }}</v-toolbar-title
-        >
+        <v-toolbar-title>Register with {{ invitation.organization.name }}</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-toolbar>
       <v-card-text>
@@ -82,9 +79,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn :disabled="disableRgstrBtn" @click="register" color="primary"
-          >Register</v-btn
-        >
+        <v-btn :disabled="disableRgstrBtn" @click="register" color="primary">Register</v-btn>
       </v-card-actions>
     </v-card>
   </div>

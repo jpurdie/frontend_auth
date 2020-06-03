@@ -8,7 +8,7 @@ console.log("inside auth of store");
 export const state = () => ({
   userOrgs: [],
   selectedOrg: "",
-  errors: null,
+  errors: [],
   signUpStatus: null
 });
 
@@ -42,39 +42,11 @@ export const actions = {
   },
   register({ commit }, profile) {
     commit("setErrors", []);
-    commit("setSignUpStatus", "register-pending");
-
-    return new Promise((resolve, reject) => {
-      this.$axios
-        .post(`api/v1/organizations`, profile)
-        .then(function(response) {
-          if (response !== null && response.status === 201) {
-            commit("setSignUpStatus", "register-success");
-            // setAuthToken(response.data.token)
-            resolve();
-          } else {
-            commit("setErrors", [response.data.msg]);
-            commit("setSignUpStatus", "register-error");
-            reject(new Error("Registration error"));
-          }
-        })
-        .catch(function(error) {
-          if (error.response !== null && error.response.status === 422) {
-            const errors = error.response.data.errors;
-            commit("setErrors", errors);
-            commit("setSignUpStatus", "register-error");
-            reject(error);
-          } else if (error.response !== null && error.response.status === 409) {
-            const errors = error.response.data.errors;
-            commit("setErrors", errors);
-            commit("setSignUpStatus", "register-error");
-            reject(error);
-          } else {
-            commit("setErrors", [{ msg: "Problem registering" }]);
-            commit("setSignUpStatus", "register-error");
-            reject(error);
-          }
-        });
+    return this.$axios.post(`api/v1/organizations`, profile).catch(error => {
+      console.log("error.response.data", error.response.data);
+      if (error.response) {
+        commit("setErrors", error.response.data.errors);
+      }
     });
   }
 };

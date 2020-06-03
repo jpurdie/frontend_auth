@@ -1,12 +1,8 @@
 <template>
   <div>
-    <v-alert
-      v-if="errors"
-      v-for="(item, index) in errors"
-      v-bind:key="index"
-      show
-      type="error"
-    >{{ item.msg }}</v-alert>
+    <v-card class="elevation-12" v-if="errors" id="errors-div">
+      <v-alert v-for="(item, index) in errors" v-bind:key="index" show type="error">{{ item.msg }}</v-alert>
+    </v-card>
 
     <v-card class="elevation-12">
       <v-toolbar color="primary" dark flat>
@@ -94,7 +90,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn @click="register" color="primary">Register</v-btn>
+        <v-btn @click="register" :disabled="disableRgstrBtn" color="primary">Register</v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -123,7 +119,8 @@ export default {
       password: "Mock123456",
       passwordConfirm: "Mock123456",
       lastName: "",
-      firstName: ""
+      firstName: "",
+      disableRgstrBtn: false
     };
   },
   computed: mapGetters({
@@ -138,36 +135,30 @@ export default {
       });
     },
     async register() {
-      this.$store.dispatch("updateOverlay", true);
+      const $vm = this;
+      $vm.disableRgstrBtn = true;
+      $vm.$store.dispatch("updateOverlay", true);
 
-      const isValid = await this.$refs.obs.validate();
+      const isValid = await $vm.$refs.obs.validate();
       if (!isValid) {
         return;
       }
 
       const profile = {
-        lastName: this.lastName,
-        firstName: this.firstName,
-        orgName: this.orgName,
-        email: this.email,
-        password: this.password,
-        passwordConfirm: this.passwordConfirm
+        lastName: $vm.lastName,
+        firstName: $vm.firstName,
+        orgName: $vm.orgName,
+        email: $vm.email,
+        password: $vm.password,
+        passwordConfirm: $vm.passwordConfirm
       };
 
-      const $vm = this;
-
-      this.$store.dispatch("userauth/register", profile).then(
-        response => {
-          this.$store.dispatch("updateOverlay", true);
-          console.log("success promise");
-          $vm.redirectSuccess();
-        },
-        error => {
-          this.$store.dispatch("updateOverlay", false);
-          console.log("promise fail");
-          console.error(error);
-        }
-      );
+      await $vm.$store.dispatch("userauth/register", profile);
+      $vm.$store.dispatch("updateOverlay", false);
+      $vm.disableRgstrBtn = false;
+      if ($vm.errors !== undefined && $vm.errors.length === 0) {
+        //$vm.redirectSuccess();
+      }
     }
   }
 };
