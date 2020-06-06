@@ -1,5 +1,5 @@
 <template>
-  <div>{{orgs}}</div>
+  <div>&nbsp;</div>
 </template>
 
 <script>
@@ -8,6 +8,8 @@ import { mapState } from "vuex";
 export default {
   layout: "empty-layout",
   mounted() {
+    this.$store.dispatch("updateOverlay", true);
+
     this.doFetchOrgs();
   },
   computed: {
@@ -18,15 +20,13 @@ export default {
   methods: {
     doFetchOrgs() {
       const $vm = this;
-      console.log("before fetch orgs");
       this.$store.dispatch("userauth/fetchOrgOptions").then(data => {
-        console.log("inside fetch orgs then", data.length);
-
         if (data.length === 1) {
+          // only 1 org. No need to ask which.
           $vm.$router.push("/dashboard");
         }
+        $vm.$store.dispatch("updateOverlay", false);
       });
-      console.log("after fetch orgs");
     }
   }
 };

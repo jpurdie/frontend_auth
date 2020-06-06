@@ -8,7 +8,9 @@ import {
   max,
   email,
   numeric,
-  integer
+  integer,
+  regex,
+  confirmed
 } from "vee-validate/dist/rules";
 
 // install the 'required' rule.
@@ -36,7 +38,7 @@ extend("min", {
 
 extend("max", {
   ...max,
-  message: "The {_field_} field may not be greater than {length} charactersx"
+  message: "The {_field_} field may not be greater than {length} characters"
 });
 
 extend("email", {
@@ -52,4 +54,14 @@ extend("numeric", {
 extend("integer", {
   ...integer,
   message: "The {_field_} field must be an integer"
+});
+
+extend("regex", {
+  ...regex,
+  message: "The {_field_} field is not valid"
+});
+
+extend("confirmed", {
+  ...confirmed,
+  message: "The {_field_} field must match {target}"
 });
