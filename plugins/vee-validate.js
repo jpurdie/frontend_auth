@@ -65,3 +65,14 @@ extend("confirmed", {
   ...confirmed,
   message: "The {_field_} field must match {target}"
 });
+
+extend("xpassword", {
+  validate: value => {
+    return /(?=(.*[0-9]))((?=.*[A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z]))^.{10,64}$/.test(
+      value
+    );
+  },
+  params: ["xpass"],
+  message:
+    "The password must be 10 to 64 characters with at least one capital letter, one lowercase letter, and one numberx"
+});

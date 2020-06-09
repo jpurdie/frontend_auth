@@ -25,6 +25,15 @@ export default function({ $axios, store, redirect }) {
       } else if (code >= 500) {
         // TODO: Handle 500 errors in global
       }
+    } else if (error.request) {
+      console.error("error.request ", error.request);
+      store.dispatch("updateOverlay", false);
+      return redirect("/error");
+      // client never received a response, or request never left
+    } else {
+      console.error("error", error);
+      return redirect("/error");
+      // anything else
     }
   });
 }

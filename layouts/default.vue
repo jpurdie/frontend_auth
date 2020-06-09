@@ -1,32 +1,8 @@
 <template>
   <v-app>
+    <home-app-bar />
     <v-content>
-      <v-navigation-drawer v-model="sidebar" app>
-        <v-list>
-          <v-list-tile v-for="item in menuItems" :key="item.title" :to="item.path">
-            <v-list-tile-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>{{ item.title }}</v-list-tile-content>
-          </v-list-tile>
-        </v-list>
-      </v-navigation-drawer>
-      <v-toolbar app>
-        <span class="hidden-sm-and-up">
-          <v-toolbar-side-icon @click="sidebar = !sidebar"></v-toolbar-side-icon>
-        </span>
-        <v-toolbar-title>
-          <router-link to="/" tag="span" style="cursor: pointer">{{ appTitle }}</router-link>
-        </v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items class="hidden-xs-only">
-          <v-btn flat @click="dologin()">Login</v-btn>
-
-          <v-btn flat to="/register">Register</v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
       <nuxt />
-
       <v-overlay :value="overlay">
         <v-progress-circular indeterminate size="88"></v-progress-circular>
       </v-overlay>
@@ -45,19 +21,11 @@ import { mapGetters } from "vuex";
 
 export default {
   components: {
-    //  NavBar
+    HomeAppBar: () => import("@/components/home/AppBar")
   },
-  data: () => ({
-    appTitle: "Vitae",
-    sidebar: false,
-    menuItems: [
-      { title: "Register", path: "/register" },
-      { title: "Sign In", path: "/register" }
-    ]
-  }),
+  data: () => ({}),
   computed: mapGetters({
     errors: "userauth/getErrors",
-    registerStatus: "userauth/getSignUpStatus",
     overlay: "getOverlay"
   }),
   watch: {

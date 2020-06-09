@@ -67,18 +67,21 @@
                   ></v-text-field>
                 </ValidationProvider>
 
-                <ValidationProvider mode="lazy" name="password" :rules="[rules.password]">
+                <ValidationProvider name="password" rules="required|xpassword">
                   <v-text-field
-                    autocomplete="current-password"
-                    v-model="password"
+                    slot-scope="{ errors, valid }"
+                    v-model="passwordFirst"
+                    :error-messages="errors"
                     label="Password"
+                    autocomplete="off"
+                    required
                     :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
                     @click:append="() => (value = !value)"
                     :type="value ? 'password' : 'text'"
-                    @input="_=>password=_"
                     hint="10 to 64 characters with at least one capital letter, one lowercase letter, and one number."
                   ></v-text-field>
                 </ValidationProvider>
+
                 <ValidationProvider
                   mode="lazy"
                   name="password confirm"
@@ -127,23 +130,13 @@ export default {
     return {
       orgName: undefined,
       email: "lutygipahu@test.asu.edu",
-      password: undefined,
+      passwordFirst: undefined,
       passwordConfirm: undefined,
       lastName: undefined,
       firstName: undefined,
       disableRgstrBtn: false,
       valid: true,
-      value: true,
-      rules: {
-        required: value => !!value || "Required.",
-        password: value => {
-          const pattern = /(?=(.*[0-9]))((?=.*[A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z]))^.{10,65}$/;
-          return (
-            pattern.test(value) ||
-            "10 to 64 characters with at least one capital letter, one lowercase letter, and one number."
-          );
-        }
-      }
+      value: true
     };
   },
   computed: mapGetters({
@@ -174,7 +167,7 @@ export default {
         firstName: $vm.firstName,
         orgName: $vm.orgName,
         email: $vm.email,
-        password: $vm.password,
+        password: $vm.passwordFirst,
         passwordConfirm: $vm.passwordConfirm
       };
 

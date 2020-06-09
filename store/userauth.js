@@ -40,11 +40,10 @@ export const actions = {
         });
     });
   },
-  register({ commit }, profile) {
+  async register({ commit }, profile) {
     commit("setErrors", []);
-    return this.$axios.post(`api/v1/organizations`, profile).catch(error => {
-      console.log("error.response.data", error.response.data);
-      if (error.response) {
+    await this.$axios.post(`v1/users`, profile).catch(error => {
+      if (error.response && error.response.data) {
         commit("setErrors", error.response.data.errors);
       }
     });
