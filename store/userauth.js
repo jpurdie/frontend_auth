@@ -42,7 +42,7 @@ export const actions = {
   },
   async register({ commit }, profile) {
     commit("setErrors", []);
-    await this.$axios.post(`v1/users`, profile).catch(error => {
+    await this.$axios.post(`api/v1/users`, profile).catch(error => {
       if (error.response && error.response.data) {
         commit("setErrors", error.response.data.errors);
       }
