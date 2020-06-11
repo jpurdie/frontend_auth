@@ -1,4 +1,3 @@
-import colors from "vuetify/es5/util/colors";
 require("dotenv").config();
 
 export default {
@@ -10,7 +9,7 @@ export default {
    ** Headers of the page
    */
   head: {
-    titleTemplate: "%s - " + process.env.npm_package_name,
+    titleTemplate: process.env.npm_package_name,
     title: process.env.npm_package_name || "",
     meta: [
       {
@@ -85,18 +84,22 @@ export default {
    ** https://github.com/nuxt-community/vuetify-module
    */
   vuetify: {
-    customVariables: ["~/assets/variables.scss"],
     theme: {
       dark: false,
       themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+        light: {
+          primary: "#002244",
+          secondary: {
+            base: "#3b3b3b",
+            lighten3: "#585858",
+            darken3: "#1e1e1e"
+          },
+          tertiary: {
+            base: "#4682bf",
+            lighten3: "#4696bf",
+            darken3: "#466ebf"
+          },
+          accent: "#69BE28"
         }
       }
     }
@@ -120,10 +123,10 @@ export default {
       auth0: {
         scheme: "oauth2",
         endpoints: {
-          authorization: "https://myppm.auth0.com/authorize",
+          authorization: "https://" + process.env.AUTH0_DOMAIN + "/authorize",
           token: undefined,
-          userInfo: "https://myppm.auth0.com/userinfo",
-          logout: "https://myppm.auth0.com/logout"
+          userInfo: "https://" + process.env.AUTH0_DOMAIN + "/userinfo",
+          logout: "https://" + process.env.AUTH0_DOMAIN + "/logout"
         },
         token: {
           property: "access_token",

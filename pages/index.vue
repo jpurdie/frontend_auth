@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <div>
     <section id="hero">
       <v-row no-gutters>
         <v-img
@@ -65,7 +65,7 @@
 
       <div class="py-12"></div>
     </section>
-  </v-content>
+  </div>
 </template>
 
 <script>

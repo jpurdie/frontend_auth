@@ -2,6 +2,8 @@ export default function({ $axios, store, redirect }) {
   console.log("AXIOS PLUGIN LOADED");
 
   $axios.onRequest(request => {
+    console.log(" inside here ");
+    console.log("$store.$auth.token", typeof store);
     const token = store.$auth.token;
     if (token !== undefined && token !== null) {
       request.headers.common.Authorization = token;
@@ -26,14 +28,14 @@ export default function({ $axios, store, redirect }) {
         // TODO: Handle 500 errors in global
       }
     } else if (error.request) {
-      console.error("error.request ", error.request);
+      // client never received a response, or request never left
+      console.error("error.request", error.request);
       store.dispatch("updateOverlay", false);
       return redirect("/error");
-      // client never received a response, or request never left
     } else {
+      // anything else
       console.error("error", error);
       return redirect("/error");
-      // anything else
     }
   });
 }

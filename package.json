@@ -1,7 +1,7 @@
 {
-  "name": "frontend_auth",
+  "name": "Vitae",
   "version": "1.0.0",
-  "description": "Frontend Auth",
+  "description": "Auth template with Nuxt, Auth0, Vuetify, VeeValidate, REST API",
   "author": "justindpurdie",
   "private": true,
   "scripts": {
