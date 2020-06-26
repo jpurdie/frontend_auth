@@ -23,6 +23,8 @@ export default {
   components: {
     HomeAppBar: () => import("@/components/home/AppBar")
   },
+  transition: "bounces",
+
   data: () => ({}),
   computed: mapGetters({
     errors: "userauth/getErrors",

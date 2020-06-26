@@ -102,6 +102,8 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn @click="ping" color="accent">Ping</v-btn>
+
             <v-btn @click="register" :disabled="disableRgstrBtn" color="primary">Register</v-btn>
           </v-card-actions>
         </v-card>
@@ -144,6 +146,9 @@ export default {
     registerStatus: "userauth/getSignUpStatus"
   }),
   methods: {
+    ping() {
+      this.$store.dispatch("nonAuthPing");
+    },
     redirectSuccess() {
       this.$store.dispatch("updateOverlay", false);
       this.$router.push({

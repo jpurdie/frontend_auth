@@ -5,6 +5,7 @@ export default {
   env: {
     apiUrl: process.env.API_URL || "http://localhost:3000"
   },
+
   /*
    ** Headers of the page
    */
@@ -42,7 +43,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ["~/assets/main.css"],
   /*
    ** Plugins to load before mounting the App
    */

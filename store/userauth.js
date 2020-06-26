@@ -25,15 +25,19 @@ export const actions = {
         .get(`api/v1/organizations`)
         .then(function(response) {
           if (response !== null && response.status === 200) {
-            commit("setUserOrgs", response.data);
-            if (response.data.length === 1) {
-              commit("setSelectedOrg", response.data[0]);
+            commit("setUserOrgs", response.data.orgs);
+            if (response.data.orgs.length === 1) {
+              commit("setSelectedOrg", response.data.orgs[0]);
             }
             resolve(response.data);
           }
         })
         .catch(function(error) {
           if (error.response !== null && error.response.status === 422) {
+            console.log(error.response);
+            reject(error.response);
+          }
+          if (error.response !== null && error.response.status === 409) {
             console.log(error.response);
             reject(error.response);
           }
@@ -44,6 +48,7 @@ export const actions = {
     commit("setErrors", []);
     await this.$axios.post(`api/v1/organizations`, profile).catch(error => {
       if (error.response && error.response.data) {
+        console.log("setErrors", error.response.data.errors);
         commit("setErrors", error.response.data.errors);
       }
     });

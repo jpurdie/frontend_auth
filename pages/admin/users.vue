@@ -2,7 +2,7 @@
   <v-container>
     <v-layout row mb-3>
       <v-flex md6>
-        <v-btn color="primary" dark @click="doAuthPing">Ping</v-btn>
+        <v-btn color="primary" dark @click="doAuthPing">Auth Ping</v-btn>
       </v-flex>
     </v-layout>
     <v-layout row>

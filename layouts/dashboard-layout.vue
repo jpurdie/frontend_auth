@@ -31,13 +31,15 @@
 
     <v-app-bar app clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn text to="/">Vitae</v-btn>
-      {{ selectedOrg.name }}
+      <router-link to="/">
+        <BaseImg :src="require('@/assets/vitae_logo.png')" contain max-width="128" width="100%" />
+      </router-link>
+      <span class="ml-4">{{ selectedOrg.name }}</span>
       <div class="flex-grow-1"></div>
       <template v-if="$auth.$state.loggedIn">
         <v-menu :close-on-click="true" top>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" color="primary" dark>{{ $auth.user.nickname }}</v-btn>
+            <v-btn v-on="on" color="accent" dark>{{ $auth.user.nickname }}</v-btn>
           </template>
           <v-list>
             <v-list-item @click="doLogout">
@@ -71,6 +73,9 @@ export default {
     ...mapState({
       selectedOrg: state => state.userauth.selectedOrg
     })
+  },
+  components: {
+    BaseImg: () => import("./../components/base/BaseImg")
   },
   data: () => ({
     drawer: null

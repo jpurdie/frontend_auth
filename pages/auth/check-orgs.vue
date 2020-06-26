@@ -20,9 +20,12 @@ export default {
   methods: {
     doFetchOrgs() {
       const $vm = this;
+
       this.$store.dispatch("userauth/fetchOrgOptions").then(data => {
         if (data.length === 1) {
           // only 1 org. No need to ask which.
+          $vm.$router.push("/dashboard");
+        } else {
           $vm.$router.push("/dashboard");
         }
         $vm.$store.dispatch("updateOverlay", false);
