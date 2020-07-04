@@ -29,21 +29,7 @@
                 </v-list-item>
               </v-list-item-group>
             </v-list>
-            <v-dialog v-model="inviteDialog" persistent max-width="750">
-              <template v-slot:activator="{ on }">
-                <v-btn color="primary" dark v-on="on">Invite Someone</v-btn>
-              </template>
-              <v-card>
-                <v-card-title class="headline">Invite Someone</v-card-title>
-                <v-card-text>
-                  <inviteForm />
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn @click="inviteDialog = false">Back</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+            <inviteForm />
           </v-card-text>
         </v-card>
       </v-flex>
@@ -52,7 +38,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 import inviteForm from "~/components/forms/InviteUser.vue";
 
@@ -64,15 +50,14 @@ export default {
   data() {
     return {
       selectedInvite: undefined,
-      inviteDialog: false
+      showInviteDialog: false
     };
   },
-  computed: {
-    ...mapState({
-      selectedOrg: state => state.userauth.selectedOrg,
-      invitations: state => state.invitations.invitations
-    })
-  },
+  computed: mapGetters({
+    selectedOrg: "userauth/getOrg",
+    invitations: "invitations/getInvitations"
+  }),
+  watch: {},
   mounted() {
     this.fetchAll();
   },

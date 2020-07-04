@@ -1,88 +1,92 @@
 <template>
-  <div>
-    <v-card class="elevation-12" v-if="invitationErrors" id="errors-div">
-      <v-alert
-        v-for="(item, index) in invitationErrors"
-        v-bind:key="index"
-        show
-        type="error"
-      >{{ item.msg }}</v-alert>
-    </v-card>
+  <v-container>
+    <v-row align="center" justify="center">
+      <v-col md="6" xs="12">
+        <v-card class="elevation-12" v-if="invitationErrors" id="errors-div">
+          <v-alert
+            v-for="(item, index) in invitationErrors"
+            v-bind:key="index"
+            show
+            type="error"
+          >{{ item.msg }}</v-alert>
+        </v-card>
 
-    <v-card class="elevation-12" v-if="invitation && invitation.email">
-      <v-toolbar color="primary" dark flat>
-        <v-toolbar-title>Register with {{ invitation.organization.name }}</v-toolbar-title>
-        <v-spacer></v-spacer>
-      </v-toolbar>
-      <v-card-text>
-        <ValidationObserver ref="obs">
-          <v-form @keydown.enter="register" @submit.stop.prevent="onSubmit">
-            <ValidationProvider name="First Name" rules="required|min:2">
-              <v-text-field
-                slot-scope="{ errors, valid }"
-                v-model="profile.firstName"
-                :error-messages="errors"
-                :success="valid"
-                autocomplete="off"
-                label="First Name"
-                required
-              ></v-text-field>
-            </ValidationProvider>
+        <v-card class="elevation-12" v-if="invitation && invitation.email">
+          <v-toolbar color="primary" dark flat>
+            <v-toolbar-title>Register with {{ invitation.organization.name }}</v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <v-card-text>
+            <ValidationObserver ref="obs">
+              <v-form @keydown.enter="register" @submit.stop.prevent="onSubmit">
+                <ValidationProvider name="First Name" rules="required|min:2">
+                  <v-text-field
+                    slot-scope="{ errors, valid }"
+                    v-model="profile.firstName"
+                    :error-messages="errors"
+                    :success="valid"
+                    autocomplete="off"
+                    label="First Name"
+                    required
+                  ></v-text-field>
+                </ValidationProvider>
 
-            <ValidationProvider name="Last Name" rules="required|min:2">
-              <v-text-field
-                slot-scope="{ errors, valid }"
-                v-model="profile.lastName"
-                :error-messages="errors"
-                :success="valid"
-                autocomplete="off"
-                label="Last Name"
-                required
-              ></v-text-field>
-            </ValidationProvider>
+                <ValidationProvider name="Last Name" rules="required|min:2">
+                  <v-text-field
+                    slot-scope="{ errors, valid }"
+                    v-model="profile.lastName"
+                    :error-messages="errors"
+                    :success="valid"
+                    autocomplete="off"
+                    label="Last Name"
+                    required
+                  ></v-text-field>
+                </ValidationProvider>
 
-            <v-text-field
-              v-model="invitation.email"
-              disabled
-              label="Email"
-              type="text"
-              autocomplete="off"
-            ></v-text-field>
+                <v-text-field
+                  v-model="invitation.email"
+                  disabled
+                  label="Email"
+                  type="text"
+                  autocomplete="off"
+                ></v-text-field>
 
-            <ValidationProvider name="Password" rules="required|min:8">
-              <v-text-field
-                slot-scope="{ errors, valid }"
-                v-model="profile.password"
-                :error-messages="errors"
-                :success="valid"
-                label="Password"
-                type="password"
-                required
-                autocomplete="off"
-              ></v-text-field>
-            </ValidationProvider>
+                <ValidationProvider name="Password" rules="required|min:8">
+                  <v-text-field
+                    slot-scope="{ errors, valid }"
+                    v-model="profile.password"
+                    :error-messages="errors"
+                    :success="valid"
+                    label="Password"
+                    type="password"
+                    required
+                    autocomplete="off"
+                  ></v-text-field>
+                </ValidationProvider>
 
-            <ValidationProvider name="Password Confirm" rules="required|min:8">
-              <v-text-field
-                slot-scope="{ errors, valid }"
-                v-model="profile.passwordConfirm"
-                :error-messages="errors"
-                :success="valid"
-                type="password"
-                label="Password Confirm"
-                autocomplete="off"
-                required
-              ></v-text-field>
-            </ValidationProvider>
-          </v-form>
-        </ValidationObserver>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn :disabled="disableRgstrBtn" @click="register" color="primary">Register</v-btn>
-      </v-card-actions>
-    </v-card>
-  </div>
+                <ValidationProvider name="Password Confirm" rules="required|min:8">
+                  <v-text-field
+                    slot-scope="{ errors, valid }"
+                    v-model="profile.passwordConfirm"
+                    :error-messages="errors"
+                    :success="valid"
+                    type="password"
+                    label="Password Confirm"
+                    autocomplete="off"
+                    required
+                  ></v-text-field>
+                </ValidationProvider>
+              </v-form>
+            </ValidationObserver>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn :disabled="disableRgstrBtn" @click="register" color="primary">Register</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -134,15 +138,17 @@ export default {
       }
       $vm.$store.dispatch("updateOverlay", true);
 
-      const acceptDetails = {
+      const userDetails = {
         lastName: $vm.profile.lastName,
         firstName: $vm.profile.firstName,
         password: $vm.profile.password,
         passwordConfirm: $vm.profile.passwordConfirm,
-        urlToken: $vm.urlToken
+        urlToken: $vm.urlToken,
+        email: $vm.invitation.email
       };
+      console.log(userDetails);
       console.log("before dispatch");
-      $vm.$store.dispatch("invitations/register", acceptDetails).then(
+      $vm.$store.dispatch("invitations/register", userDetails).then(
         response => {
           $vm.$store.dispatch("updateOverlay", false);
           if ($vm.registerStatus === "success") {

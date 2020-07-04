@@ -10,8 +10,8 @@ export default {
    ** Headers of the page
    */
   head: {
-    titleTemplate: process.env.npm_package_name,
-    title: process.env.npm_package_name || "",
+    titleTemplate: process.env.APP_NAME,
+    title: process.env.APP_NAME || "",
     meta: [
       {
         charset: "utf-8"

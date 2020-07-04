@@ -10,13 +10,7 @@
 <script>
 export default {
   layout: "dashboard-layout",
-  mounted() {
-    //this.doFetchOrgs();
-  },
-  methods: {
-    //  doFetchOrgs() {
-    //  this.$store.dispatch("userauth/fetchOrgOptions");
-    //   }
-  }
+  mounted() {},
+  methods: {}
 };
 </script>

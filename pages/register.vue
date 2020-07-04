@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row align="center" justify="center">
-      <v-col cols="6">
+      <v-col md="6" xs="12">
         <v-card class="elevation-12" v-if="errors" id="errors-div">
           <v-alert
             v-for="(item, index) in errors"
@@ -9,8 +9,7 @@
             show
             type="error"
           >{{ item.msg }}</v-alert>
-        </v-card>
-
+        </v-card>viate@vitae.com
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark flat>
             <v-toolbar-title>Register</v-toolbar-title>
@@ -177,6 +176,14 @@ export default {
       };
 
       await $vm.$store.dispatch("userauth/register", profile);
+      if ($vm.errors) {
+        this.$nextTick(() => {
+          const el = document.getElementById("errors-div");
+          if (el) {
+            el.scrollIntoView(false);
+          }
+        });
+      }
       $vm.$store.dispatch("updateOverlay", false);
       $vm.disableRgstrBtn = false;
       if ($vm.errors !== undefined && $vm.errors.length === 0) {

@@ -17,7 +17,7 @@ export const state = () => ({
 export const actions = {
   fetch({ commit }) {},
   refresh({ commit }) {
-    commit("setErrors", []);
+    commit("clearErrors");
   },
   fetchOrgOptions({ commit }) {
     return new Promise((resolve, reject) => {
@@ -34,24 +34,23 @@ export const actions = {
         })
         .catch(function(error) {
           if (error.response !== null && error.response.status === 422) {
-            console.log(error.response);
             reject(error.response);
           }
           if (error.response !== null && error.response.status === 409) {
-            console.log(error.response);
             reject(error.response);
           }
         });
     });
   },
   async register({ commit }, profile) {
-    commit("setErrors", []);
-    await this.$axios.post(`api/v1/organizations`, profile).catch(error => {
-      if (error.response && error.response.data) {
-        console.log("setErrors", error.response.data.errors);
-        commit("setErrors", error.response.data.errors);
-      }
-    });
+    commit("clearErrors");
+    await this.$axios
+      .post(`api/v1/auth/organizations`, profile)
+      .catch(error => {
+        if (error.response && error.response.data) {
+          commit("addError", error.response.data.error);
+        }
+      });
   }
 };
 
@@ -74,8 +73,11 @@ export const mutations = {
   setOrg(store, data) {
     store.org = data;
   },
-  setErrors(store, data) {
-    store.errors = data;
+  clearErrors(store) {
+    store.errors = [];
+  },
+  addError(store, err) {
+    store.errors.push(err);
   }
 };
 

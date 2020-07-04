@@ -1,6 +1,7 @@
 export const state = () => ({
   inviteStatus: "",
-  inviteEmail: ""
+  inviteEmail: "",
+  errors: []
 });
 
 // export const state = { ...initialState };
@@ -8,20 +9,6 @@ export const state = () => ({
 export const actions = {
   updateInvateStatus({ commit }, status) {
     commit("setInviteStatus", status);
-  },
-  sendInviteEmailReq({ commit, rootState }, inviteEmail) {
-    const orgId = rootState.userauth.selectedOrg.uuid;
-
-    const sendData = {
-      method: "post",
-      url: "api/v1/invitations?org_id=" + orgId,
-      data: {
-        email: inviteEmail
-      }
-    };
-    console.log(sendData);
-
-    this.$axios(sendData);
   }
 };
 

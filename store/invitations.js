@@ -7,11 +7,56 @@ export const state = () => ({
 });
 
 export const actions = {
-  register({ commit }, acceptDetails) {
+  sendInviteEmailReq({ commit, rootState }, inviteEmail) {
+    const orgId = rootState.userauth.selectedOrg.uuid;
+    commit("setInviteStatus", "pending");
+    const sendData = {
+      method: "post",
+      url: "api/v1/invitations?org_id=" + orgId,
+      data: {
+        email: inviteEmail
+      }
+    };
+    console.log(sendData);
+
+    return this.$axios(sendData)
+      .then(response => {
+        if (response.status === 201) {
+          commit("setInviteStatus", "success");
+        }
+      })
+      .catch(error => {
+        commit("setInviteStatus", "fail");
+        // Error 😨
+        if (error.response) {
+          commit("setErrors", error.response.data);
+          /*
+           * The request was made and the server responded with a
+           * status code that falls out of the range of 2xx
+           */
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          /*
+           * The request was made but no response was received, `error.request`
+           * is an instance of XMLHttpRequest in the browser and an instance
+           * of http.ClientRequest in Node.js
+           */
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request and triggered an Error
+          console.log("Error", error.message);
+        }
+        console.log(error.config);
+      });
+  },
+
+  register({ commit }, userDetails) {
     commit("setRegisterStatus", "");
 
     return this.$axios
-      .post("api/v1/users/", acceptDetails)
+      .post("api/v1/auth/invitations/users", userDetails)
       .then(response => {
         console.log("response", response);
         commit("setRegisterStatus", "success");
@@ -121,8 +166,12 @@ export const actions = {
     console.log("checkToken()");
 
     try {
-      const response = await this.$axios.get("api/v1/invitations/" + token);
-      commit("setInvitation", response.data);
+      const response = await this.$axios.get(
+        "api/v1/auth/invitations/" + token
+      );
+      if (response.data != null && response.data.invitation != null) {
+        commit("setInvitation", response.data.invitation);
+      }
     } catch (error) {
       // Error 😨
 
@@ -136,11 +185,15 @@ export const actions = {
   },
   fetchAll({ commit, rootState }) {
     const orgId = rootState.userauth.selectedOrg.uuid;
-    console.log("Selected Org", orgId);
+    console.log("selected org", orgId);
     this.$axios
       .get("api/v1/invitations?org_id=" + orgId)
       .then(response => {
-        commit("setInvitations", response.data);
+        if (response.data !== null && response.data.invitations !== null) {
+          commit("setInvitations", response.data.invitations);
+        } else {
+          commit("setInvitations", []);
+        }
       })
       .catch(error => {
         // Error 😨
@@ -176,6 +229,9 @@ export const actions = {
 };
 
 export const mutations = {
+  setInviteStatus(state, status) {
+    state.invitationStatus = status;
+  },
   setInvitation(state, invitation) {
     state.invitation = invitation;
   },
@@ -199,6 +255,9 @@ export const getters = {
   },
   getInvitations(state) {
     return state.invitations;
+  },
+  getInviteStatus(state) {
+    return state.invitationStatus;
   },
   getErrors(state) {
     return state.errors;
