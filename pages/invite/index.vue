@@ -152,8 +152,9 @@ export default {
         response => {
           $vm.$store.dispatch("updateOverlay", false);
           if ($vm.registerStatus === "success") {
-            $vm.dologin();
-            return;
+            $vm.$router.push({
+              path: "/register-success"
+            });
           }
           $vm.$scrollTo("#errors-div", 200, {
             offset: -10
@@ -178,7 +179,6 @@ export default {
           $vm.disableRgstrBtn = false;
 
           $vm.$store.dispatch("updateOverlay", false);
-          console.log("success promise");
         },
         error => {
           $vm.disableRgstrBtn = true;
