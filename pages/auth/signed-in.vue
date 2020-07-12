@@ -6,14 +6,15 @@
 
 <script>
 export default {
-  layout: "empty-layout",
+  layout: "default",
   mounted() {
-    this.$store.dispatch("updateOverlay", true);
-
-    this.redirectToDash();
+    console.log("inside signed in");
+    // this.$store.dispatch("updateOverlay", true);
+    this.redirectToCheckOrgs();
   },
   methods: {
-    redirectToDash() {
+    redirectToCheckOrgs() {
+      console.log("redirectToCheckOrgs method");
       this.$store.dispatch("updateOverlay", true);
       window.location.href = "/auth/check-orgs";
     }

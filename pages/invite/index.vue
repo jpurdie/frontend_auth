@@ -2,7 +2,7 @@
   <v-container>
     <v-row align="center" justify="center">
       <v-col md="6" xs="12">
-        <v-card class="elevation-12" v-if="invitationErrors" id="errors-div">
+        <v-card id="errors-div" v-if="invitationErrors" class="elevation-12">
           <v-alert
             v-for="(item, index) in invitationErrors"
             v-bind:key="index"
@@ -11,7 +11,7 @@
           >{{ item.msg }}</v-alert>
         </v-card>
 
-        <v-card class="elevation-12" v-if="invitation && invitation.email">
+        <v-card v-if="invitation && invitation.email" class="elevation-12">
           <v-toolbar color="primary" dark flat>
             <v-toolbar-title>Register with {{ invitation.organization.name }}</v-toolbar-title>
             <v-spacer></v-spacer>
@@ -112,13 +112,14 @@ export default {
     };
   },
   computed: mapGetters({
-    errors: "userauth/getErrors",
+    errors: "user/getErrors",
     invitation: "invitations/getInvitation",
     invitationErrors: "invitations/getErrors",
     registerStatus: "invitations/getRegisterStatus"
   }),
   mounted() {
     if (this.$route.query.t !== null && this.$route.query.t !== undefined) {
+      console.log("this.$route.query.t", this.$route.query.t);
       this.urlToken = this.$route.query.t;
     }
     this.validateToken();
@@ -173,6 +174,7 @@ export default {
       const $vm = this;
       $vm.$store.dispatch("updateOverlay", true);
       $vm.disableRgstrBtn = true;
+      console.log("$vm.urlToken", $vm.urlToken);
 
       await $vm.$store.dispatch("invitations/checkToken", $vm.urlToken).then(
         response => {

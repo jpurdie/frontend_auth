@@ -11,5 +11,5 @@ export default {
   options: {
     auth: false
   }
-}
+};
 </script>

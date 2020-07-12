@@ -9,9 +9,10 @@
     </v-content>
 
     <v-footer class="justify-center" color="#292929" height="100">
-      <div
-        class="title font-weight-light grey--text text--lighten-1 text-center"
-      >&copy; {{ (new Date()).getFullYear() }} — Vitae, LLC — Made with 💜 by Justin Purdie</div>
+      <div class="title font-weight-light grey--text text--lighten-1 text-center">
+        &copy; {{ new Date().getFullYear() }} — Vitae, LLC — Made with 💜 by
+        Justin Purdie
+      </div>
     </v-footer>
   </v-app>
 </template>
@@ -24,10 +25,9 @@ export default {
     HomeAppBar: () => import("@/components/home/AppBar")
   },
   transition: "bounces",
-
   data: () => ({}),
   computed: mapGetters({
-    errors: "userauth/getErrors",
+    errors: "user/getErrors",
     overlay: "getOverlay"
   }),
   watch: {

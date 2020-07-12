@@ -1,4 +1,9 @@
+import https from "https";
+
 export default function({ $axios, store, redirect }) {
+  //$axios.defaults.httpsAgent = new https.Agent({ rejectUnauthorized: false });
+  // $axios.defaults.withCredentials = true;
+
   $axios.onRequest(request => {
     const token = store.$auth.token;
     if (token !== undefined && token !== null) {
@@ -18,18 +23,23 @@ export default function({ $axios, store, redirect }) {
     if (error.response) {
       const code = parseInt(error.response.status);
       if (code === 401) {
-        return redirect("/");
+        console.log("handle 401");
+        // return redirect("/");
       } else if (code >= 500) {
+        console.log("handle 500");
+
         // TODO: Handle 500 errors in global
       }
     } else if (error.request) {
+      console.log("handle error.request");
+
       // client never received a response, or request never left
       store.dispatch("updateOverlay", false);
-      return redirect("/error");
+      //return redirect("/error");
     } else {
       // anything else
       console.error("error", error);
-      return redirect("/error");
+      r; //eturn redirect("/error");
     }
   });
 }

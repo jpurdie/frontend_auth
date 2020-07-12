@@ -3,7 +3,7 @@
 // import {setAuthToken, resetAuthToken} from '~/util/auth'
 // import api from '~/api'
 
-console.log("inside auth of store");
+console.log("inside index.js vuex");
 
 export const state = () => ({
   overlay: false,
@@ -20,7 +20,7 @@ export const actions = {
     commit("setErrors", errors);
   },
   authPing({ commit, rootState }) {
-    const orgId = rootState.userauth.selectedOrg.uuid;
+    const orgId = rootState.user.selectedOrg.uuid;
     this.$axios.get("api/v1/ping?org_id=" + orgId);
   },
   nonAuthPing() {
@@ -45,7 +45,7 @@ export const getters = {
     return state.errors;
   },
   getSelectedOrg(state, getters, rootState) {
-    return rootState.userauth.selectedOrg;
+    return rootState.user.selectedOrg;
   }
 };
 

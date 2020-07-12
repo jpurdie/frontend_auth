@@ -1,20 +1,31 @@
+import path from "path";
+import fs from "fs";
 require("dotenv").config();
 
 export default {
   mode: "spa",
+  dev: "prod".includes(process.env.NODE_ENV) || process.env.NODE_ENV === "",
   env: {
-    apiUrl: process.env.API_URL || "http://localhost:3000"
+    baseUrl: "http://" + process.env.BASE_URL || "https://localhost:3000"
   },
-
-  /*
-   ** Headers of the page
-   */
+  server: {
+    port: 443, // default: 3000
+    host: "localhost", // default: localhost
+    https: {
+      key: fs.readFileSync(path.resolve(process.env.KEY_LOC)),
+      cert: fs.readFileSync(path.resolve(process.env.CERT_LOC))
+    }
+  },
+  serverMiddleware: [
+    // Will register redirect-ssl npm package
+    "redirect-ssl"
+  ],
   head: {
     titleTemplate: process.env.APP_NAME,
     title: process.env.APP_NAME || "",
     meta: [
       {
-        charset: "utf-8"
+        charset: "UTF-8"
       },
       {
         name: "viewport",
@@ -40,50 +51,20 @@ export default {
   loading: {
     color: "#fff"
   },
-  /*
-   ** Global CSS
-   */
   css: ["~/assets/main.css"],
-  /*
-   ** Plugins to load before mounting the App
-   */
   plugins: ["~/plugins/axios", "~/plugins/date-time", "~/plugins/vee-validate"],
-  /*
-   ** Nuxt.js dev-modules
-   */
-  buildModules: [
-    // Doc: https://github.com/nuxt-community/eslint-module
-    // '@nuxtjs/eslint-module',
-    "@nuxtjs/vuetify"
-  ],
-  /*
-   ** Nuxt.js modules
-   */
+  buildModules: ["@nuxtjs/vuetify"],
   modules: [
-    // Doc: https://bootstrap-vue.js.org/docs/
     "@nuxtjs/vuetify",
-    // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/auth-next",
     "@nuxtjs/axios",
     "vue-scrollto/nuxt",
-    // Doc: https://github.com/nuxt-community/dotenv-module
     "@nuxtjs/dotenv"
   ],
-  server: {
-    port: 80, // default: 3000
-    host: "0.0.0.0" // default: localhost
-  },
-  /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
   axios: {
-    baseURL: process.env.apiUrl
+    baseURL: process.env.API_URL,
+    progress: true
   },
-  /*
-   ** vuetify module configuration
-   ** https://github.com/nuxt-community/vuetify-module
-   */
   vuetify: {
     theme: {
       dark: false,
@@ -105,13 +86,7 @@ export default {
       }
     }
   },
-  /*
-   ** Build configuration
-   */
   build: {
-    /*
-     ** You can extend webpack config here
-     */
     extend(config, ctx) {}
   },
   auth: {
@@ -122,31 +97,7 @@ export default {
     strategies: {
       local: false,
       auth0: {
-        scheme: "oauth2",
-        endpoints: {
-          authorization: "https://" + process.env.AUTH0_DOMAIN + "/authorize",
-          token: undefined,
-          userInfo: "https://" + process.env.AUTH0_DOMAIN + "/userinfo",
-          logout: "https://" + process.env.AUTH0_DOMAIN + "/logout"
-        },
-        token: {
-          property: "access_token",
-          type: "Bearer",
-          maxAge: 1800
-        },
-        refreshToken: {
-          property: "refresh_token",
-          maxAge: 60 * 60 * 24 * 30
-        },
-        responseType: "token",
-        grantType: "authorization_code",
-        accessType: undefined,
-        redirectUri: undefined,
-        scope: ["openid", "profile", "email"],
-        state: "UNIQUE_AND_NON_GUESSABLE",
-        codeChallengeMethod: "plain",
-        responseMode: "",
-        acrValues: "",
+        redirectUri: "https://" + process.env.BASE_URL + "/auth/signed-in",
         domain: process.env.AUTH0_DOMAIN,
         clientId: process.env.AUTH0_CLIENT_ID,
         audience: process.env.AUTH0_AUDIENCE

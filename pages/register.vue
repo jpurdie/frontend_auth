@@ -2,7 +2,7 @@
   <v-container>
     <v-row align="center" justify="center">
       <v-col md="6" xs="12">
-        <v-card class="elevation-12" v-if="errors" id="errors-div">
+        <v-card id="errors-div" v-if="errors" class="elevation-12">
           <v-alert
             v-for="(item, index) in errors"
             v-bind:key="index"
@@ -71,12 +71,12 @@
                     slot-scope="{ errors, valid }"
                     v-model="passwordFirst"
                     :error-messages="errors"
-                    label="Password"
-                    autocomplete="off"
-                    required
                     :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
                     @click:append="() => (value = !value)"
                     :type="value ? 'password' : 'text'"
+                    label="Password"
+                    autocomplete="off"
+                    required
                     hint="10 to 64 characters with at least one capital letter, one lowercase letter, and one number."
                   ></v-text-field>
                 </ValidationProvider>
@@ -141,8 +141,8 @@ export default {
     };
   },
   computed: mapGetters({
-    errors: "userauth/getErrors",
-    registerStatus: "userauth/getSignUpStatus"
+    errors: "user/getErrors",
+    registerStatus: "user/getSignUpStatus"
   }),
   methods: {
     ping() {
@@ -175,7 +175,7 @@ export default {
         passwordConfirm: $vm.passwordConfirm
       };
 
-      await $vm.$store.dispatch("userauth/register", profile);
+      await $vm.$store.dispatch("user/register", profile);
       if ($vm.errors) {
         this.$nextTick(() => {
           const el = document.getElementById("errors-div");

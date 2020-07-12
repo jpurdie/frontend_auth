@@ -11,6 +11,7 @@
 import { mapGetters } from "vuex";
 
 export default {
+  created: () => console.log("created empty layout"),
   computed: mapGetters({
     overlay: "getOverlay"
   }),

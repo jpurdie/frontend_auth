@@ -1,5 +1,7 @@
 <template>
   <v-navigation-drawer
+    v-bind="$attrs"
+    v-on="$listeners"
     bottom
     color="transparent"
     fixed
@@ -7,8 +9,6 @@
     overlay-color="secondary"
     overlay-opacity=".8"
     temporary
-    v-bind="$attrs"
-    v-on="$listeners"
   >
     <v-list color="white" shaped>
       <v-list-item to="/register" color="primary">
@@ -28,17 +28,17 @@
 <script>
 export default {
   name: "HomeDrawer",
-  data() {
-    return {
-      registerText: "Register",
-      loginText: "Login"
-    };
-  },
   props: {
     items: {
       type: Array,
       default: () => []
     }
+  },
+  data() {
+    return {
+      registerText: "Register",
+      loginText: "Login"
+    };
   },
   methods: {
     dologin() {

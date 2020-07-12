@@ -1,3 +1,4 @@
 export default function({ store, route, redirect }) {
-  return store.dispatch("userauth/fetchOrgOptions");
+  console.log("inside authz");
+  return store.dispatch("user/fetchOrgOptions");
 }

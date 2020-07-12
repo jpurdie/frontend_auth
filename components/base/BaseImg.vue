@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: "base-img"
+  name: "BaseImg"
 };
 </script>

@@ -2,7 +2,7 @@
   <v-container>
     <v-layout row mb-3>
       <v-flex md6>
-        <v-btn color="primary" dark @click="doAuthPing">Auth Ping</v-btn>
+        <v-btn @click="doAuthPing" color="primary" dark>Auth Ping</v-btn>
       </v-flex>
     </v-layout>
     <v-layout row>
@@ -17,12 +17,12 @@
                     <v-list-item-title v-text="invitation.email"></v-list-item-title>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-btn icon @click="inactivateInvite(invitation.email)">
+                    <v-btn @click="inactivateInvite(invitation.email)" icon>
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </v-list-item-action>
                   <v-list-item-action>
-                    <v-btn icon @click="resendInvite(invitation.email)">
+                    <v-btn @click="resendInvite(invitation.email)" icon>
                       <v-icon>mdi-send</v-icon>
                     </v-btn>
                   </v-list-item-action>
@@ -54,7 +54,7 @@ export default {
     };
   },
   computed: mapGetters({
-    selectedOrg: "userauth/getOrg",
+    selectedOrg: "user/getOrg",
     invitations: "invitations/getInvitations"
   }),
   watch: {},

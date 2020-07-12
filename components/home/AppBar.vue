@@ -2,20 +2,26 @@
   <div>
     <v-app-bar id="home-app-bar" app color="white" elevation="1" height="80">
       <router-link to="/">
-        <BaseImg :src="require('@/assets/vitae_logo.png')" contain max-width="128" width="100%" />
+        <BaseImg
+          :src="require('@/assets/vitae_logo.png')"
+          contain
+          max-width="128"
+          width="100%"
+        />
       </router-link>
       <v-spacer />
 
       <div>
         <v-tabs class="hidden-sm-and-down" optional>
           <v-tab
-            to="/register"
             :ripple="false"
+            to="/register"
             active-class="text--primary"
             class="font-weight-bold"
             min-width="96"
             text
-          >Register</v-tab>
+            >Register</v-tab
+          >
           <v-tab
             @click="dologin()"
             :ripple="false"
@@ -23,11 +29,12 @@
             class="font-weight-bold"
             min-width="96"
             text
-          >Login</v-tab>
+            >Login</v-tab
+          >
         </v-tabs>
       </div>
 
-      <v-app-bar-nav-icon class="hidden-md-and-up" @click="drawer = !drawer" />
+      <v-app-bar-nav-icon @click="drawer = !drawer" class="hidden-md-and-up" />
     </v-app-bar>
 
     <home-drawer v-model="drawer" :items="items" />

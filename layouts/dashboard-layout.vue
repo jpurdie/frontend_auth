@@ -39,7 +39,11 @@
       <template v-if="$auth.$state.loggedIn">
         <v-menu :close-on-click="true" top>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" color="accent" dark>{{ $auth.user.nickname }}</v-btn>
+            <v-btn v-on="on" color="accent" dark>
+              {{
+              $auth.user.nickname
+              }}
+            </v-btn>
           </template>
           <v-list>
             <v-list-item @click="doLogout">
@@ -68,10 +72,10 @@ export default {
   props: {
     source: String
   },
-  middleware: "authz",
+  middleware: ["authz"],
   computed: {
     ...mapState({
-      selectedOrg: state => state.userauth.selectedOrg
+      selectedOrg: state => state.user.selectedOrg
     })
   },
   components: {
@@ -89,14 +93,15 @@ export default {
   },
   methods: {
     doFetchOrgs() {
-      this.$store.dispatch("userauth/fetchOrgOptions");
+      this.$store.dispatch("user/fetchOrgOptions");
     },
     doLogout() {
+      console.log("Inside dologout");
       this.$auth.logout();
       window.location.href =
         "https://" +
         process.env.AUTH0_DOMAIN +
-        "/v2/logout?returnTo=http%3A%2F%2F" +
+        "/v2/logout?returnTo=https%3A%2F%2F" +
         process.env.BASE_URL +
         "&client_id=" +
         process.env.AUTH0_CLIENT_ID;

@@ -8,7 +8,7 @@ export const state = () => ({
 
 export const actions = {
   sendInviteEmailReq({ commit, rootState }, inviteEmail) {
-    const orgId = rootState.userauth.selectedOrg.uuid;
+    const orgId = rootState.user.selectedOrg.uuid;
     commit("setInviteStatus", "pending");
     const sendData = {
       method: "post",
@@ -60,11 +60,6 @@ export const actions = {
       .then(response => {
         console.log("response", response);
         commit("setRegisterStatus", "success");
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
       })
       .catch(error => {
         commit("setRegisterStatus", "fail");
@@ -131,7 +126,7 @@ export const actions = {
       });
   },
   inactivateInvite({ commit, rootState }, email) {
-    const orgId = rootState.userauth.selectedOrg.uuid;
+    const orgId = rootState.user.selectedOrg.uuid;
 
     this.$axios
       .delete("api/v1/invitations/" + email + "?org_id=" + orgId)
@@ -163,17 +158,16 @@ export const actions = {
       });
   },
   async checkToken({ commit }, token) {
-    console.log("checkToken()");
-
     try {
       const response = await this.$axios.get(
-        "api/v1/auth/invitations/" + token
+        `api/v1/auth/invitations/${token}`
       );
       if (response.data != null && response.data.invitation != null) {
         commit("setInvitation", response.data.invitation);
       }
     } catch (error) {
       // Error 😨
+      console.log("invitations checkToken() error", error);
 
       if (error.response) {
         // this is a "known" error type and handle it with the UI
@@ -184,7 +178,7 @@ export const actions = {
     }
   },
   fetchAll({ commit, rootState }) {
-    const orgId = rootState.userauth.selectedOrg.uuid;
+    const orgId = rootState.user.selectedOrg.uuid;
     console.log("selected org", orgId);
     this.$axios
       .get("api/v1/invitations?org_id=" + orgId)
