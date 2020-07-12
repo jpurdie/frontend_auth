@@ -11,23 +11,21 @@
           <v-card-title class="headline">Invitations</v-card-title>
           <v-card-text>
             <v-list dense flat>
-              <v-list-item-group v-model="selectedInvite" color="primary">
-                <v-list-item v-for="invitation in invitations" :key="invitation.email">
-                  <v-list-item-content>
-                    <v-list-item-title v-text="invitation.email"></v-list-item-title>
-                  </v-list-item-content>
-                  <v-list-item-action>
-                    <v-btn @click="inactivateInvite(invitation.email)" icon>
-                      <v-icon>mdi-delete</v-icon>
-                    </v-btn>
-                  </v-list-item-action>
-                  <v-list-item-action>
-                    <v-btn @click="resendInvite(invitation.email)" icon>
-                      <v-icon>mdi-send</v-icon>
-                    </v-btn>
-                  </v-list-item-action>
-                </v-list-item>
-              </v-list-item-group>
+              <v-list-item v-for="invitation in invitations" :key="invitation.email">
+                <v-list-item-content>
+                  <v-list-item-title>{{invitation.email}}</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-btn @click="inactivateInvite(invitation.email)" icon>
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </v-list-item-action>
+                <v-list-item-action>
+                  <v-btn @click="resendInvite(invitation.email)" icon>
+                    <v-icon>mdi-send</v-icon>
+                  </v-btn>
+                </v-list-item-action>
+              </v-list-item>
             </v-list>
             <inviteForm />
           </v-card-text>
@@ -55,7 +53,7 @@ export default {
   },
   computed: mapGetters({
     selectedOrg: "user/getOrg",
-    invitations: "invitations/getInvitations"
+    invitations: "admin/invitations/getInvitations"
   }),
   watch: {},
   mounted() {
@@ -66,13 +64,13 @@ export default {
       this.$store.dispatch("authPing");
     },
     fetchAll() {
-      this.$store.dispatch("invitations/fetchAll");
+      this.$store.dispatch("admin/invitations/fetchAll");
     },
     inactivateInvite(email) {
-      this.$store.dispatch("invitations/inactivateInvite", email);
+      this.$store.dispatch("admin/invitations/inactivateInvite", email);
     },
     resendInvite(email) {
-      this.$store.dispatch("invitations/resendInvite", email);
+      this.$store.dispatch("admin/invitations/resendInvite", email);
     },
     showinvite() {
       alert("");

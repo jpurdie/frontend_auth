@@ -10,11 +10,7 @@
           <v-form v-model="valid">
             <v-row no-gutters>
               <v-col cols="12">
-                <ValidationProvider
-                  v-slot="{ errors }"
-                  name="Email Address"
-                  rules="required|email"
-                >
+                <ValidationProvider v-slot="{ errors }" name="Email Address" rules="required|email">
                   <v-text-field
                     :error-messages="errors"
                     v-model="inviteEmail"
@@ -36,8 +32,7 @@
           @click="sendInvitation"
           class="ma-2"
           color="primary"
-          >Invite</v-btn
-        >
+        >Invite</v-btn>
         <v-btn @click="showHide = false">Back</v-btn>
       </v-card-actions>
     </v-card>
@@ -78,14 +73,15 @@ export default {
     async sendInvitation() {
       const $vm = this;
       const valid = await $vm.$refs.observer.validate();
+      $vm.$store.dispatch("updateOverlay", true);
 
       if (valid) {
         $vm.sendingInvite = true;
 
         $vm.$store
-          .dispatch("invitations/sendInviteEmailReq", this.inviteEmail)
+          .dispatch("admin/invitations/sendInviteEmailReq", this.inviteEmail)
           .then(response => {
-            $vm.$store.dispatch("invitations/fetchAll");
+            $vm.$store.dispatch("admin/invitations/fetchAll");
             $vm.inviteEmail = "";
             $vm.showHide = false;
           })
@@ -96,6 +92,7 @@ export default {
             });
           });
       }
+      $vm.$store.dispatch("updateOverlay", false);
     }
   }
 };

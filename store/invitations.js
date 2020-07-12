@@ -7,51 +7,6 @@ export const state = () => ({
 });
 
 export const actions = {
-  sendInviteEmailReq({ commit, rootState }, inviteEmail) {
-    const orgId = rootState.user.selectedOrg.uuid;
-    commit("setInviteStatus", "pending");
-    const sendData = {
-      method: "post",
-      url: "api/v1/invitations?org_id=" + orgId,
-      data: {
-        email: inviteEmail
-      }
-    };
-    console.log(sendData);
-
-    return this.$axios(sendData)
-      .then(response => {
-        if (response.status === 201) {
-          commit("setInviteStatus", "success");
-        }
-      })
-      .catch(error => {
-        commit("setInviteStatus", "fail");
-        // Error 😨
-        if (error.response) {
-          commit("setErrors", error.response.data);
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          /*
-           * The request was made but no response was received, `error.request`
-           * is an instance of XMLHttpRequest in the browser and an instance
-           * of http.ClientRequest in Node.js
-           */
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request and triggered an Error
-          console.log("Error", error.message);
-        }
-        console.log(error.config);
-      });
-  },
-
   register({ commit }, userDetails) {
     commit("setRegisterStatus", "");
 
@@ -90,73 +45,6 @@ export const actions = {
         console.log(error.config);
       });
   },
-  resendInvite({ commit, rootState }, inviteEmail) {
-    const orgId = rootState.userauth.selectedOrg.uuid;
-
-    this.$axios
-      .post("api/v1/invitations?org_id=" + orgId, {
-        email: inviteEmail
-      })
-      .then(response => {
-        // fdsaf
-      })
-      .catch(error => {
-        // Error 😨
-        if (error.response) {
-          commit("setErrors", error.response.data);
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          /*
-           * The request was made but no response was received, `error.request`
-           * is an instance of XMLHttpRequest in the browser and an instance
-           * of http.ClientRequest in Node.js
-           */
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request and triggered an Error
-          console.log("Error", error.message);
-        }
-        console.log(error.config);
-      });
-  },
-  inactivateInvite({ commit, rootState }, email) {
-    const orgId = rootState.user.selectedOrg.uuid;
-
-    this.$axios
-      .delete("api/v1/invitations/" + email + "?org_id=" + orgId)
-      .then(response => {
-        commit("removeFromInvitations", email);
-      })
-      .catch(error => {
-        // Error 😨
-        if (error.response) {
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          /*
-           * The request was made but no response was received, `error.request`
-           * is an instance of XMLHttpRequest in the browser and an instance
-           * of http.ClientRequest in Node.js
-           */
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request and triggered an Error
-          console.log("Error", error.message);
-        }
-        console.log(error.config);
-      });
-  },
   async checkToken({ commit }, token) {
     try {
       const response = await this.$axios.get(
@@ -176,49 +64,6 @@ export const actions = {
         }
       }
     }
-  },
-  fetchAll({ commit, rootState }) {
-    const orgId = rootState.user.selectedOrg.uuid;
-    console.log("selected org", orgId);
-    this.$axios
-      .get("api/v1/invitations?org_id=" + orgId)
-      .then(response => {
-        if (response.data !== null && response.data.invitations !== null) {
-          commit("setInvitations", response.data.invitations);
-        } else {
-          commit("setInvitations", []);
-        }
-      })
-      .catch(error => {
-        // Error 😨
-
-        if (error.response) {
-          // this is a "known" error type and handle it with the UI
-          if (error.response.status >= 400 && error.response.status < 500) {
-            commit("setErrors", error.response.data);
-          } else {
-            // this is a 500 error. need to build an interceptor for these.
-
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-          }
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
-        } else if (error.request) {
-          /*
-           * The request was made but no response was received, `error.request`
-           * is an instance of XMLHttpRequest in the browser and an instance
-           * of http.ClientRequest in Node.js
-           */
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request and triggered an Error
-          console.log("Error", error.message);
-        }
-      });
   }
 };
 
