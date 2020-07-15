@@ -1,12 +1,25 @@
 <template>
   <v-app>
     <home-app-bar />
-    <v-content>
+    <v-main>
       <nuxt />
       <v-overlay :value="overlay">
         <v-progress-circular indeterminate size="88"></v-progress-circular>
       </v-overlay>
-    </v-content>
+    </v-main>
+
+    <v-snackbar
+      elevation="24"
+      :top="true"
+      color="success"
+      v-model="successSnackBar"
+      multi-line="multi-line"
+    >
+      {{ snackSuccessMsg }}
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="successSnackBar = false">Close</v-btn>
+      </template>
+    </v-snackbar>
 
     <v-footer class="justify-center" color="#292929" height="100">
       <div class="title font-weight-light grey--text text--lighten-1 text-center">
@@ -25,7 +38,7 @@ export default {
     HomeAppBar: () => import("@/components/home/AppBar")
   },
   transition: "bounces",
-  data: () => ({}),
+  data: () => ({ snackSuccessMsg: "", successSnackBar: false }),
   computed: mapGetters({
     errors: "user/getErrors",
     overlay: "getOverlay"
@@ -38,7 +51,21 @@ export default {
   methods: {
     dologin() {
       this.$auth.loginWith("auth0");
+    },
+    parseSignUpNotifcations() {
+      if (
+        this.$route.query != null &&
+        this.$route.query.supportSignUp === "true" &&
+        this.$route.query.code === "success"
+      ) {
+        this.successSnackBar = true;
+        this.snackSuccessMsg = this.$route.query.message.trim();
+      }
     }
+  },
+  mounted() {
+    console.log("created default layout");
+    this.parseSignUpNotifcations();
   }
 };
 </script>

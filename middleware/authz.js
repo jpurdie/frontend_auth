@@ -1,4 +1,4 @@
-export default function({ store, route, redirect }) {
-  console.log("inside authz");
+export default function({ store }) {
+  console.error("inside authz");
   return store.dispatch("user/fetchOrgOptions");
 }

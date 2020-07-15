@@ -1,37 +1,32 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-navigation-drawer v-model="drawer" app clipped>
       <v-list dense>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-view-dashboard</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Dashboard</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-settings</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Settings</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link to="/admin/users">
-          <v-list-item-action>
-            <v-icon>mdi-settings</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Users</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <v-list-group
+          v-for="item in items"
+          :key="item.title"
+          v-model="item.active"
+          :prepend-icon="item.action"
+          no-action
+        >
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title"></v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <v-list-item v-for="subItem in item.items" :key="subItem.title" :to="subItem.link" nuxt>
+            <v-list-item-content>
+              <v-list-item-title v-text="subItem.title"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
       </v-list>
     </v-navigation-drawer>
 
     <v-app-bar app clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <router-link to="/">
+      <router-link to="/dashboard">
         <BaseImg :src="require('@/assets/vitae_logo.png')" contain max-width="128" width="100%" />
       </router-link>
       <span class="ml-4">{{ selectedOrg.name }}</span>
@@ -55,9 +50,9 @@
       </template>
     </v-app-bar>
 
-    <v-content>
+    <v-main>
       <nuxt />
-    </v-content>
+    </v-main>
 
     <v-footer app>
       <span>&copy; 2019</span>
@@ -82,11 +77,26 @@ export default {
     BaseImg: () => import("./../components/base/BaseImg")
   },
   data: () => ({
-    drawer: null
+    drawer: null,
+    items: [
+      {
+        action: "mdi-view-dashboard",
+        title: "Dashboard",
+        active: true
+      },
+      {
+        action: "mdi-account-cog",
+        title: "Admin",
+        items: [
+          { title: "Users", link: "/admin/users" },
+          { title: "Invitations", link: "/admin/invitations" },
+          { title: "Settings", link: "/admin/settings" }
+        ]
+      }
+    ]
   }),
   created() {
     this.$vuetify.theme.dark = false;
-    // this.doFetchOrgs();
   },
   mounted() {
     this.doFetchOrgs();

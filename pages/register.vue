@@ -9,7 +9,7 @@
             show
             type="error"
           >{{ item.msg }}</v-alert>
-        </v-card>viate@vitae.com
+        </v-card>
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark flat>
             <v-toolbar-title>Register</v-toolbar-title>

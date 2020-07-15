@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <nuxt />
     <v-overlay :value="overlay">
       <v-progress-circular indeterminate size="88"></v-progress-circular>

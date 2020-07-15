@@ -1,14 +1,16 @@
 <template>
   <v-container>
-    <v-row>Signing you in...</v-row>
+    <v-row>Signing you in this...</v-row>
   </v-container>
 </template>
 
 <script>
 export default {
-  layout: "default",
+  layout: "dashboard",
   mounted() {
-    console.log("inside signed in");
+    const code = this.$route.query.code;
+    const state = this.$route.query.state;
+    console.log("inside signed in this ", code, state);
     // this.$store.dispatch("updateOverlay", true);
     this.redirectToCheckOrgs();
   },
@@ -16,7 +18,7 @@ export default {
     redirectToCheckOrgs() {
       console.log("redirectToCheckOrgs method");
       this.$store.dispatch("updateOverlay", true);
-      window.location.href = "/auth/check-orgs";
+      // window.location.href = "/check-orgs";
     }
   }
 };

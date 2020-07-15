@@ -90,17 +90,55 @@ export default {
     extend(config, ctx) {}
   },
   auth: {
-    redirect: {
-      login: "/", // redirect user when not connected
-      callback: "/auth/signed-in"
-    },
+    redirect: false,
     strategies: {
       local: false,
+      // auth0: {
+      //   scope: ["openid", "profile", "offline_access"],
+      //   redirectUri: "https://" + process.env.BASE_URL + "/signed-in",
+      //   domain: process.env.AUTH0_DOMAIN,
+      //   clientId: process.env.AUTH0_CLIENT_ID,
+      //   audience: process.env.AUTH0_AUDIENCE,
+      //   codeChallengeMethod: "S256",
+      //   responseType: "code",
+      //   accessType: "offline",
+      //   grantType: "authorization_code"
+      // }
+
       auth0: {
-        redirectUri: "https://" + process.env.BASE_URL + "/auth/signed-in",
-        domain: process.env.AUTH0_DOMAIN,
+        scheme: "oauth2",
+        endpoints: {
+          authorization: "https://" + process.env.AUTH0_DOMAIN + "/authorize",
+          token: "https://" + process.env.AUTH0_DOMAIN + "/oauth/token",
+          userInfo: "https://" + process.env.AUTH0_DOMAIN + "/userinfo",
+          logout: "https://" + process.env.AUTH0_DOMAIN + "/logout"
+        },
+        token: {
+          property: "access_token",
+          type: "Bearer",
+          maxAge: 1800
+        },
+        refreshToken: {
+          property: "refresh_token",
+          maxAge: 60 * 60 * 24 * 30
+        },
+        // user: {
+        //   property: "user",
+        //   autoFetch: true
+        // },
+        responseType: "code",
+        grantType: "authorization_code",
+        accessType: "offline",
+        redirectUri: "https://" + process.env.BASE_URL + "/signed-in",
+        logoutRedirectUri: "https://" + process.env.BASE_URL + "/signed-in",
+        audience: process.env.AUTH0_AUDIENCE,
         clientId: process.env.AUTH0_CLIENT_ID,
-        audience: process.env.AUTH0_AUDIENCE
+        scope: ["openid", "profile", "offline_access"],
+        state: "UNIQUE_AND_NON_GUESSABLE",
+        codeChallengeMethod: "S256",
+        responseMode: "",
+        acrValues: ""
+        // autoLogout: false
       }
     }
   }
