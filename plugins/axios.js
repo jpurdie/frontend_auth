@@ -4,6 +4,20 @@ export default function({ $axios, store }) {
     if (token !== undefined && token !== null) {
       request.headers.common.Authorization = token;
     }
+
+    if (
+      store.state.user !== undefined &&
+      store.state.user.userOrgs !== undefined
+    ) {
+      for (let i = 0; i < store.state.user.userOrgs.length; i++) {
+        if (store.state.user.userOrgs[i].selected === true) {
+          request.url =
+            request.url + "?org_id=" + store.state.user.userOrgs[i].uuid;
+          break;
+        }
+      }
+    }
+
     return request;
   });
 

@@ -6,9 +6,12 @@
           <v-card-title class="headline">Invitations</v-card-title>
           <v-card-text>
             <v-list dense flat>
-              <v-list-item v-for="invitation in invitations" :key="invitation.email">
+              <v-list-item
+                v-for="invitation in invitations"
+                :key="invitation.email"
+              >
                 <v-list-item-content>
-                  <v-list-item-title>{{invitation.email}}</v-list-item-title>
+                  <v-list-item-title>{{ invitation.email }}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-btn @click="inactivateInvite(invitation.email)" icon>
@@ -47,7 +50,7 @@ export default {
     };
   },
   computed: mapGetters({
-    selectedOrg: "user/getOrg",
+    selectedOrg: "user/getSelectedOrg",
     invitations: "admin/invitations/getInvitations"
   }),
   watch: {},

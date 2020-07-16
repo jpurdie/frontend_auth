@@ -1,10 +1,7 @@
 <template>
   <v-container>
     <v-layout row mb-3>
-      <v-flex md6>
-        users
-        <v-btn @click="doAuthPing" color="primary" dark>Auth Ping</v-btn>
-      </v-flex>
+      <v-flex md6> </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -22,14 +19,10 @@ export default {
     };
   },
   computed: mapGetters({
-    selectedOrg: "user/getOrg"
+    selectedOrg: "user/getSelectedOrg"
   }),
   watch: {},
   mounted() {},
-  methods: {
-    doAuthPing() {
-      this.$store.dispatch("authPing");
-    }
-  }
+  methods: {}
 };
 </script>

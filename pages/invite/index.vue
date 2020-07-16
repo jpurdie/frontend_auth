@@ -8,12 +8,15 @@
             v-bind:key="index"
             show
             type="error"
-          >{{ item.msg }}</v-alert>
+            >{{ item.msg }}</v-alert
+          >
         </v-card>
 
         <v-card v-if="invitation && invitation.email" class="elevation-12">
           <v-toolbar color="primary" dark flat>
-            <v-toolbar-title>Register with {{ invitation.organization.name }}</v-toolbar-title>
+            <v-toolbar-title
+              >Register with {{ invitation.organization.name }}</v-toolbar-title
+            >
             <v-spacer></v-spacer>
           </v-toolbar>
           <v-card-text>
@@ -64,7 +67,10 @@
                   ></v-text-field>
                 </ValidationProvider>
 
-                <ValidationProvider name="Password Confirm" rules="required|min:8">
+                <ValidationProvider
+                  name="Password Confirm"
+                  rules="required|min:8"
+                >
                   <v-text-field
                     slot-scope="{ errors, valid }"
                     v-model="profile.passwordConfirm"
@@ -81,7 +87,9 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn :disabled="disableRgstrBtn" @click="register" color="primary">Register</v-btn>
+            <v-btn :disabled="disableRgstrBtn" @click="register" color="primary"
+              >Register</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-col>

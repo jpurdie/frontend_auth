@@ -7,7 +7,6 @@ console.log("inside userauth.js vuex");
 
 export const state = () => ({
   userOrgs: [],
-  selectedOrg: "",
   errors: [],
   signUpStatus: null
 });
@@ -25,10 +24,12 @@ export const actions = {
         .get(`api/v1/organizations`)
         .then(function(response) {
           if (response !== null && response.status === 200) {
-            commit("setUserOrgs", response.data.orgs);
-            if (response.data.orgs.length === 1) {
-              commit("setSelectedOrg", response.data.orgs[0]);
-            }
+            const orgs = response.data.orgs;
+            orgs[0].selected = true;
+            commit("setUserOrgs", orgs);
+            // if (response.data.orgs.length === 1) {
+            //   commit("setSelectedOrg", response.data.orgs[0].selected =);
+            // }
             resolve(response.data);
           }
         })
@@ -61,9 +62,6 @@ export const mutations = {
   setUserOrgs(state, data) {
     state.userOrgs = data;
   },
-  setSelectedOrg(state, selectedOrg) {
-    state.selectedOrg = selectedOrg;
-  },
   set_user(store, data) {
     store.user = data;
   },
@@ -85,8 +83,13 @@ export const getters = {
   getSignUpStatus(state) {
     return state.signUpStatus;
   },
-  getOrg(state) {
-    return state.org;
+  getSelectedOrg(state) {
+    for (let i = 0; i < state.userOrgs.length; i++) {
+      if (state.userOrgs[i].selected === true) {
+        return state.userOrgs[i];
+      }
+    }
+    return undefined;
   },
   getErrors(state) {
     return state.errors;

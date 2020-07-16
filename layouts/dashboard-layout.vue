@@ -15,7 +15,12 @@
             </v-list-item-content>
           </template>
 
-          <v-list-item v-for="subItem in item.items" :key="subItem.title" :to="subItem.link" nuxt>
+          <v-list-item
+            v-for="subItem in item.items"
+            :key="subItem.title"
+            :to="subItem.link"
+            nuxt
+          >
             <v-list-item-content>
               <v-list-item-title v-text="subItem.title"></v-list-item-title>
             </v-list-item-content>
@@ -27,7 +32,12 @@
     <v-app-bar app clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <router-link to="/dashboard">
-        <BaseImg :src="require('@/assets/vitae_logo.png')" contain max-width="128" width="100%" />
+        <BaseImg
+          :src="require('@/assets/vitae_logo.png')"
+          contain
+          max-width="128"
+          width="100%"
+        />
       </router-link>
       <span class="ml-4">{{ selectedOrg.name }}</span>
       <div class="flex-grow-1"></div>
@@ -35,9 +45,7 @@
         <v-menu :close-on-click="true" top>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" color="accent" dark>
-              {{
-              $auth.user.nickname
-              }}
+              {{ $auth.user.nickname }}
             </v-btn>
           </template>
           <v-list>
@@ -61,18 +69,16 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   props: {
     source: String
   },
   middleware: ["authz"],
-  computed: {
-    ...mapState({
-      selectedOrg: state => state.user.selectedOrg
-    })
-  },
+  computed: mapGetters({
+    selectedOrg: "user/getSelectedOrg"
+  }),
   components: {
     BaseImg: () => import("./../components/base/BaseImg")
   },

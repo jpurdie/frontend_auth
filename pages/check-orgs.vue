@@ -26,6 +26,7 @@ export default {
       this.$store
         .dispatch("user/fetchOrgOptions")
         .then(data => {
+          console.log("data xfdsa", data);
           if (data.length === 1) {
             // only 1 org. No need to ask which.
             $vm.$router.push("/dashboard");

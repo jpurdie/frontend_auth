@@ -20,8 +20,7 @@ export const actions = {
     commit("setErrors", errors);
   },
   authPing({ commit, rootState }) {
-    const orgId = rootState.user.selectedOrg.uuid;
-    this.$axios.get("api/v1/ping?org_id=" + orgId);
+    this.$axios.get("api/v1/ping");
   },
   nonAuthPing() {
     this.$axios.get("public/ping");
@@ -43,9 +42,6 @@ export const getters = {
   },
   getErrors(state) {
     return state.errors;
-  },
-  getSelectedOrg(state, getters, rootState) {
-    return rootState.user.selectedOrg;
   }
 };
 

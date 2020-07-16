@@ -8,11 +8,10 @@ export const state = () => ({
 
 export const actions = {
   sendInviteEmailReq({ commit, rootState }, inviteEmail) {
-    const orgId = rootState.user.selectedOrg.uuid;
     commit("setInviteStatus", "pending");
     const sendData = {
       method: "post",
-      url: "api/v1/invitations?org_id=" + orgId,
+      url: "api/v1/invitations",
       data: {
         email: inviteEmail
       }
@@ -52,10 +51,8 @@ export const actions = {
       });
   },
   resendInvite({ commit, rootState }, inviteEmail) {
-    const orgId = rootState.user.selectedOrg.uuid;
-
     this.$axios
-      .post("api/v1/invitations?org_id=" + orgId, {
+      .post("api/v1/invitations", {
         email: inviteEmail
       })
       .then(response => {
@@ -87,10 +84,8 @@ export const actions = {
       });
   },
   inactivateInvite({ commit, rootState }, email) {
-    const orgId = rootState.user.selectedOrg.uuid;
-
     this.$axios
-      .delete("api/v1/invitations/" + email + "?org_id=" + orgId)
+      .delete("api/v1/invitations/" + email)
       .then(response => {
         commit("removeFromInvitations", email);
       })
@@ -119,10 +114,8 @@ export const actions = {
       });
   },
   fetchAll({ commit, rootState }) {
-    const orgId = rootState.user.selectedOrg.uuid;
-    console.log("selected org", orgId);
     this.$axios
-      .get("api/v1/invitations?org_id=" + orgId)
+      .get("api/v1/invitations")
       .then(response => {
         if (response.data !== null && response.data.invitations !== null) {
           commit("setInvitations", response.data.invitations);
