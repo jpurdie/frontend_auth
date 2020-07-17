@@ -6,7 +6,7 @@
 console.log("inside userauth.js vuex");
 
 export const state = () => ({
-  userOrgs: [],
+  orgs: [],
   errors: [],
   signUpStatus: null
 });
@@ -26,7 +26,7 @@ export const actions = {
           if (response !== null && response.status === 200) {
             const orgs = response.data.orgs;
             orgs[0].selected = true;
-            commit("setUserOrgs", orgs);
+            commit("setOrgs", orgs);
             // if (response.data.orgs.length === 1) {
             //   commit("setSelectedOrg", response.data.orgs[0].selected =);
             // }
@@ -59,17 +59,14 @@ export const mutations = {
   setSignUpStatus(state, data) {
     state.signUpStatus = data;
   },
-  setUserOrgs(state, data) {
-    state.userOrgs = data;
+  setOrgs(state, data) {
+    state.orgs = data;
   },
   set_user(store, data) {
     store.user = data;
   },
   reset_user(store) {
     store.user = null;
-  },
-  setOrg(store, data) {
-    store.org = data;
   },
   clearErrors(store) {
     store.errors = [];
@@ -84,9 +81,17 @@ export const getters = {
     return state.signUpStatus;
   },
   getSelectedOrg(state) {
-    for (let i = 0; i < state.userOrgs.length; i++) {
-      if (state.userOrgs[i].selected === true) {
-        return state.userOrgs[i];
+    for (let i = 0; i < state.orgs.length; i++) {
+      if (state.orgs[i].selected === true) {
+        return state.orgs[i];
+      }
+    }
+    return undefined;
+  },
+  getRole(state) {
+    for (let i = 0; i < state.orgs.length; i++) {
+      if (state.orgs[i].selected === true) {
+        return state.orgs[i].role.name;
       }
     }
     return undefined;

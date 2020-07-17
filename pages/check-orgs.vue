@@ -16,7 +16,7 @@ export default {
   },
   computed: {
     ...mapState({
-      orgs: state => state.user.userOrgs
+      orgs: state => state.user.orgs
     })
   },
   methods: {
