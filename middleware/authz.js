@@ -1,4 +1,4 @@
 export default function({ store }) {
-  console.error("inside authz");
+  // TODO: fix this sending on all route changes
   return store.dispatch("user/fetchOrgOptions");
 }

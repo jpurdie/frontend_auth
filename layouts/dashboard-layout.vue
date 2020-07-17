@@ -1,33 +1,43 @@
 <template>
   <v-app>
     <v-navigation-drawer v-model="drawer" app clipped>
-      <v-list dense>
-        <v-list-group
-          v-for="item in items"
-          :key="item.title"
-          v-model="item.active"
-          :prepend-icon="item.action"
-          no-action
-          v-if="item.roles === undefined || item.roles.includes(userRole)"
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title v-text="item.title"></v-list-item-title>
-            </v-list-item-content>
-          </template>
+      <v-list :flat="true" :dense="true">
+        <template v-for="item in items">
+          <v-list-item-group v-if="item.items === undefined">
+            <v-list-item :to="item.link" nuxt active-class="red--text">
+              <v-list-item-content>
+                <v-list-item-title v-text="item.title"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
 
-          <v-list-item
-            v-for="subItem in item.items"
-            :key="subItem.title"
-            :to="subItem.link"
-            nuxt
-            v-if="subItem.roles === undefined || subItem.roles.includes(userRole)"
+          <v-list-item-group
+            :key="item.title"
+            :prepend-icon="item.action"
+            no-action
+            :value="item.active"
+            v-if="(item.roles === undefined || item.roles.includes(userRole)) && item.items !== undefined"
           >
-            <v-list-item-content>
-              <v-list-item-title v-text="subItem.title"></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-group>
+            <template v-slot:activator>
+              <v-list-item-content>
+                <v-list-item-title v-text="item.title"></v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <template v-if="subItem.roles === undefined || subItem.roles.includes(userRole)">
+              <v-list-item
+                v-for="subItem in item.items"
+                :key="subItem.title"
+                :to="subItem.link"
+                v-model="subItem.active"
+                nuxt
+              >
+                <v-list-item-content>
+                  <v-list-item-title v-text="subItem.title"></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
+          </v-list-item-group>
+        </template>
       </v-list>
     </v-navigation-drawer>
 
@@ -84,19 +94,25 @@ export default {
       {
         action: "mdi-view-dashboard",
         title: "Dashboard",
-        active: true
+        link: "/dashboard"
+      },
+      {
+        action: "mdi-view-dashboard",
+        title: "Projects",
+        link: "/projects"
       },
       {
         action: "mdi-account-cog",
         title: "Admin",
-
+        roles: ["ADMIN", "OWNER"],
+        active: false,
         items: [
-          { title: "Users", link: "/admin/users" },
-          { title: "Invitations", link: "/admin/invitations" },
+          { title: "Users", link: "/admin/users", active: false },
+          { title: "Invitations", link: "/admin/invitations", active: false },
           {
             title: "Settings",
             link: "/admin/settings",
-            roles: ["ADMIN", "OWNER"]
+            active: false
           }
         ]
       }
