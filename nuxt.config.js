@@ -4,9 +4,17 @@ require("dotenv").config();
 
 export default {
   mode: "spa",
+  target: "static", // default: 'server'
   dev: "prod".includes(process.env.NODE_ENV) || process.env.NODE_ENV === "",
-  env: {
-    baseUrl: "http://" + process.env.BASE_URL || "https://localhost:3000"
+  publicRuntimeConfig: {
+    nodeEnv: process.env.NODE_ENV || "prod",
+    appName: process.env.APP_NAME || "Vitae",
+    baseURL: "http://" + process.env.BASE_URL || "https://localhost:3000",
+    auth0Domain: process.env.AUTH0_DOMAIN,
+    auth0ClientID: process.env.AUTH0_CLIENT_ID,
+    auth0Audience: process.env.AUTH0_AUDIENCE,
+    auth0CallbackRoute: process.env.AUTH0_CALLBACK_ROUTE,
+    apiURL: process.env.API_URL
   },
   server: {
     port: 443, // default: 3000
@@ -59,7 +67,7 @@ export default {
     "@nuxtjs/auth-next",
     "@nuxtjs/axios",
     "vue-scrollto/nuxt",
-    "@nuxtjs/dotenv"
+    "@/dotenv"
   ],
   axios: {
     baseURL: process.env.API_URL,

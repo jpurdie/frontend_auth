@@ -8,3 +8,7 @@
 .page-leave-active {
   opacity: 0;
 }
+
+.dash-nav-active {
+  background-color: rgb(105, 190, 40, 0.33) !important;
+}
