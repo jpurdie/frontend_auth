@@ -1,6 +1,5 @@
 import path from "path";
 import fs from "fs";
-require("dotenv").config();
 
 export default {
   mode: "spa",
@@ -8,6 +7,7 @@ export default {
   dev: "prod".includes(process.env.NODE_ENV) || process.env.NODE_ENV === "",
   publicRuntimeConfig: {
     nodeEnv: process.env.NODE_ENV || "prod",
+    foo: process.env.FOO || undefined,
     appName: process.env.APP_NAME || "Vitae",
     baseURL: "http://" + process.env.BASE_URL || "https://localhost:3000",
     auth0Domain: process.env.AUTH0_DOMAIN,
@@ -66,8 +66,7 @@ export default {
     "@nuxtjs/vuetify",
     "@nuxtjs/auth-next",
     "@nuxtjs/axios",
-    "vue-scrollto/nuxt",
-    "@/dotenv"
+    "vue-scrollto/nuxt"
   ],
   axios: {
     baseURL: process.env.API_URL,
@@ -95,7 +94,11 @@ export default {
     }
   },
   build: {
-    extend(config, ctx) {}
+    extend(config, ctx) {
+      if (ctx.isDev) {
+        config.devtool = ctx.isClient ? "source-map" : "inline-source-map";
+      }
+    }
   },
   auth: {
     redirect: false,

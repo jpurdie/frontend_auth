@@ -3,9 +3,9 @@
   "configurations": [
     {
       "type": "chrome",
-      "request": "attach",
-      "name": "attach to Chrome",
-      "port": 9222,
+      "request": "launch",
+      "name": "client: chrome",
+      "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}",
       "sourceMapPathOverrides": {
         "webpack:///*": "${workspaceRoot}/*"
