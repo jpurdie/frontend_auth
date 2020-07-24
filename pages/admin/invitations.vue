@@ -55,10 +55,10 @@ export default {
   }),
   watch: {},
   mounted() {
-    this.fetchAll();
+    this.list();
   },
   methods: {
-    fetchAll() {
+    list() {
       this.$store.dispatch("admin/invitations/fetchAll");
     },
     inactivateInvite(email) {

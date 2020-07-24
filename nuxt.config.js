@@ -9,7 +9,7 @@ export default {
     nodeEnv: process.env.NODE_ENV || "prod",
     foo: process.env.FOO || undefined,
     appName: process.env.APP_NAME || "Vitae",
-    baseURL: "http://" + process.env.BASE_URL || "https://localhost:3000",
+    baseURL: "https://" + process.env.BASE_URL || "https://localhost:3000",
     auth0Domain: process.env.AUTH0_DOMAIN,
     auth0ClientID: process.env.AUTH0_CLIENT_ID,
     auth0Audience: process.env.AUTH0_AUDIENCE,

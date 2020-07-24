@@ -68,7 +68,7 @@ extend("confirmed", {
 
 extend("xpassword", {
   validate: value => {
-    return /(?=(.*[0-9]))((?=.*[A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z]))^.{10,64}$/.test(
+    return /(?=(.*[0-9]))((?=.*[A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z]))^.{8,64}$/.test(
       value
     );
   },

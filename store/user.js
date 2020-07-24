@@ -15,7 +15,7 @@ export const state = () => ({
 
 export const actions = {
   fetch({ commit }) {},
-  refresh({ commit }) {
+  clearErrors({ commit }) {
     commit("clearErrors");
   },
   fetchOrgOptions({ commit }) {

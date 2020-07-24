@@ -24,12 +24,11 @@
     </v-snackbar>
 
     <v-footer class="justify-center" color="#292929" height="100">
-      {{ $config.foo }}
       <div
         class="title font-weight-light grey--text text--lighten-1 text-center"
       >
-        &copy; {{ new Date().getFullYear() }} — Vitae, LLC — Made with 💜 by
-        Justin Purdie
+        &copy; {{ new Date().getFullYear() }} — Vitae, LLC — Made by Justin
+        Purdie
       </div>
     </v-footer>
   </v-app>

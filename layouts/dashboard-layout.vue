@@ -69,7 +69,7 @@
       <template v-if="$auth.$state.loggedIn">
         <v-menu :close-on-click="true" top>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" color="accent" dark>{{
+            <v-btn v-on="on" color="primary" dark>{{
               $auth.user.nickname
             }}</v-btn>
           </template>
@@ -160,13 +160,13 @@ export default {
     doLogout() {
       console.log("Inside dologout");
       this.$auth.logout();
-      window.location.href =
-        "https://" +
-        this.$config.auth0Domain +
-        "/v2/logout?returnTo=https%3A%2F%2F" +
-        this.$config.baseURL +
-        "&client_id=" +
-        process.env.auth0Client;
+      // window.location.href =
+      //   "https://" +
+      //   this.$config.auth0Domain +
+      //   "/v2/logout?returnTo=https%3A%2F%2F" +
+      //   this.$config.baseURL +
+      //   "&client_id=" +
+      //   this.$config.auth0Client;
     }
   }
 };
