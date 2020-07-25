@@ -60,7 +60,12 @@ export default {
     color: "#fff"
   },
   css: ["~/assets/main.css"],
-  plugins: ["~/plugins/axios", "~/plugins/date-time", "~/plugins/vee-validate"],
+  plugins: [
+    "~/plugins/axios",
+    "~/plugins/strings",
+    "~/plugins/date-time",
+    "~/plugins/vee-validate"
+  ],
   buildModules: ["@nuxtjs/vuetify"],
   modules: [
     "@nuxtjs/vuetify",

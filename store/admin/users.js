@@ -1,5 +1,5 @@
 export const state = () => ({
-  user: [],
+  users: [],
   errors: []
 });
 
@@ -8,10 +8,11 @@ export const actions = {
     // commit("setRegisterStatus", "");
 
     return this.$axios
-      .get("api/v1/users")
+      .$get("api/v1/users")
       .then(response => {
-        console.log("response", response);
-        // commit("setRegisterStatus", "success");
+        if (response.users !== null) {
+          commit("setUsers", response.users);
+        }
       })
       .catch(error => {
         // commit("setRegisterStatus", "fail");

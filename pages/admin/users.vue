@@ -6,9 +6,14 @@
           <v-card-title class="headline">Users</v-card-title>
           <v-card-text>
             <v-list dense flat>
-              <v-list-item v-for="user in users" :key="user.email">
+              <v-list-item v-for="user in users" :key="user.id">
                 <v-list-item-content>
                   <v-list-item-title>{{ user.email }}</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-title>{{
+                    $toTitleCase(user.role.name)
+                  }}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-btn @click="inactivateUser(user.email)" icon>

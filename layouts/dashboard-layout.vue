@@ -149,10 +149,9 @@ export default {
   }),
   created() {
     this.$vuetify.theme.dark = false;
-  },
-  mounted() {
     this.doFetchOrgs();
   },
+  mounted() {},
   methods: {
     doFetchOrgs() {
       this.$store.dispatch("user/fetchOrgOptions");
