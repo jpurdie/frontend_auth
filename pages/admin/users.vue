@@ -11,15 +11,29 @@
                   <v-list-item-title>{{ user.email }}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-content>
-                  <v-list-item-title>{{
-                    $toTitleCase(user.role.name)
-                  }}</v-list-item-title>
+                  <v-list-item-title>
+                    <v-select
+                      :loading="roles.length == 0"
+                      :items="roles"
+                      label="Role"
+                    ></v-select>
+                    {{ $toTitleCase(user.role.text) }}</v-list-item-title
+                  >
                 </v-list-item-content>
-                <v-list-item-action>
-                  <v-btn @click="inactivateUser(user.email)" icon>
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
-                </v-list-item-action>
+                <v-list-item-content>
+                  <v-list-item-action>
+                    <v-btn @click="updateUser(user.email)" icon>
+                      <v-icon>mdi-content-save</v-icon>
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-action>
+                    <v-btn @click="inactivateUser(user.email)" icon>
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item-content>
               </v-list-item>
             </v-list>
           </v-card-text>
@@ -40,14 +54,22 @@ export default {
   },
   computed: mapGetters({
     selectedOrg: "user/getSelectedOrg",
-    users: "admin/users/getUsers"
+    users: "admin/users/getUsers",
+    roles: "admin/users/getRoles"
   }),
   mounted() {
     this.list();
+    this.listRoles();
   },
   methods: {
     inactivateUser() {
       alert();
+    },
+    updateUser() {
+      alert();
+    },
+    listRoles() {
+      this.$store.dispatch("admin/users/listRoles");
     },
     list() {
       this.$store.dispatch("admin/users/list");

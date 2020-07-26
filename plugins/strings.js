@@ -1,5 +1,9 @@
 export default (context, inject) => {
   const toTitleCase = phrase => {
+    if (phrase === null || phrase === undefined) {
+      return undefined;
+    }
+
     return phrase
       .toLowerCase()
       .split(" ")

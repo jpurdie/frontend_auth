@@ -1,5 +1,5 @@
 export default function({ store }) {
-  // TODO: fix this sending on all route changes
-  // return store.dispatch("user/fetchOrgOptions");
-  return undefined;
+  // if (store.state.user === null || store.state.user.orgs === null) {
+  return store.dispatch("user/fetchOrgOptions");
+  // }
 }
