@@ -5,6 +5,13 @@ export const state = () => ({
 });
 
 export const actions = {
+  updateRole({ commit }, userID, role) {
+    const $vm = this;
+    $vm.$axios.$patch("api/v1/users/" + userID, {
+      // eslint-disable-next-line object-shorthand
+      role: role
+    });
+  },
   listRoles({ commit }) {
     const $vm = this;
     return $vm.$axios
@@ -16,6 +23,7 @@ export const actions = {
             console.log(i + " " + response.roles[i]);
             const tempObj = {};
             tempObj.text = $vm.$toTitleCase(response.roles[i].name);
+            tempObj.value = response.roles[i].id;
             roleArr.push(tempObj);
           }
           commit("setRoles", roleArr);
