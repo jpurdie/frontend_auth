@@ -12,7 +12,7 @@
                     v-text="user.firstName + ' ' + user.lastName"
                   ></v-list-item-title>
                   <v-list-item-subtitle
-                    v-text="user.email + ' ' + user.id"
+                    v-text="user.email"
                   ></v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-content>
@@ -23,8 +23,7 @@
                       :items="roles"
                       label="Role"
                     ></v-select>
-                    {{ $toTitleCase(user.role.text) }}</v-list-item-title
-                  >
+                  </v-list-item-title>
                 </v-list-item-content>
                 <v-spacer></v-spacer>
 
@@ -70,7 +69,13 @@ export default {
       alert();
     },
     updateRole(userID, role) {
-      this.$store.dispatch("admin/users/updateRole", userID, role);
+      console.log("userID", userID);
+      console.log("role", role);
+      const updateOptions = {
+        userID,
+        role
+      };
+      this.$store.dispatch("admin/users/updateRole", updateOptions);
 
       console.log(userID, role);
     },

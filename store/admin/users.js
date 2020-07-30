@@ -5,12 +5,22 @@ export const state = () => ({
 });
 
 export const actions = {
-  updateRole({ commit }, userID, role) {
+  updateRole({ commit }, updateOptions) {
+    console.log("updateOptions", updateOptions);
     const $vm = this;
-    $vm.$axios.$patch("api/v1/users/" + userID, {
-      // eslint-disable-next-line object-shorthand
-      role: role
-    });
+    const userID = updateOptions.userID;
+    const role = updateOptions.role;
+
+    const options = {
+      method: "PATCH",
+      url: "api/v1/users/" + userID,
+      data: {
+        // eslint-disable-next-line object-shorthand
+        role: role
+      }
+    };
+
+    $vm.$axios(options);
   },
   listRoles({ commit }) {
     const $vm = this;
@@ -75,8 +85,8 @@ export const mutations = {
   setUsers(state, users) {
     state.users = users;
   },
-  setErrors(state, users) {
-    state.users = users;
+  setErrors(state, errors) {
+    state.errors = errors;
   },
   setRoles(state, roles) {
     state.roles = roles;

@@ -197,6 +197,8 @@ export default {
       };
 
       await $vm.$store.dispatch("user/register", profile);
+      console.log("registering done");
+
       if ($vm.errors) {
         this.$nextTick(() => {
           const el = document.getElementById("errors-div");
@@ -207,7 +209,10 @@ export default {
       }
       $vm.$store.dispatch("updateOverlay", false);
       $vm.disableRgstrBtn = false;
-      if ($vm.errors !== undefined && $vm.errors.length === 0) {
+      console.log("redirecting1", $vm.userErrors);
+
+      if ($vm.userErrors !== undefined && $vm.userErrors.length === 0) {
+        console.log("redirecting2");
         $vm.redirectSuccess();
       }
     }
