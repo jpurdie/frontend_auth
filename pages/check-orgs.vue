@@ -22,6 +22,7 @@ export default {
   methods: {
     doFetchOrgs() {
       const $vm = this;
+      this.$store.dispatch("user/fetchUser");
 
       this.$store
         .dispatch("user/fetchOrgOptions")

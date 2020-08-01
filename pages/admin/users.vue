@@ -21,6 +21,7 @@
                       @change="role => updateRole(user.id, role)"
                       :loading="roles.length == 0"
                       :items="roles"
+                      :value="$toTitleCase(user.role.name)"
                       label="Role"
                     ></v-select>
                   </v-list-item-title>

@@ -100,7 +100,7 @@ export default {
   props: {
     source: String
   },
-  middleware: ["authz"],
+  middleware: ["authz", "user"],
   computed: mapGetters({
     selectedOrg: "user/getSelectedOrg",
     userRole: "user/getRole"
@@ -154,7 +154,9 @@ export default {
   mounted() {},
   methods: {
     doFetchOrgs() {
-      this.$store.dispatch("user/fetchOrgOptions");
+      this.$store.dispatch("user/fetchUser");
+
+      // this.$store.dispatch("user/fetchOrgOptions");
     },
     doLogout() {
       console.log("Inside dologout");

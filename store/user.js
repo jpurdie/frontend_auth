@@ -18,10 +18,36 @@ export const actions = {
   clearErrors({ commit }) {
     commit("clearErrors");
   },
-  fetchOrgOptions({ commit }) {
+  fetchUser({ commit }) {
+    const $vm = this;
     return new Promise((resolve, reject) => {
+      const userExternalID = $vm.$auth.$state.user.sub;
       this.$axios
-        .get(`api/v1/organizations`)
+        .get(`api/v1/users/` + userExternalID)
+        .then(function(response) {
+          if (response !== null && response.status === 200) {
+            commit("setUser", response.data.user);
+            resolve(response.data);
+          }
+        })
+        .catch(function(error) {
+          if (error.response !== null && error.response.status === 422) {
+            reject(error.response);
+          }
+          if (error.response !== null && error.response.status === 409) {
+            reject(error.response);
+          }
+        });
+    });
+  },
+  fetchOrgOptions({ commit }) {
+    const $vm = this;
+
+    return new Promise((resolve, reject) => {
+      const userExternalID = $vm.$auth.$state.user.sub;
+
+      this.$axios
+        .get(`api/v1/users/` + userExternalID + `/organizations`)
         .then(function(response) {
           if (response !== null && response.status === 200) {
             const orgs = response.data.orgs;
@@ -62,7 +88,7 @@ export const mutations = {
   setOrgs(state, data) {
     state.orgs = data;
   },
-  set_user(store, data) {
+  setUser(store, data) {
     store.user = data;
   },
   reset_user(store) {
