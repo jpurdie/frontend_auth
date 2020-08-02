@@ -5,11 +5,16 @@ export default function({ $axios, store }) {
       request.headers.common.Authorization = token;
     }
 
-    if (store.state.user !== undefined && store.state.user.orgs !== undefined) {
-      for (let i = 0; i < store.state.user.orgs.length; i++) {
-        if (store.state.user.orgs[i].selected === true) {
+    if (
+      store.state.user !== undefined &&
+      store.state.user.me.profiles !== undefined
+    ) {
+      for (let i = 0; i < store.state.user.me.profiles.length; i++) {
+        if (store.state.user.me.profiles[i].selected === true) {
           request.url =
-            request.url + "?org_id=" + store.state.user.orgs[i].uuid;
+            request.url +
+            "?org_id=" +
+            store.state.user.me.profiles[i].organization.organizationID;
           break;
         }
       }

@@ -18,10 +18,11 @@
                 <v-list-item-content>
                   <v-list-item-title>
                     <v-select
-                      @change="role => updateRole(user.id, role)"
+                      @change="role => updateRole(user.userID, role)"
+                      :disabled="user.email === me.email"
                       :loading="roles.length == 0"
                       :items="roles"
-                      :value="$toTitleCase(user.role.name)"
+                      :value="$toTitleCase(user.profiles[0].role.name)"
                       label="Role"
                     ></v-select>
                   </v-list-item-title>
@@ -34,7 +35,11 @@
                   </v-btn>
                 </v-list-item-action> -->
                 <v-list-item-action>
-                  <v-btn @click="inactivateUser(user.email)" icon>
+                  <v-btn
+                    :disabled="user.email === me.email"
+                    @click="inactivateUser(user.email)"
+                    icon
+                  >
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </v-list-item-action>
@@ -59,7 +64,8 @@ export default {
   computed: mapGetters({
     selectedOrg: "user/getSelectedOrg",
     users: "admin/users/getUsers",
-    roles: "admin/users/getRoles"
+    roles: "admin/users/getRoles",
+    me: "user/getMe"
   }),
   mounted() {
     this.list();
@@ -80,7 +86,7 @@ export default {
 
       console.log(userID, role);
     },
-    async updateUser(id) {},
+    async updateUser(userID) {},
     listRoles() {
       this.$store.dispatch("admin/users/listRoles");
     },

@@ -30,7 +30,6 @@ export const actions = {
         if (response.roles !== null) {
           const roleArr = [];
           for (let i = 0; i < response.roles.length; i++) {
-            console.log(i + " " + response.roles[i]);
             const tempObj = {};
             tempObj.text = $vm.$toTitleCase(response.roles[i].name);
             tempObj.value = response.roles[i].id;

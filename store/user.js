@@ -1,12 +1,5 @@
-// import Vue from 'vue'
-// const cookieparser = process.server ? require('cookieparser') : undefined
-// import {setAuthToken, resetAuthToken} from '~/util/auth'
-// import api from '~/api'
-
-console.log("inside userauth.js vuex");
-
 export const state = () => ({
-  orgs: [],
+  me: {},
   errors: [],
   signUpStatus: null
 });
@@ -18,16 +11,17 @@ export const actions = {
   clearErrors({ commit }) {
     commit("clearErrors");
   },
-  fetchUser({ commit }) {
-    const $vm = this;
+  fetchMe({ commit }) {
     return new Promise((resolve, reject) => {
-      const userExternalID = $vm.$auth.$state.user.sub;
       this.$axios
-        .get(`api/v1/users/` + userExternalID)
+        .get("api/v1/users/me")
         .then(function(response) {
           if (response !== null && response.status === 200) {
-            commit("setUser", response.data.user);
-            resolve(response.data);
+            const profiles = response.data.user.profiles;
+            profiles[0].selected = true;
+
+            commit("setMe", response.data.user);
+            resolve();
           }
         })
         .catch(function(error) {
@@ -88,8 +82,8 @@ export const mutations = {
   setOrgs(state, data) {
     state.orgs = data;
   },
-  setUser(store, data) {
-    store.user = data;
+  setMe(store, data) {
+    store.me = data;
   },
   reset_user(store) {
     store.user = null;
@@ -106,18 +100,21 @@ export const getters = {
   getSignUpStatus(state) {
     return state.signUpStatus;
   },
+  getMe(state) {
+    return state.me;
+  },
   getSelectedOrg(state) {
-    for (let i = 0; i < state.orgs.length; i++) {
-      if (state.orgs[i].selected === true) {
-        return state.orgs[i];
+    for (let i = 0; i < state.me.profiles.length; i++) {
+      if (state.me.profiles[i].selected === true) {
+        return state.me.profiles[i].organization;
       }
     }
     return undefined;
   },
   getRole(state) {
-    for (let i = 0; i < state.orgs.length; i++) {
-      if (state.orgs[i].selected === true) {
-        return state.orgs[i].role.name;
+    for (let i = 0; i < state.me.profiles.length; i++) {
+      if (state.me.profiles[i].selected === true) {
+        return state.me.profiles[i].role.name;
       }
     }
     return undefined;
