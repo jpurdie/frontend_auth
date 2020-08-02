@@ -1,8 +1,8 @@
 <template>
   <v-container>
-    <v-layout row>
-      <v-flex md6>
-        <v-card>
+    <v-row>
+      <v-col cols="12" md="8">
+        <v-card elevation="4">
           <v-card-title class="headline">Invitations</v-card-title>
           <v-card-text>
             <v-list dense flat>
@@ -28,8 +28,8 @@
             <inviteForm />
           </v-card-text>
         </v-card>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

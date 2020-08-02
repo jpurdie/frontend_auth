@@ -19,8 +19,26 @@ export const actions = {
         role: role
       }
     };
-
     $vm.$axios(options);
+  },
+  delete({ commit }, userID) {
+    const $vm = this;
+    return $vm.$axios
+      .$delete("api/v1/users/" + userID)
+      .then(response => {
+        console.log("delete");
+      })
+      .catch(error => {
+        if (error.response) {
+          commit("setErrors", error.response.data);
+          return false;
+        } else if (error.request) {
+          console.error(error.request);
+          return false;
+        } else {
+          console.error(error.message);
+        }
+      });
   },
   listRoles({ commit }) {
     const $vm = this;
@@ -39,8 +57,6 @@ export const actions = {
         }
       })
       .catch(error => {
-        // commit("setRegisterStatus", "fail");
-        // Error
         if (error.response) {
           commit("setErrors", error.response.data);
           return false;
@@ -48,7 +64,6 @@ export const actions = {
           console.error(error.request);
           return false;
         } else {
-          // Something happened in setting up the request and triggered an Error
           console.error(error.message);
         }
       });

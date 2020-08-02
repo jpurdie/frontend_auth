@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12">
+      <v-col cols="12" md="8">
         <v-card elevation="4">
           <v-card-title class="headline">Users</v-card-title>
           <v-card-text>
@@ -37,7 +37,7 @@
                 <v-list-item-action>
                   <v-btn
                     :disabled="user.email === me.email"
-                    @click="inactivateUser(user.email)"
+                    @click="deleteUser(user.userID)"
                     icon
                   >
                     <v-icon>mdi-delete</v-icon>
@@ -72,12 +72,15 @@ export default {
     this.listRoles();
   },
   methods: {
-    inactivateUser() {
-      alert();
+    async deleteUser(userID) {
+      console.log("before deleteUser");
+      await this.$store.dispatch("admin/users/delete", userID);
+      console.log("after deleteUser before list");
+
+      this.list();
+      console.log("after list");
     },
     updateRole(userID, role) {
-      console.log("userID", userID);
-      console.log("role", role);
       const updateOptions = {
         userID,
         role
