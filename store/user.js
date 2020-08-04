@@ -11,14 +11,29 @@ export const actions = {
   clearErrors({ commit }) {
     commit("clearErrors");
   },
+  selectProfile({ commit, state }, profileID) {
+    commit("clearErrors");
+    return new Promise((resolve, reject) => {
+      for (let i = 0; i < state.me.profiles.length; i++) {
+        // checking to make sure the profile exists
+        if (state.me.profiles[i].profileID === profileID) {
+          commit("setSelectedProfile", profileID);
+          resolve();
+          break;
+        }
+      }
+      commit("addError", { msg: "Invalid organization selection" });
+      reject(new Error("Invalid profile"));
+    });
+  },
   fetchMe({ commit }) {
     return new Promise((resolve, reject) => {
       this.$axios
         .get("api/v1/users/me")
         .then(function(response) {
           if (response !== null && response.status === 200) {
-            const profiles = response.data.user.profiles;
-            profiles[0].selected = true;
+            // const profiles = response.data.user.profiles;
+            // profiles[0].selected = true;
 
             commit("setMe", response.data.user);
             resolve();
@@ -78,6 +93,20 @@ export const actions = {
 export const mutations = {
   setSignUpStatus(state, data) {
     state.signUpStatus = data;
+  },
+  clearSelectedProfile(state) {
+    for (let i = 0; i < state.me.profiles.length; i++) {
+      state.me.profiles[i].selected = undefined;
+    }
+  },
+  setSelectedProfile(state, profileID) {
+    for (let i = 0; i < state.me.profiles.length; i++) {
+      if (state.me.profiles[i].profileID === profileID) {
+        state.me.profiles[i].selected = true;
+      } else {
+        state.me.profiles[i].selected = undefined;
+      }
+    }
   },
   setOrgs(state, data) {
     state.orgs = data;

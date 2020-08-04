@@ -1,8 +1,10 @@
 <template>
   <v-container>
-    <v-layout row mb-3>
-      <v-flex md6>Projects</v-flex>
-    </v-layout>
+    <v-row>
+      <v-col md="6" xs="12">
+        <v-btn color="primary" to="/projects/create">Create</v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
