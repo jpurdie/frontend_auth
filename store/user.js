@@ -12,21 +12,19 @@ export const actions = {
     commit("clearErrors");
   },
   selectProfile({ commit, state }, profileID) {
-    commit("clearErrors");
-    return new Promise((resolve, reject) => {
-      for (let i = 0; i < state.me.profiles.length; i++) {
-        // checking to make sure the profile exists
-        if (state.me.profiles[i].profileID === profileID) {
-          commit("setSelectedProfile", profileID);
-          resolve();
-          break;
-        }
+    console.log("Inside selectProfile " + profileID);
+    for (let i = 0; i < state.me.profiles.length; i++) {
+      if (state.me.profiles[i].profileID === profileID) {
+        console.log("calling setSelectedProfile");
+        commit("setSelectedProfile", profileID);
+        return true;
       }
-      commit("addError", { msg: "Invalid organization selection" });
-      reject(new Error("Invalid profile"));
-    });
+    }
+    return false;
   },
   fetchMe({ commit }) {
+    console.log("Inside fetchMe");
+
     return new Promise((resolve, reject) => {
       this.$axios
         .get("api/v1/users/me")
@@ -34,38 +32,10 @@ export const actions = {
           if (response !== null && response.status === 200) {
             // const profiles = response.data.user.profiles;
             // profiles[0].selected = true;
+            console.log("about to call setMe");
 
             commit("setMe", response.data.user);
             resolve();
-          }
-        })
-        .catch(function(error) {
-          if (error.response !== null && error.response.status === 422) {
-            reject(error.response);
-          }
-          if (error.response !== null && error.response.status === 409) {
-            reject(error.response);
-          }
-        });
-    });
-  },
-  fetchOrgOptions({ commit }) {
-    const $vm = this;
-
-    return new Promise((resolve, reject) => {
-      const userExternalID = $vm.$auth.$state.user.sub;
-
-      this.$axios
-        .get(`api/v1/users/` + userExternalID + `/organizations`)
-        .then(function(response) {
-          if (response !== null && response.status === 200) {
-            const orgs = response.data.orgs;
-            orgs[0].selected = true;
-            commit("setOrgs", orgs);
-            // if (response.data.orgs.length === 1) {
-            //   commit("setSelectedOrg", response.data.orgs[0].selected =);
-            // }
-            resolve(response.data);
           }
         })
         .catch(function(error) {
@@ -94,17 +64,11 @@ export const mutations = {
   setSignUpStatus(state, data) {
     state.signUpStatus = data;
   },
-  clearSelectedProfile(state) {
-    for (let i = 0; i < state.me.profiles.length; i++) {
-      state.me.profiles[i].selected = undefined;
-    }
-  },
   setSelectedProfile(state, profileID) {
+    console.log("Inside setSelectedProfile");
     for (let i = 0; i < state.me.profiles.length; i++) {
       if (state.me.profiles[i].profileID === profileID) {
         state.me.profiles[i].selected = true;
-      } else {
-        state.me.profiles[i].selected = undefined;
       }
     }
   },
@@ -112,6 +76,7 @@ export const mutations = {
     state.orgs = data;
   },
   setMe(store, data) {
+    console.log("Inside setMe");
     store.me = data;
   },
   reset_user(store) {
@@ -130,23 +95,28 @@ export const getters = {
     return state.signUpStatus;
   },
   getMe(state) {
+    console.log("Inside getMe");
     return state.me;
   },
-  getSelectedOrg(state) {
-    for (let i = 0; i < state.me.profiles.length; i++) {
-      if (state.me.profiles[i].selected === true) {
-        return state.me.profiles[i].organization;
+  getSelectedProfile(state) {
+    if (state.me !== undefined && state.me.profiles !== undefined) {
+      const selectedProfile = state.me.profiles.filter(e => e.selected);
+      if (selectedProfile.length > 0) {
+        return selectedProfile[0];
+      } else {
+        return undefined;
       }
     }
-    return undefined;
   },
   getRole(state) {
-    for (let i = 0; i < state.me.profiles.length; i++) {
-      if (state.me.profiles[i].selected === true) {
-        return state.me.profiles[i].role.name;
+    if (state.me !== undefined && state.me.profiles !== undefined) {
+      const selectedProfile = state.me.profiles.filter(e => e.selected);
+      if (selectedProfile.length > 0) {
+        return selectedProfile[0].role.name;
+      } else {
+        return undefined;
       }
     }
-    return undefined;
   },
   getErrors(state) {
     return state.errors;

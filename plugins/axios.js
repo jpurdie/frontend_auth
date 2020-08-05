@@ -7,6 +7,7 @@ export default function({ $axios, store }) {
 
     if (
       store.state.user !== undefined &&
+      store.state.user.me !== undefined &&
       store.state.user.me.profiles !== undefined
     ) {
       for (let i = 0; i < store.state.user.me.profiles.length; i++) {

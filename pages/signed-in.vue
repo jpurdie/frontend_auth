@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  layout: "dashboard",
+  layout: "empty",
   mounted() {
     const code = this.$route.query.code;
     const state = this.$route.query.state;

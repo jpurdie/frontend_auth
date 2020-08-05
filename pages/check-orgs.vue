@@ -11,10 +11,15 @@
             >{{ item.msg }}</v-alert
           >
         </v-card>
-
-        <v-card class="mx-auto" max-width="300" tile>
+      </v-col>
+    </v-row>
+    <v-row align="center" justify="center">
+      <v-col md="6" xs="12">
+        <h1 class="primary--text">
+          Which organization do you want to see?
+        </h1>
+        <v-card class="mx-auto" max-width="" tile>
           <v-list>
-            <v-subheader>Which organization do you want to see?</v-subheader>
             <v-list-item-group color="primary">
               <v-list-item
                 v-for="(profile, i) in me.profiles"
@@ -39,7 +44,7 @@
 import { mapState } from "vuex";
 
 export default {
-  layout: "empty-layout",
+  layout: "header-only",
   data() {
     return {
       selectedOrg: undefined
@@ -51,28 +56,22 @@ export default {
   },
   computed: {
     ...mapState({
-      orgs: state => state.user.orgs,
       userErrors: state => state.user.errors,
       me: state => state.user.me
     })
   },
   methods: {
     async selectProfile(profileID) {
-      try {
-        await this.$store.dispatch("user/selectProfile", profileID);
-        alert("success");
-        // this.$router.push("/dashboard");
-      } catch (error) {
-        console.error(error);
-      }
+      await this.$store.dispatch("user/selectProfile", profileID);
+      this.$router.push("/dashboard");
     },
     async doFetchUser() {
       const $vm = this;
       await this.$store.dispatch("user/fetchMe");
       $vm.$store.dispatch("updateOverlay", false);
-      if ($vm.me.profiles.length === 1) {
-        // $vm.$router.push("/dashboard");
-      }
+      // if ($vm.me.profiles.length === 1) {
+      //   // $vm.$router.push("/dashboard");
+      // }
     }
   }
 };

@@ -50,7 +50,7 @@ export default {
     };
   },
   computed: mapGetters({
-    selectedOrg: "user/getSelectedOrg",
+    selectedProfile: "user/getSelectedProfile",
     invitations: "admin/invitations/getInvitations"
   }),
   watch: {},

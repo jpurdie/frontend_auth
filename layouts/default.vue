@@ -3,7 +3,7 @@
     <home-app-bar />
     <v-main>
       <nuxt />
-      <v-overlay :value="overlay">
+      <v-overlay :value="overlay" z-index="999">
         <v-progress-circular indeterminate size="88"></v-progress-circular>
       </v-overlay>
     </v-main>

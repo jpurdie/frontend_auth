@@ -62,7 +62,7 @@ export default {
     return {};
   },
   computed: mapGetters({
-    selectedOrg: "user/getSelectedOrg",
+    selectedProfile: "user/getSelectedProfile",
     users: "admin/users/getUsers",
     roles: "admin/users/getRoles",
     me: "user/getMe"

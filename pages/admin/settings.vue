@@ -21,7 +21,7 @@ export default {
     };
   },
   computed: mapGetters({
-    selectedOrg: "user/getSelectedOrg"
+    selectedProfile: "user/getSelectedProfile"
   }),
   watch: {},
   mounted() {},

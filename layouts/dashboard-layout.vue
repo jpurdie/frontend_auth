@@ -64,7 +64,7 @@
           width="100%"
         />
       </router-link>
-      <span class="ml-4">{{ selectedOrg.name }}</span>
+      <span class="ml-4">{{ selectedOrgName() }}</span>
       <div class="flex-grow-1"></div>
       <template v-if="$auth.$state.loggedIn">
         <v-menu :close-on-click="true" top>
@@ -101,10 +101,13 @@ export default {
     source: String
   },
   middleware: ["user"],
-  computed: mapGetters({
-    selectedOrg: "user/getSelectedOrg",
-    userRole: "user/getRole"
-  }),
+  computed: {
+    ...mapGetters({
+      userRole: "user/getRole",
+      selectedProfile: "user/getSelectedProfile",
+      me: "user/getMe"
+    })
+  },
   components: {
     BaseImg: () => import("./../components/base/BaseImg")
   },
@@ -149,12 +152,24 @@ export default {
   }),
   created() {
     this.$vuetify.theme.dark = false;
-    this.doFetchOrgs();
   },
   mounted() {},
   methods: {
-    doFetchOrgs() {
-      this.$store.dispatch("user/fetchMe");
+    selectedOrgName() {
+      if (this.me.profiles === undefined) {
+        this.redirectToCheckOrg();
+        return;
+      }
+
+      const activeProfile = this.me.profiles.filter(e => e.selected);
+      if (activeProfile.length === 0) {
+        this.redirectToCheckOrg();
+        return;
+      }
+      return activeProfile[0].organization.name;
+    },
+    redirectToCheckOrg() {
+      this.$router.push("/check-orgs");
     },
     doLogout() {
       console.log("Inside dologout");

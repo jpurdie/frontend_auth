@@ -1,5 +1,9 @@
 export default function({ store }) {
-  // if (store.state.user === null || store.state.user.orgs === null) {
-  return store.dispatch("user/fetchMe");
-  // }
+  if (
+    store.state.user.me === null ||
+    store.state.user.me === undefined ||
+    store.state.user.me.firstName === null
+  ) {
+    return store.dispatch("user/fetchMe");
+  }
 }
