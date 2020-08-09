@@ -15,7 +15,7 @@ export default ({ app, redirect }) => {
   console.log("selectedProfExists", selectedProfExists);
 
   if (!profileCookieExists && selectedProfExists) {
-    console.log("cookie is empty. Selected Profile exists. Set new cookie.", app.store.state.user.selectedProfile);
+    console.log("cookie is empty. Selected Profile exists. Set new cookie.");
 
     app.$cookies.set("user.profile", app.store.state.user.selectedProfile, {
       path: "/",
