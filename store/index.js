@@ -1,16 +1,7 @@
-// import Vue from 'vue'
-// const cookieparser = process.server ? require('cookieparser') : undefined
-// import {setAuthToken, resetAuthToken} from '~/util/auth'
-// import api from '~/api'
-
-console.log("inside index.js vuex");
-
 export const state = () => ({
   overlay: false,
   errors: []
 });
-
-// export const state = { ...initialState };
 
 export const actions = {
   updateOverlay({ commit }, overlayStatus) {

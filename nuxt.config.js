@@ -2,8 +2,16 @@ import path from "path";
 import fs from "fs";
 
 export default {
-  mode: "spa",
-  target: "static", // default: 'server'
+  /*
+   ** Nuxt rendering mode
+   ** See https://nuxtjs.org/api/configuration-mode
+   */
+  mode: "universal",
+  /*
+   ** Nuxt target
+   ** See https://nuxtjs.org/api/configuration-target
+   */
+  target: "server",
   dev: "prod".includes(process.env.NODE_ENV) || process.env.NODE_ENV === "",
   publicRuntimeConfig: {
     nodeEnv: process.env.NODE_ENV || "prod",
@@ -61,17 +69,18 @@ export default {
   },
   css: ["~/assets/main.css"],
   plugins: [
-    "~/plugins/axios",
-    "~/plugins/strings",
-    "~/plugins/date-time",
-    "~/plugins/vee-validate"
+    { src: "~/plugins/selected-profile", ssr: true },
+    { src: "~/plugins/axios", ssr: false },
+    { src: "~/plugins/strings", ssr: false },
+    { src: "~/plugins/vee-validate", ssr: false }
   ],
   buildModules: ["@nuxtjs/vuetify"],
   modules: [
     "@nuxtjs/vuetify",
     "@nuxtjs/auth-next",
     "@nuxtjs/axios",
-    "vue-scrollto/nuxt"
+    "vue-scrollto/nuxt",
+    "cookie-universal-nuxt"
   ],
   axios: {
     baseURL: process.env.API_URL,

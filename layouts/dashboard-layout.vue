@@ -100,7 +100,7 @@ export default {
   props: {
     source: String
   },
-  middleware: ["user"],
+  middleware: ["me", "check-profile"],
   computed: {
     ...mapGetters({
       userRole: "user/getRole",
@@ -156,20 +156,15 @@ export default {
   mounted() {},
   methods: {
     selectedOrgName() {
-      if (this.me.profiles === undefined) {
-        this.redirectToCheckOrg();
+      if (
+        this.selectedProfile === undefined ||
+        this.selectedProfile === null ||
+        this.selectedProfile.organization === undefined
+      ) {
+        //  this.$router.push("/check-orgs");
         return;
       }
-
-      const activeProfile = this.me.profiles.filter(e => e.selected);
-      if (activeProfile.length === 0) {
-        this.redirectToCheckOrg();
-        return;
-      }
-      return activeProfile[0].organization.name;
-    },
-    redirectToCheckOrg() {
-      this.$router.push("/check-orgs");
+      return this.selectedProfile.organization.name;
     },
     doLogout() {
       console.log("Inside dologout");

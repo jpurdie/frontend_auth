@@ -24,7 +24,12 @@
               <v-list-item
                 v-for="(profile, i) in me.profiles"
                 :key="i"
-                @click="selectProfile(profile.profileID)"
+                @click="
+                  selectProfile(
+                    profile.profileID,
+                    profile.organization.organizationID
+                  )
+                "
               >
                 <v-list-item-content>
                   <v-list-item-title
@@ -51,6 +56,7 @@ export default {
     };
   },
   mounted() {
+    // this.$cookies.remove("user.profile"); // clear out any selected profile
     this.$store.dispatch("updateOverlay", true);
     this.doFetchUser();
   },

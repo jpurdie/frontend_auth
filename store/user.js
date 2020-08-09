@@ -1,7 +1,8 @@
 export const state = () => ({
   me: {},
   errors: [],
-  signUpStatus: null
+  signUpStatus: null,
+  selectedProfile: {}
 });
 
 // export const state = { ...initialState };
@@ -12,10 +13,13 @@ export const actions = {
     commit("clearErrors");
   },
   selectProfile({ commit, state }, profileID) {
-    console.log("Inside selectProfile " + profileID);
     for (let i = 0; i < state.me.profiles.length; i++) {
       if (state.me.profiles[i].profileID === profileID) {
-        console.log("calling setSelectedProfile");
+        this.$cookies.set("user.profile", state.me.profiles[i], {
+          path: "/",
+          maxAge: 60 * 60 * 24 * 7,
+          sameSite: true
+        });
         commit("setSelectedProfile", profileID);
         return true;
       }
@@ -50,13 +54,11 @@ export const actions = {
   },
   async register({ commit }, profile) {
     commit("clearErrors");
-    await this.$axios
-      .post(`api/v1/auth/organizations`, profile)
-      .catch(error => {
-        if (error.response && error.response.data) {
-          commit("addError", error.response.data.error);
-        }
-      });
+    await this.$axios.post(`api/v1/auth/organizations`, profile).catch(error => {
+      if (error.response && error.response.data) {
+        commit("addError", error.response.data.error);
+      }
+    });
   }
 };
 
@@ -65,18 +67,19 @@ export const mutations = {
     state.signUpStatus = data;
   },
   setSelectedProfile(state, profileID) {
-    console.log("Inside setSelectedProfile");
     for (let i = 0; i < state.me.profiles.length; i++) {
       if (state.me.profiles[i].profileID === profileID) {
-        state.me.profiles[i].selected = true;
+        state.selectedProfile = state.me.profiles[i];
       }
     }
+  },
+  clearProfiles(state) {
+    state.me.profiles = [];
   },
   setOrgs(state, data) {
     state.orgs = data;
   },
   setMe(store, data) {
-    console.log("Inside setMe");
     store.me = data;
   },
   reset_user(store) {
@@ -95,28 +98,19 @@ export const getters = {
     return state.signUpStatus;
   },
   getMe(state) {
-    console.log("Inside getMe");
     return state.me;
   },
   getSelectedProfile(state) {
-    if (state.me !== undefined && state.me.profiles !== undefined) {
-      const selectedProfile = state.me.profiles.filter(e => e.selected);
-      if (selectedProfile.length > 0) {
-        return selectedProfile[0];
-      } else {
-        return undefined;
-      }
+    if (state.selectedProfile) {
+      return state.selectedProfile;
     }
+    return undefined;
   },
   getRole(state) {
-    if (state.me !== undefined && state.me.profiles !== undefined) {
-      const selectedProfile = state.me.profiles.filter(e => e.selected);
-      if (selectedProfile.length > 0) {
-        return selectedProfile[0].role.name;
-      } else {
-        return undefined;
-      }
+    if (state.selectedProfile && state.selectedProfile.role) {
+      return state.selectedProfile.role.name;
     }
+    return undefined;
   },
   getErrors(state) {
     return state.errors;
