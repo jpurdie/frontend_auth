@@ -33,7 +33,7 @@ export const actions = {
       this.$axios
         .get("api/v1/users/me")
         .then(function(response) {
-          if (response !== null && response.status === 200) {
+          if (response !== undefined && response.status === 200) {
             // const profiles = response.data.user.profiles;
             // profiles[0].selected = true;
             console.log("about to call setMe");
@@ -43,10 +43,10 @@ export const actions = {
           }
         })
         .catch(function(error) {
-          if (error.response !== null && error.response.status === 422) {
+          if (error.response !== undefined && error.response.status === 422) {
             reject(error.response);
           }
-          if (error.response !== null && error.response.status === 409) {
+          if (error.response !== undefined && error.response.status === 409) {
             reject(error.response);
           }
         });

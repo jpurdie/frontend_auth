@@ -3,13 +3,7 @@
     <v-row align="center" justify="center">
       <v-col md="6" xs="12">
         <v-card id="errors-div" v-if="userErrors" class="elevation-12">
-          <v-alert
-            v-for="(item, index) in userErrors"
-            v-bind:key="index"
-            show
-            type="error"
-            >{{ item.msg }}</v-alert
-          >
+          <v-alert v-for="(item, index) in userErrors" v-bind:key="index" show type="error">{{ item.msg }}</v-alert>
         </v-card>
       </v-col>
     </v-row>
@@ -24,17 +18,10 @@
               <v-list-item
                 v-for="(profile, i) in me.profiles"
                 :key="i"
-                @click="
-                  selectProfile(
-                    profile.profileID,
-                    profile.organization.organizationID
-                  )
-                "
+                @click="selectProfile(profile.profileID, profile.organization.organizationID)"
               >
                 <v-list-item-content>
-                  <v-list-item-title
-                    v-text="profile.organization.name"
-                  ></v-list-item-title>
+                  <v-list-item-title v-text="profile.organization.name"></v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
@@ -75,9 +62,11 @@ export default {
       const $vm = this;
       await this.$store.dispatch("user/fetchMe");
       $vm.$store.dispatch("updateOverlay", false);
-      // if ($vm.me.profiles.length === 1) {
-      //   // $vm.$router.push("/dashboard");
-      // }
+      console.log("$vm.me.profiles.length", $vm.me.profiles.length);
+      if ($vm.me.profiles.length === 1) {
+        // no need to wait for a selection if they only have one profile
+        $vm.$router.push("/dashboard");
+      }
     }
   }
 };

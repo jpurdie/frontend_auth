@@ -1,4 +1,6 @@
 export default ({ app, redirect }) => {
+  const debug = false;
+
   console.log("Inside checkOrgMiddleware");
 
   const profileCookie = app.$cookies.get("user.profile");
@@ -15,8 +17,9 @@ export default ({ app, redirect }) => {
   console.log("selectedProfExists", selectedProfExists);
 
   if (!profileCookieExists && selectedProfExists) {
-    console.log("cookie is empty. Selected Profile exists. Set new cookie.");
-
+    if (debug) {
+      console.log("1 cookie is empty. Selected Profile exists. Set new cookie.");
+    }
     app.$cookies.set("user.profile", app.store.state.user.selectedProfile, {
       path: "/",
       maxAge: 60 * 60 * 24 * 7,
@@ -27,21 +30,31 @@ export default ({ app, redirect }) => {
   }
 
   if (!profileCookieExists && !selectedProfExists) {
-    console.log("cookie is empty. Selected Profile does not exist. redirect to check-org ");
+    if (debug) {
+      console.log("2 cookie is empty. Selected Profile does not exist. redirect to check-org ");
+    }
     const route = "/check-orgs";
     return redirect(route);
   }
 
   if (profileCookieExists && selectedProfExists) {
-    console.log("cookie is not empty. Selected Profile exists. dont do anything.");
+    if (debug) {
+      console.log("3 cookie is not empty. Selected Profile exists. dont do anything.");
+    }
     return;
   }
 
   if (profileCookieExists && !selectedProfExists) {
-    console.log("cookie is not empty. Selected Profile does not exist. set selected profile");
+    if (debug) {
+      console.log("4 cookie is not empty. Selected Profile does not exist. set selected profile");
+    }
     const selectedObj = profileCookie;
-    app.store.state.user.selectedProfile = selectedObj;
-  }
 
-  console.log("shouldnt make it here");
+    app.store.dispatch("user/selectProfile", selectedObj.profileID);
+    // app.store.state.user.selectedProfile = selectedObj;
+    return;
+  }
+  if (debug) {
+    console.log("shouldnt make it here");
+  }
 };

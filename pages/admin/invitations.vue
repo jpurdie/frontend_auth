@@ -5,11 +5,10 @@
         <v-card elevation="4">
           <v-card-title class="headline">Invitations</v-card-title>
           <v-card-text>
+            <v-skeleton-loader v-if="invitations === undefined" type="list-item-two-line@3" tile></v-skeleton-loader>
+
             <v-list dense flat>
-              <v-list-item
-                v-for="invitation in invitations"
-                :key="invitation.email"
-              >
+              <v-list-item v-for="invitation in invitations" :key="invitation.email">
                 <v-list-item-content>
                   <v-list-item-title>{{ invitation.email }}</v-list-item-title>
                 </v-list-item-content>
@@ -58,8 +57,8 @@ export default {
     this.list();
   },
   methods: {
-    list() {
-      this.$store.dispatch("admin/invitations/fetchAll");
+    async list() {
+      await this.$store.dispatch("admin/invitations/fetchAll");
     },
     inactivateInvite(email) {
       this.$store.dispatch("admin/invitations/inactivateInvite", email);

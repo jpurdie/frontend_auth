@@ -34,17 +34,12 @@
                 <v-list-item
                   :key="subItem.title"
                   :to="subItem.link"
-                  v-if="
-                    subItem.roles === undefined ||
-                      subItem.roles.includes(userRole)
-                  "
+                  v-if="subItem.roles === undefined || subItem.roles.includes(userRole)"
                   nuxt
                   active-class="dash-nav-active"
                 >
                   <v-list-item-content>
-                    <v-list-item-title
-                      v-text="subItem.title"
-                    ></v-list-item-title>
+                    <v-list-item-title v-text="subItem.title"></v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </template>
@@ -57,21 +52,14 @@
     <v-app-bar app clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <router-link to="/dashboard">
-        <BaseImg
-          :src="require('@/assets/vitae_logo.png')"
-          contain
-          max-width="128"
-          width="100%"
-        />
+        <BaseImg :src="require('@/assets/vitae_logo.png')" contain max-width="128" width="100%" />
       </router-link>
       <span class="ml-4">{{ selectedOrgName() }}</span>
       <div class="flex-grow-1"></div>
       <template v-if="$auth.$state.loggedIn">
         <v-menu :close-on-click="true" top>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" color="primary" dark>{{
-              $auth.user.nickname
-            }}</v-btn>
+            <v-btn v-on="on" color="primary" dark>{{ $auth.user.nickname }}</v-btn>
           </template>
           <v-list>
             <v-list-item @click="doLogout">

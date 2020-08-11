@@ -5,20 +5,14 @@ export default function({ $axios, store }) {
       request.headers.common.Authorization = token;
     }
 
-    if (
+    const selectedProfExists =
       store.state.user !== undefined &&
-      store.state.user.me !== undefined &&
-      store.state.user.me.profiles !== undefined
-    ) {
-      for (let i = 0; i < store.state.user.me.profiles.length; i++) {
-        if (store.state.user.me.profiles[i].selected === true) {
-          request.url =
-            request.url +
-            "?org_id=" +
-            store.state.user.me.profiles[i].organization.organizationID;
-          break;
-        }
-      }
+      store.state.user.selectedProfile !== undefined &&
+      store.state.user.selectedProfile.organization !== undefined; // making sure there's a selected org
+
+    if (selectedProfExists) {
+      // append the org ID to the url param as a query string
+      request.url = request.url + "?org_id=" + store.state.user.selectedProfile.organization.organizationID;
     }
 
     return request;

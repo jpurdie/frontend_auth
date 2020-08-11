@@ -2,18 +2,19 @@
   <v-container>
     <v-row>
       <v-col cols="12" md="8">
+        <v-card id="errors-div" v-if="userErrors" class="elevation-12">
+          <v-alert v-for="(item, index) in userErrors" v-bind:key="index" show type="error">{{ item.msg }}</v-alert>
+        </v-card>
+
         <v-card elevation="4">
           <v-card-title class="headline">Users</v-card-title>
           <v-card-text>
+            <v-skeleton-loader v-if="!users.length" type="list-item-two-line@3" tile></v-skeleton-loader>
             <v-list :two-line="true">
               <v-list-item v-for="user in users" :key="user.id">
                 <v-list-item-content>
-                  <v-list-item-title
-                    v-text="user.firstName + ' ' + user.lastName"
-                  ></v-list-item-title>
-                  <v-list-item-subtitle
-                    v-text="user.email"
-                  ></v-list-item-subtitle>
+                  <v-list-item-title v-text="user.firstName + ' ' + user.lastName"></v-list-item-title>
+                  <v-list-item-subtitle v-text="user.email"></v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-content>
                   <v-list-item-title>
@@ -35,11 +36,7 @@
                   </v-btn>
                 </v-list-item-action> -->
                 <v-list-item-action>
-                  <v-btn
-                    :disabled="user.email === me.email"
-                    @click="deleteUser(user.userID)"
-                    icon
-                  >
+                  <v-btn :disabled="user.email === me.email" @click="deleteUser(user.userID)" icon>
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </v-list-item-action>
@@ -65,6 +62,7 @@ export default {
     selectedProfile: "user/getSelectedProfile",
     users: "admin/users/getUsers",
     roles: "admin/users/getRoles",
+    userErrors: "admin/users/getErrors",
     me: "user/getMe"
   }),
   mounted() {

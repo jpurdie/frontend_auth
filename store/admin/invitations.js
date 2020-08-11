@@ -1,7 +1,7 @@
 export const state = () => ({
   invitation: { email: "" },
   invitationStatus: "",
-  invitations: [],
+  invitations: undefined,
   errors: [],
   registerStatus: ""
 });
@@ -92,19 +92,10 @@ export const actions = {
       .catch(error => {
         // Error 😨
         if (error.response) {
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
         } else if (error.request) {
-          /*
-           * The request was made but no response was received, `error.request`
-           * is an instance of XMLHttpRequest in the browser and an instance
-           * of http.ClientRequest in Node.js
-           */
           console.log(error.request);
         } else {
           // Something happened in setting up the request and triggered an Error
@@ -124,32 +115,17 @@ export const actions = {
         }
       })
       .catch(error => {
-        // Error 😨
-
         if (error.response) {
-          // this is a "known" error type and handle it with the UI
           if (error.response.status >= 400 && error.response.status < 500) {
             commit("setErrors", error.response.data);
           } else {
-            // this is a 500 error. need to build an interceptor for these.
-
             console.log(error.response.data);
             console.log(error.response.status);
             console.log(error.response.headers);
           }
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
         } else if (error.request) {
-          /*
-           * The request was made but no response was received, `error.request`
-           * is an instance of XMLHttpRequest in the browser and an instance
-           * of http.ClientRequest in Node.js
-           */
           console.log(error.request);
         } else {
-          // Something happened in setting up the request and triggered an Error
           console.log("Error", error.message);
         }
       });

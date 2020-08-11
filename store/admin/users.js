@@ -19,7 +19,20 @@ export const actions = {
         role: role
       }
     };
-    $vm.$axios(options);
+    $vm
+      .$axios(options)
+      .then(response => {})
+      .catch(error => {
+        if (error.response && error.response.data) {
+          commit("setErrors", [error.response.data.error]);
+          return false;
+        } else if (error.request) {
+          console.error(error.request);
+          return false;
+        } else {
+          console.error(error.message);
+        }
+      });
   },
   delete({ commit }, userID) {
     const $vm = this;
@@ -82,7 +95,7 @@ export const actions = {
         // commit("setRegisterStatus", "fail");
         // Error
         if (error.response) {
-          commit("setErrors", error.response.data);
+          commit("setErrors", [error.response.data]);
           return false;
         } else if (error.request) {
           console.error(error.request);
@@ -100,6 +113,7 @@ export const mutations = {
     state.users = users;
   },
   setErrors(state, errors) {
+    state.errors = [];
     state.errors = errors;
   },
   setRoles(state, roles) {
@@ -113,6 +127,9 @@ export const getters = {
   },
   getRoles(state) {
     return state.roles;
+  },
+  getErrors(state) {
+    return state.errors;
   }
 };
 
