@@ -59,7 +59,13 @@
       <template v-if="$auth.$state.loggedIn">
         <v-menu :close-on-click="true" top>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" color="primary" dark>{{ $auth.user.nickname }}</v-btn>
+            <v-btn v-on="on" icon width="auto" height="auto" class="pa-1">
+              <v-avatar tile color="primary">
+                <span class="white--text headline">{{ initials }}</span>
+              </v-avatar>
+            </v-btn>
+
+            <!-- <v-btn v-on="on" color="primary" dark></v-btn> -->
           </template>
           <v-list>
             <v-list-item @click="doLogout">
@@ -100,7 +106,8 @@ export default {
     BaseImg: () => import("./../components/base/BaseImg")
   },
   data: () => ({
-    drawer: null,
+    drawer: true,
+    initials: "",
     items: [
       {
         icon: "mdi-view-dashboard",
@@ -141,7 +148,9 @@ export default {
   created() {
     this.$vuetify.theme.dark = false;
   },
-  mounted() {},
+  mounted() {
+    this.initials = this.$auth.user.family_name.charAt(0) + this.$auth.user.nickname.charAt(0);
+  },
   methods: {
     selectedOrgName() {
       if (
