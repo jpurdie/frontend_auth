@@ -14,6 +14,7 @@ export const actions = {
   },
   selectProfile({ commit, state }, profileID) {
     for (let i = 0; i < state.me.profiles.length; i++) {
+      console.log(state.me.profiles[i].profileID + " === " + profileID);
       if (state.me.profiles[i].profileID === profileID) {
         this.$cookies.set("user.profile", state.me.profiles[i], {
           path: "/",

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" app clipped>
+    <v-navigation-drawer :mini-variant="drawer" app clipped>
       <v-list :flat="true" :dense="true">
         <template v-for="item in items">
           <!-- Item has no sub items -->

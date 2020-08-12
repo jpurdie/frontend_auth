@@ -1,5 +1,5 @@
 export default ({ app, redirect }) => {
-  const debug = false;
+  const debug = true;
 
   console.log("Inside checkOrgMiddleware");
 
@@ -50,7 +50,14 @@ export default ({ app, redirect }) => {
     }
     const selectedObj = profileCookie;
 
-    app.store.dispatch("user/selectProfile", selectedObj.profileID);
+    app.store
+      .dispatch("user/selectProfile", selectedObj.profileID)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.error(error);
+      });
     // app.store.state.user.selectedProfile = selectedObj;
     return;
   }

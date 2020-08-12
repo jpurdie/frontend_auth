@@ -43,7 +43,7 @@ export default {
     };
   },
   mounted() {
-    // this.$cookies.remove("user.profile"); // clear out any selected profile
+    this.$cookies.remove("user.profile"); // clear out any selected profile
     this.$store.dispatch("updateOverlay", true);
     this.doFetchUser();
   },
