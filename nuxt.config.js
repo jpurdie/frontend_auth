@@ -75,13 +75,7 @@ export default {
     { src: "~/plugins/vee-validate", ssr: false }
   ],
   buildModules: ["@nuxtjs/vuetify"],
-  modules: [
-    "@nuxtjs/vuetify",
-    "@nuxtjs/auth-next",
-    "@nuxtjs/axios",
-    "vue-scrollto/nuxt",
-    "cookie-universal-nuxt"
-  ],
+  modules: ["@nuxtjs/vuetify", "@nuxtjs/auth-next", "@nuxtjs/axios", "vue-scrollto/nuxt", "cookie-universal-nuxt"],
   axios: {
     baseURL: process.env.API_URL,
     progress: true
@@ -119,17 +113,16 @@ export default {
     strategies: {
       local: false,
       // auth0: {
-      //   scope: ["openid", "profile", "offline_access"],
-      //   redirectUri: "https://" + process.env.BASE_URL + "/signed-in",
       //   domain: process.env.AUTH0_DOMAIN,
       //   clientId: process.env.AUTH0_CLIENT_ID,
       //   audience: process.env.AUTH0_AUDIENCE,
-      //   codeChallengeMethod: "S256",
-      //   responseType: "code",
-      //   accessType: "offline",
-      //   grantType: "authorization_code"
-      // }
+      //   scope: ["openid", "profile", "email", "offline_access"],
+      //   redirectUri: "https://" + process.env.BASE_URL + "/signed-in",
 
+      //   responseType: "code",
+      //   grantType: "authorization_code",
+      //   codeChallengeMethod: "S256"
+      // },
       auth0: {
         scheme: "oauth2",
         endpoints: {
@@ -158,9 +151,9 @@ export default {
         logoutRedirectUri: "https://" + process.env.BASE_URL + "/signed-in",
         audience: process.env.AUTH0_AUDIENCE,
         clientId: process.env.AUTH0_CLIENT_ID,
-        scope: ["openid", "profile", "offline_access"],
+        scope: ["openid", "profile", "email", "offline_access"],
         state: "UNIQUE_AND_NON_GUESSABLE",
-        codeChallengeMethod: "S256",
+        codeChallengeMethod: "",
         responseMode: "",
         acrValues: ""
         // autoLogout: false

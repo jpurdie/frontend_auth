@@ -12,9 +12,9 @@ export default ({ app, redirect }) => {
 
   const profileCookieExists = typeof profileCookie === "object" && profileCookie.profileID !== undefined;
 
-  console.log("profileCookie", profileCookie);
-  console.log("profileCookieExists", profileCookieExists);
-  console.log("selectedProfExists", selectedProfExists);
+  // console.log("profileCookie", profileCookie);
+  // console.log("profileCookieExists", profileCookieExists);
+  // console.log("selectedProfExists", selectedProfExists);
 
   if (!profileCookieExists && selectedProfExists) {
     if (debug) {
@@ -53,7 +53,7 @@ export default ({ app, redirect }) => {
     app.store
       .dispatch("user/selectProfile", selectedObj.profileID)
       .then(result => {
-        console.log(result);
+        console.log("result", result);
       })
       .catch(error => {
         console.error(error);

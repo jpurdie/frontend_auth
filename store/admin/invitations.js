@@ -108,8 +108,8 @@ export const actions = {
     this.$axios
       .get("api/v1/invitations")
       .then(response => {
-        if (response.data !== null && response.data.invitations !== null) {
-          commit("setInvitations", response.data.invitations);
+        if (response.data !== undefined && response.data !== null) {
+          commit("setInvitations", response.data);
         } else {
           commit("setInvitations", []);
         }

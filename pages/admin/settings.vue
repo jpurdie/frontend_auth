@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-layout row mb-3>
       <v-flex md6>
         <v-btn @click="doAuthPing" color="primary" dark>Auth Ping</v-btn>

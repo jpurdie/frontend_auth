@@ -1,4 +1,4 @@
-export default function({ $axios, store }) {
+export default function({ $axios, store, redirect }) {
   $axios.onRequest(request => {
     const token = store.$auth.token;
     if (token !== undefined && token !== null) {
@@ -9,8 +9,7 @@ export default function({ $axios, store }) {
       store.state.user !== undefined &&
       store.state.user.selectedProfile !== undefined &&
       store.state.user.selectedProfile.organization !== undefined; // making sure there's a selected org
-
-    if (selectedProfExists) {
+    if (selectedProfExists && request.baseURL.includes("api.vitae.com")) {
       // append the org ID to the url param as a query string
       request.url = request.url + "?org_id=" + store.state.user.selectedProfile.organization.organizationID;
     }
@@ -27,16 +26,18 @@ export default function({ $axios, store }) {
       const code = parseInt(error.response.status);
       if (code === 401) {
         console.error("handle 401");
+      } else if (code === 404) {
+        redirect("/404");
       } else if (code >= 500) {
-        console.error("handle 500");
+        redirect("/500");
       }
     } else if (error.request) {
-      console.error("handle error.request");
-      // client never received a response, or request never left
-      store.dispatch("updateOverlay", false);
+      console.error("error.request", error.request);
+      redirect("/500");
     } else {
       // anything else
       console.error("error", error);
+      redirect("/500");
     }
   });
 }

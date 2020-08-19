@@ -5,12 +5,7 @@
     </v-overlay>
     <v-app-bar app clipped-left>
       <router-link to="/dashboard">
-        <BaseImg
-          :src="require('@/assets/vitae_logo.png')"
-          contain
-          max-width="128"
-          width="100%"
-        />
+        <BaseImg :src="require('@/assets/vitae_logo.png')" contain max-width="128" width="100%" />
       </router-link>
     </v-app-bar>
     <v-main>

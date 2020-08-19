@@ -1,21 +1,8 @@
 <template>
   <v-app>
-    <v-app-bar app clipped-left>
-      <router-link to="/">
-        <BaseImg
-          :src="require('@/assets/vitae_logo.png')"
-          contain
-          max-width="128"
-          width="100%"
-        />
-      </router-link>
-    </v-app-bar>
     <v-main>
       <nuxt />
     </v-main>
-    <v-footer app>
-      <span>&copy; 2019</span>
-    </v-footer>
   </v-app>
 </template>
 

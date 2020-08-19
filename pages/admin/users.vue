@@ -1,15 +1,19 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row>
       <v-col cols="12" md="8">
-        <v-card id="errors-div" v-if="userErrors" class="elevation-12">
+        <v-card id="errors-div" v-if="userErrors !== undefined && userErrors.length > 0" class="elevation-12">
           <v-alert v-for="(item, index) in userErrors" v-bind:key="index" show type="error">{{ item.msg }}</v-alert>
         </v-card>
 
         <v-card elevation="4">
           <v-card-title class="headline">Users</v-card-title>
           <v-card-text>
-            <v-skeleton-loader v-if="!users.length" type="list-item-two-line@3" tile></v-skeleton-loader>
+            <v-skeleton-loader
+              v-if="users !== undefined && !users.length"
+              type="list-item-two-line@3"
+              tile
+            ></v-skeleton-loader>
             <v-list :two-line="true">
               <v-list-item v-for="user in users" :key="user.id">
                 <v-list-item-content>

@@ -1,5 +1,5 @@
 export const state = () => ({
-  users: [],
+  users: undefined,
   errors: [],
   roles: []
 });
@@ -58,9 +58,9 @@ export const actions = {
     return $vm.$axios
       .$get("api/v1/users/roles")
       .then(response => {
-        if (response.roles !== null) {
+        if (response.data !== null) {
           const roleArr = [];
-          for (let i = 0; i < response.roles.length; i++) {
+          for (let i = 0; i < response.data.length; i++) {
             const tempObj = {};
             tempObj.text = $vm.$toTitleCase(response.roles[i].name);
             tempObj.value = response.roles[i].id;
@@ -85,10 +85,10 @@ export const actions = {
     // commit("setRegisterStatus", "");
 
     return this.$axios
-      .$get("api/v1/users")
+      .get("api/v1/users")
       .then(response => {
-        if (response.users !== null) {
-          commit("setUsers", response.users);
+        if (response.data !== null) {
+          commit("setUsers", response.data);
         }
       })
       .catch(error => {

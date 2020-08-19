@@ -36,7 +36,7 @@
 import { mapState } from "vuex";
 
 export default {
-  layout: "header-only",
+  layout: "header-only-layout",
   data() {
     return {
       selectedOrg: undefined

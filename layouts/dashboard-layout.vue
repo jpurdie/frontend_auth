@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer :mini-variant="drawer" app clipped>
+    <v-navigation-drawer :mini-variant="!drawer" app clipped>
       <v-list :flat="true" :dense="true">
         <template v-for="item in items">
           <!-- Item has no sub items -->
@@ -57,15 +57,13 @@
       <span class="ml-4">{{ selectedOrgName() }}</span>
       <div class="flex-grow-1"></div>
       <template v-if="$auth.$state.loggedIn">
-        <v-menu :close-on-click="true" top>
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon width="auto" height="auto" class="pa-1">
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" icon color="primary" dark>
               <v-avatar tile color="primary">
                 <span class="white--text headline">{{ initials }}</span>
               </v-avatar>
             </v-btn>
-
-            <!-- <v-btn v-on="on" color="primary" dark></v-btn> -->
           </template>
           <v-list>
             <v-list-item @click="doLogout">
@@ -82,7 +80,7 @@
     </v-main>
 
     <v-footer app>
-      <span>&copy; 2019</span>
+      <span>&copy; 2020</span>
     </v-footer>
   </v-app>
 </template>

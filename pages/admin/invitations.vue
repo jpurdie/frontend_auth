@@ -1,12 +1,14 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row>
       <v-col cols="12" md="8">
         <v-card elevation="4">
           <v-card-title class="headline">Invitations</v-card-title>
           <v-card-text>
             <v-skeleton-loader v-if="invitations === undefined" type="list-item-two-line@3" tile></v-skeleton-loader>
-
+            <v-alert v-if="invitations !== undefined && invitations.length === 0" type="info"
+              >No pending invitations</v-alert
+            >
             <v-list dense flat>
               <v-list-item v-for="invitation in invitations" :key="invitation.email">
                 <v-list-item-content>

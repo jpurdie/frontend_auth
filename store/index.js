@@ -11,10 +11,10 @@ export const actions = {
     commit("setErrors", errors);
   },
   authPing({ commit, rootState }) {
-    this.$axios.get("api/v1/ping");
+    this.$axios.get("api/v1/authping");
   },
   nonAuthPing() {
-    this.$axios.get("public/ping");
+    this.$axios.get("api/v1/unauthping");
   }
 };
 

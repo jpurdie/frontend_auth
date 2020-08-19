@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row>
       <v-col md="6" xs="12">
         <v-btn color="primary" to="/projects/create">Create</v-btn>
