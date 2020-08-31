@@ -70,6 +70,7 @@ export default {
     me: "user/getMe"
   }),
   mounted() {
+    this.$store.dispatch("admin/users/clearErrors");
     this.list();
     this.listRoles();
   },

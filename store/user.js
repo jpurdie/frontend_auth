@@ -55,7 +55,7 @@ export const actions = {
   },
   async register({ commit }, profile) {
     commit("clearErrors");
-    await this.$axios.post(`api/v1/auth/organizations`, profile).catch(error => {
+    await this.$axios.post(`api/v1/organizations`, profile).catch(error => {
       if (error.response && error.response.data) {
         commit("addError", error.response.data.error);
       }

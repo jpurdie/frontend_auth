@@ -27,17 +27,23 @@ export default function({ $axios, store, redirect }) {
       if (code === 401) {
         console.error("handle 401");
       } else if (code === 404) {
-        redirect("/404");
+        console.error("handle 404");
+
+        //  redirect("/404");
       } else if (code >= 500) {
-        redirect("/500");
+        console.error("handle 500");
+
+        //  redirect("/500");
       }
     } else if (error.request) {
       console.error("error.request", error.request);
-      redirect("/500");
+      console.error("handle 500");
+
+      // redirect("/500");
     } else {
       // anything else
       console.error("error", error);
-      redirect("/500");
+      // redirect("/500");
     }
   });
 }

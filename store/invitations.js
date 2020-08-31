@@ -11,7 +11,7 @@ export const actions = {
     commit("setRegisterStatus", "");
 
     return this.$axios
-      .post("api/v1/auth/invitations/users", userDetails)
+      .post("api/v1/invitations/users", userDetails)
       .then(response => {
         console.log("response", response);
         commit("setRegisterStatus", "success");
@@ -47,9 +47,7 @@ export const actions = {
   },
   async checkToken({ commit }, token) {
     try {
-      const response = await this.$axios.get(
-        `api/v1/auth/invitations/${token}`
-      );
+      const response = await this.$axios.get(`api/v1/invitations/${token}`);
       if (response.data != null && response.data.invitation != null) {
         commit("setInvitation", response.data.invitation);
       }

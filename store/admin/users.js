@@ -5,6 +5,9 @@ export const state = () => ({
 });
 
 export const actions = {
+  clearErrors({ commit }) {
+    commit("setErrors", []);
+  },
   updateRole({ commit }, updateOptions) {
     console.log("updateOptions", updateOptions);
     const $vm = this;
@@ -56,14 +59,18 @@ export const actions = {
   listRoles({ commit }) {
     const $vm = this;
     return $vm.$axios
-      .$get("api/v1/users/roles")
+      .get("api/v1/users/roles")
       .then(response => {
+        const rolesResp = response.data;
+        console.log("rolesResp", rolesResp);
         if (response.data !== null) {
           const roleArr = [];
-          for (let i = 0; i < response.data.length; i++) {
+          console.log("rolesResp", rolesResp);
+          for (let i = 0; i < rolesResp.length; i++) {
+            console.log("response.roles[i].name", rolesResp[i].name);
             const tempObj = {};
-            tempObj.text = $vm.$toTitleCase(response.roles[i].name);
-            tempObj.value = response.roles[i].id;
+            tempObj.text = $vm.$toTitleCase(rolesResp[i].name);
+            tempObj.value = rolesResp[i].id;
             roleArr.push(tempObj);
           }
           commit("setRoles", roleArr);
