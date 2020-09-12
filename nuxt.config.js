@@ -25,16 +25,16 @@ export default {
     apiURL: process.env.API_URL
   },
   server: {
-    port: 443, // default: 3000
-    host: "localhost", // default: localhost
-    https: {
-      key: fs.readFileSync(path.resolve(process.env.KEY_LOC)),
-      cert: fs.readFileSync(path.resolve(process.env.CERT_LOC))
-    }
+    port: 3000, // default: 3000
+    host: "localhost" // default: localhost
+    // https: {
+    //   key: fs.readFileSync(path.resolve(process.env.KEY_LOC)),
+    //   cert: fs.readFileSync(path.resolve(process.env.CERT_LOC))
+    // }
   },
   serverMiddleware: [
     // Will register redirect-ssl npm package
-    "redirect-ssl"
+    //  "redirect-ssl"
   ],
   head: {
     titleTemplate: process.env.APP_NAME,
@@ -147,8 +147,8 @@ export default {
         responseType: "code",
         grantType: "authorization_code",
         accessType: "offline",
-        redirectUri: "https://" + process.env.BASE_URL + "/signed-in",
-        logoutRedirectUri: "https://" + process.env.BASE_URL + "/signed-in",
+        redirectUri: "http://" + process.env.BASE_URL + "/signed-in",
+        logoutRedirectUri: "http://" + process.env.BASE_URL + "/signed-in",
         audience: process.env.AUTH0_AUDIENCE,
         clientId: process.env.AUTH0_CLIENT_ID,
         scope: ["openid", "profile", "email", "offline_access"],

@@ -16,8 +16,6 @@ export const actions = {
         email: inviteEmail
       }
     };
-    console.log(sendData);
-
     return this.$axios(sendData)
       .then(response => {
         if (response.status === 201) {
@@ -26,22 +24,10 @@ export const actions = {
       })
       .catch(error => {
         commit("setInviteStatus", "fail");
-        // Error 😨
         if (error.response) {
-          commit("setErrors", error.response.data);
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
+          commit("setErrors", []);
+          commit("addError", error.response.data);
         } else if (error.request) {
-          /*
-           * The request was made but no response was received, `error.request`
-           * is an instance of XMLHttpRequest in the browser and an instance
-           * of http.ClientRequest in Node.js
-           */
           console.log(error.request);
         } else {
           // Something happened in setting up the request and triggered an Error
@@ -61,7 +47,8 @@ export const actions = {
       .catch(error => {
         // Error 😨
         if (error.response) {
-          commit("setErrors", error.response.data);
+          commit("setErrors", []);
+          commit("addError", error.response.data);
           /*
            * The request was made and the server responded with a
            * status code that falls out of the range of 2xx
@@ -92,9 +79,8 @@ export const actions = {
       .catch(error => {
         // Error 😨
         if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
+          commit("setErrors", []);
+          commit("addError", error.response.data);
         } else if (error.request) {
           console.log(error.request);
         } else {
@@ -117,7 +103,8 @@ export const actions = {
       .catch(error => {
         if (error.response) {
           if (error.response.status >= 400 && error.response.status < 500) {
-            commit("setErrors", error.response.data);
+            commit("setErrors", []);
+            commit("addError", error.response.data);
           } else {
             console.log(error.response.data);
             console.log(error.response.status);
@@ -133,6 +120,9 @@ export const actions = {
 };
 
 export const mutations = {
+  setErrors(state, errors) {
+    state.errors = errors;
+  },
   setInviteStatus(state, status) {
     state.invitationStatus = status;
   },
@@ -142,8 +132,8 @@ export const mutations = {
   setRegisterStatus(state, registerStatus) {
     state.registerStatus = registerStatus;
   },
-  setErrors(state, errors) {
-    state.errors = errors;
+  addError(state, error) {
+    state.errors.push(error);
   },
   setInvitations(state, invitations) {
     state.invitations = invitations;

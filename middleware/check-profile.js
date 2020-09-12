@@ -1,7 +1,7 @@
 export default ({ app, redirect }) => {
   const debug = true;
 
-  console.log("Inside checkOrgMiddleware");
+  console.log("Inside check-profile");
 
   const profileCookie = app.$cookies.get("user.profile");
 

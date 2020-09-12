@@ -2,6 +2,9 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12" md="8">
+        <v-card id="errors-div" v-if="inviteErrors !== undefined && inviteErrors.length > 0" class="elevation-12">
+          <v-alert v-for="(item, index) in inviteErrors" v-bind:key="index" show type="error">{{ item.msg }}</v-alert>
+        </v-card>
         <v-card elevation="4">
           <v-card-title class="headline">Invitations</v-card-title>
           <v-card-text>
@@ -52,7 +55,8 @@ export default {
   },
   computed: mapGetters({
     selectedProfile: "user/getSelectedProfile",
-    invitations: "admin/invitations/getInvitations"
+    invitations: "admin/invitations/getInvitations",
+    inviteErrors: "admin/invitations/getErrors"
   }),
   watch: {},
   mounted() {
