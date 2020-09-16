@@ -147,7 +147,7 @@ export default {
     this.$vuetify.theme.dark = false;
   },
   mounted() {
-    this.initials = this.$auth.user.family_name.charAt(0) + this.$auth.user.nickname.charAt(0);
+    this.initials = this.$auth.user.nickname.charAt(0) + this.$auth.user.family_name.charAt(0);
   },
   methods: {
     selectedOrgName() {

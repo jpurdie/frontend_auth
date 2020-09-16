@@ -47,7 +47,7 @@ export const actions = {
   },
   async checkToken({ commit }, token) {
     try {
-      const response = await this.$axios.get(`api/v1/invitations/${token}`);
+      const response = await this.$axios.get(`api/v1/invitations/validations/${token}`);
       if (response.data != null && response.data.invitation != null) {
         commit("setInvitation", response.data.invitation);
       }
