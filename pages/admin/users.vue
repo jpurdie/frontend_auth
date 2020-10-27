@@ -2,11 +2,11 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12" md="8">
-        <v-card id="errors-div" v-if="userErrors !== undefined && userErrors.length > 0" class="elevation-12">
+        <v-card id="errors-div" v-if="userErrors !== undefined && userErrors.length > 0" elevation="1">
           <v-alert v-for="(item, index) in userErrors" v-bind:key="index" show type="error">{{ item.msg }}</v-alert>
         </v-card>
 
-        <v-card elevation="4">
+        <v-card elevation="1">
           <v-card-title class="headline">Users</v-card-title>
           <v-card-text>
             <v-skeleton-loader

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer :mini-variant="!drawer" app clipped>
+    <v-navigation-drawer v-model="drawer" app clipped>
       <v-list :flat="true" :dense="true">
         <template v-for="item in items">
           <!-- Item has no sub items -->
@@ -50,11 +50,11 @@
     </v-navigation-drawer>
 
     <v-app-bar app clipped-left>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <router-link to="/dashboard">
         <BaseImg :src="require('@/assets/vitae_logo.png')" contain max-width="128" width="100%" />
       </router-link>
-      <span class="ml-4">{{ selectedOrgName() }}</span>
+      <span class="ml-4 text-truncate">{{ selectedOrgName() }}</span>
       <div class="flex-grow-1"></div>
       <template v-if="$auth.$state.loggedIn">
         <v-menu offset-y>
@@ -104,7 +104,7 @@ export default {
     BaseImg: () => import("./../components/base/BaseImg")
   },
   data: () => ({
-    drawer: true,
+    drawer: null,
     initials: "",
     items: [
       {
@@ -127,6 +127,11 @@ export default {
           {
             title: "Users",
             link: "/admin/users",
+            active: false
+          },
+          {
+            title: "Projects",
+            link: "/admin/projects",
             active: false
           },
           {

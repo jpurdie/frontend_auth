@@ -2,10 +2,10 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12" md="8">
-        <v-card id="errors-div" v-if="inviteErrors !== undefined && inviteErrors.length > 0" class="elevation-12">
+        <v-card id="errors-div" v-if="inviteErrors !== undefined && inviteErrors.length > 0" elevation="1">
           <v-alert v-for="(item, index) in inviteErrors" v-bind:key="index" show type="error">{{ item.msg }}</v-alert>
         </v-card>
-        <v-card elevation="4">
+        <v-card elevation="1">
           <v-card-title class="headline">Invitations</v-card-title>
           <v-card-text>
             <v-skeleton-loader v-if="invitations === undefined" type="list-item-two-line@3" tile></v-skeleton-loader>

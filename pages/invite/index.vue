@@ -3,20 +3,14 @@
     <v-row align="center" justify="center">
       <v-col md="6" xs="12">
         <v-card id="errors-div" v-if="invitationErrors" class="elevation-12">
-          <v-alert
-            v-for="(item, index) in invitationErrors"
-            v-bind:key="index"
-            show
-            type="error"
-            >{{ item.msg }}</v-alert
-          >
+          <v-alert v-for="(item, index) in invitationErrors" v-bind:key="index" show type="error">{{
+            item.msg
+          }}</v-alert>
         </v-card>
 
         <v-card v-if="invitation && invitation.email" class="elevation-12">
           <v-toolbar color="primary" dark flat>
-            <v-toolbar-title
-              >Register with {{ invitation.organization.name }}</v-toolbar-title
-            >
+            <v-toolbar-title>Register with {{ invitation.organization.name }}</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
           <v-card-text>
@@ -67,10 +61,7 @@
                   ></v-text-field>
                 </ValidationProvider>
 
-                <ValidationProvider
-                  name="Password Confirm"
-                  rules="required|min:8"
-                >
+                <ValidationProvider name="Password Confirm" rules="required|min:8">
                   <v-text-field
                     slot-scope="{ errors, valid }"
                     v-model="profile.passwordConfirm"
@@ -87,9 +78,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn :disabled="disableRgstrBtn" @click="register" color="primary"
-              >Register</v-btn
-            >
+            <v-btn :disabled="disableRgstrBtn" @click="register" color="primary">Register</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -99,7 +88,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {

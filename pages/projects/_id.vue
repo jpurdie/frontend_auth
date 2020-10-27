@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col md="12">
-        <project-create-form></project-create-form>
+        <project-edit-form :id="idBeingEdited"></project-edit-form>
       </v-col>
     </v-row>
   </v-container>
@@ -15,8 +15,12 @@ import { mapGetters } from "vuex";
 
 export default {
   layout: "dashboard-layout",
-  data: () => ({}),
+  data: () => ({
+    idBeingEdited: ""
+  }),
   computed: mapGetters({}),
-  mounted() {}
+  mounted() {
+    this.idBeingEdited = this.$route.params.id;
+  }
 };
 </script>

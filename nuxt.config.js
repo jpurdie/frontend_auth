@@ -101,6 +101,7 @@ export default {
       }
     }
   },
+  components: true,
   build: {
     extend(config, ctx) {
       if (ctx.isDev) {
