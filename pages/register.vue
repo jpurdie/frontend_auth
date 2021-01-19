@@ -3,13 +3,7 @@
     <v-row align="center" justify="center">
       <v-col xs="12" sm="6" lg="4">
         <v-card id="errors-div" v-if="userErrors" class="elevation-12">
-          <v-alert
-            v-for="(item, index) in userErrors"
-            v-bind:key="index"
-            show
-            type="error"
-            >{{ item.msg }}</v-alert
-          >
+          <v-alert v-for="(item, index) in userErrors" v-bind:key="index" show type="error">{{ item.msg }}</v-alert>
         </v-card>
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark flat>
@@ -19,26 +13,7 @@
           <v-card-text>
             <ValidationObserver ref="obs">
               <v-form @keydown.enter="register" @submit.stop.prevent="onSubmit">
-                <ValidationProvider
-                  mode="lazy"
-                  name="Organization Name"
-                  rules="required|min:4|max:80"
-                >
-                  <v-text-field
-                    slot-scope="{ errors, valid }"
-                    v-model="orgName"
-                    :error-messages="errors"
-                    autocomplete="off"
-                    label="Organization Name"
-                    required
-                  ></v-text-field>
-                </ValidationProvider>
-
-                <ValidationProvider
-                  mode="lazy"
-                  name="First Name"
-                  rules="required|min:2|max:80"
-                >
+                <ValidationProvider mode="lazy" name="First Name" rules="required|min:2|max:80">
                   <v-text-field
                     slot-scope="{ errors, valid }"
                     v-model="firstName"
@@ -49,11 +24,7 @@
                   ></v-text-field>
                 </ValidationProvider>
 
-                <ValidationProvider
-                  mode="lazy"
-                  name="Last Name"
-                  rules="required|min:2|max:80"
-                >
+                <ValidationProvider mode="lazy" name="Last Name" rules="required|min:2|max:80">
                   <v-text-field
                     slot-scope="{ errors, valid }"
                     v-model="lastName"
@@ -64,11 +35,7 @@
                   ></v-text-field>
                 </ValidationProvider>
 
-                <ValidationProvider
-                  mode="lazy"
-                  name="Email"
-                  rules="required|email|max:80"
-                >
+                <ValidationProvider mode="lazy" name="Email" rules="required|email|max:80">
                   <v-text-field
                     slot-scope="{ errors, valid }"
                     v-model="email"
@@ -94,11 +61,7 @@
                   ></v-text-field>
                 </ValidationProvider>
 
-                <ValidationProvider
-                  mode="lazy"
-                  name="password confirm"
-                  rules="required"
-                >
+                <ValidationProvider mode="lazy" name="password confirm" rules="required">
                   <v-text-field
                     slot-scope="{ errors, valid }"
                     v-model="passwordConfirm"
@@ -116,9 +79,7 @@
             <v-spacer></v-spacer>
             <v-btn @click="ping" color="accent">Ping</v-btn>
 
-            <v-btn @click="register" :disabled="disableRgstrBtn" color="primary"
-              >Register</v-btn
-            >
+            <v-btn @click="register" :disabled="disableRgstrBtn" color="primary">Register</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -145,7 +106,7 @@ export default {
   data() {
     return {
       orgName: undefined,
-      email: "lutygipahu@test.asu.edu",
+      email: "",
       passwordFirst: undefined,
       passwordConfirm: undefined,
       lastName: undefined,
