@@ -18,7 +18,7 @@
             >Register</v-tab
           >
           <v-tab
-            @click="dologin()"
+            @click="doLogin()"
             :ripple="false"
             active-class="text--primary"
             class="font-weight-bold"
@@ -55,7 +55,7 @@ export default {
     doRegister() {
       this.$auth.loginWith("auth0");
     },
-    dologin() {
+    doLogin() {
       this.$auth.loginWith("auth0");
     }
   }
