@@ -2,12 +2,7 @@
   <div>
     <v-app-bar id="home-app-bar" app color="white" elevation="1" height="80">
       <router-link to="/">
-        <BaseImg
-          :src="require('@/assets/vitae_logo.png')"
-          contain
-          max-width="128"
-          width="100%"
-        />
+        <BaseImg :src="require('@/assets/vitae_logo.png')" contain max-width="128" width="100%" />
       </router-link>
       <v-spacer />
 
@@ -15,7 +10,7 @@
         <v-tabs class="hidden-sm-and-down" optional>
           <v-tab
             :ripple="false"
-            to="/register"
+            @click="doRegister()"
             active-class="text--primary"
             class="font-weight-bold"
             min-width="96"
@@ -57,6 +52,9 @@ export default {
     ]
   }),
   methods: {
+    doRegister() {
+      this.$auth.loginWith("auth0");
+    },
     dologin() {
       this.$auth.loginWith("auth0");
     }

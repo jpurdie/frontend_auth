@@ -17,11 +17,11 @@ export default {
     nodeEnv: process.env.NODE_ENV || "prod",
     foo: process.env.FOO || undefined,
     appName: process.env.APP_NAME || "Vitae",
-    baseURL: "https://" + process.env.BASE_URL || "https://localhost:3000",
-    auth0Domain: process.env.AUTH0_DOMAIN,
-    auth0ClientID: process.env.AUTH0_CLIENT_ID,
-    auth0Audience: process.env.AUTH0_AUDIENCE,
-    auth0CallbackRoute: process.env.AUTH0_CALLBACK_ROUTE,
+    baseURL: "https://" + process.env.BASE_URL || "http://localhost:3000",
+    oAuth2Domain: process.env.OAUTH2_DOMAIN,
+    oAuth2ClientID: process.env.OAUTH2_CLIENT_ID,
+    oAuth2Audience: process.env.OAUTH2_AUDIENCE,
+    oAuth2CallbackRoute: process.env.OAUTH2_CALLBACK_ROUTE,
     apiURL: process.env.API_URL
   },
   server: {
@@ -113,24 +113,14 @@ export default {
     redirect: false,
     strategies: {
       local: false,
-      // auth0: {
-      //   domain: process.env.AUTH0_DOMAIN,
-      //   clientId: process.env.AUTH0_CLIENT_ID,
-      //   audience: process.env.AUTH0_AUDIENCE,
-      //   scope: ["openid", "profile", "email", "offline_access"],
-      //   redirectUri: "https://" + process.env.BASE_URL + "/signed-in",
-
-      //   responseType: "code",
-      //   grantType: "authorization_code",
-      //   codeChallengeMethod: "S256"
-      // },
       auth0: {
         scheme: "oauth2",
         endpoints: {
-          authorization: "https://" + process.env.AUTH0_DOMAIN + "/authorize",
-          token: "https://" + process.env.AUTH0_DOMAIN + "/oauth/token",
-          userInfo: "https://" + process.env.AUTH0_DOMAIN + "/userinfo",
-          logout: "https://" + process.env.AUTH0_DOMAIN + "/logout"
+          authorization: "https://" + process.env.OAUTH2_DOMAIN + "/oauth2/authorize",
+          token: "https://" + process.env.OAUTH2_DOMAIN + "/oauth2/token",
+          userInfo: "https://" + process.env.OAUTH2_DOMAIN + "/oauth2/userinfo",
+          logout: "https://" + process.env.OAUTH2_DOMAIN + "/logout",
+          login: "https://" + process.env.OAUTH2_DOMAIN + "/login"
         },
         token: {
           property: "access_token",
@@ -141,20 +131,17 @@ export default {
           property: "refresh_token",
           maxAge: 60 * 60 * 24 * 30
         },
-        // user: {
-        //   property: "user",
-        //   autoFetch: true
-        // },
         responseType: "code",
         grantType: "authorization_code",
         accessType: "offline",
-        redirectUri: "http://" + process.env.BASE_URL + "/signed-in",
+        redirectUri: "https://" + process.env.BASE_URL + "/signed-in",
         logoutRedirectUri: "http://" + process.env.BASE_URL + "/signed-in",
-        audience: process.env.AUTH0_AUDIENCE,
-        clientId: process.env.AUTH0_CLIENT_ID,
-        scope: ["openid", "profile", "email", "offline_access"],
+        audience: process.env.OAUTH2_AUDIENCE,
+        clientId: process.env.OAUTH2_CLIENT_ID,
+        scope: ["openid", "profile", "email", "phone"],
         state: "UNIQUE_AND_NON_GUESSABLE",
-        codeChallengeMethod: "",
+        identity_provider: "COGNITO",
+        codeChallengeMethod: "S256",
         responseMode: "",
         acrValues: ""
         // autoLogout: false
