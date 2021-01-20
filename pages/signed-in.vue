@@ -12,13 +12,12 @@ export default {
     const state = this.$route.query.state;
     console.log("inside signed in ", code, state);
     // this.$store.dispatch("updateOverlay", true);
-    this.redirectToCheckOrgs();
+    this.redirectToDashboard();
   },
   methods: {
-    redirectToCheckOrgs() {
-      console.log("redirectToCheckOrgs method");
+    redirectToDashboard() {
       this.$store.dispatch("updateOverlay", true);
-      window.location.href = "/check-orgs";
+      window.location.href = "/dashboard";
     }
   }
 };

@@ -10,21 +10,12 @@
         <v-tabs class="hidden-sm-and-down" optional>
           <v-tab
             :ripple="false"
-            @click="doRegister()"
+            @click="doLoginRegister()"
             active-class="text--primary"
             class="font-weight-bold"
             min-width="96"
             text
-            >Register</v-tab
-          >
-          <v-tab
-            @click="doLogin()"
-            :ripple="false"
-            active-class="text--primary"
-            class="font-weight-bold"
-            min-width="96"
-            text
-            >Login</v-tab
+            >Login &amp; Register</v-tab
           >
         </v-tabs>
       </div>
@@ -52,10 +43,7 @@ export default {
     ]
   }),
   methods: {
-    doRegister() {
-      this.$auth.loginWith("auth0");
-    },
-    doLogin() {
+    doLoginRegister() {
       this.$auth.loginWith("auth0");
     }
   }
