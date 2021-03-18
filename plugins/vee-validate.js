@@ -1,4 +1,4 @@
-import { extend } from "vee-validate";
+import { extend, setInteractionMode } from 'vee-validate';
 /*eslint-disable */
 import {
   required,
@@ -10,69 +10,73 @@ import {
   numeric,
   integer,
   regex,
-  confirmed
-} from "vee-validate/dist/rules";
+  confirmed,
+  oneOf
+} from 'vee-validate/dist/rules';
 
+setInteractionMode('eager');
 // install the 'required' rule.
 
-extend("alpha_spaces", {
+extend('alpha_spaces', {
   ...alpha_spaces,
-  message:
-    "The {_field_} field may only contain alphabetic characters as well as spaces"
+  message: 'The {_field_} field may only contain alphabetic characters as well as spaces'
 });
 /* eslint-enable */
-extend("required", {
+extend('required', {
   ...required,
-  message: "The {_field_} field is required"
+  message: 'The {_field_} field is required'
 });
 
-extend("alpha", {
+extend('alpha', {
   ...alpha,
-  message: "The {_field_} field may only contain alphabetic characters"
+  message: 'The {_field_} field may only contain alphabetic characters'
 });
 
-extend("min", {
+extend('min', {
   ...min,
-  message: "The {_field_} field must be at least {length} characters"
+  message: 'The {_field_} field must be at least {length} characters'
 });
 
-extend("max", {
+extend('max', {
   ...max,
-  message: "The {_field_} field may not be greater than {length} characters"
+  message: 'The {_field_} field may not be greater than {length} characters'
 });
 
-extend("email", {
+extend('email', {
   ...email,
-  message: "The {_field_} field must be a valid email"
+  message: 'The {_field_} field must be a valid email'
 });
 
-extend("numeric", {
+extend('numeric', {
   ...numeric,
-  message: "The {_field_} field may only contain numeric characters"
+  message: 'The {_field_} field may only contain numeric characters'
 });
 
-extend("integer", {
+extend('integer', {
   ...integer,
-  message: "The {_field_} field must be an integer"
+  message: 'The {_field_} field must be an integer'
 });
 
-extend("regex", {
+extend('regex', {
   ...regex,
-  message: "The {_field_} field is not valid"
+  message: 'The {_field_} field is not valid'
 });
 
-extend("confirmed", {
+extend('confirmed', {
   ...confirmed,
-  message: "The {_field_} field must match {target}"
+  message: 'The {_field_} field must match {target}'
 });
 
-extend("xpassword", {
+extend('oneOf', {
+  ...oneOf,
+  message: 'The {_field_} field must match {params}'
+});
+
+extend('xpassword', {
   validate: value => {
-    return /(?=(.*[0-9]))((?=.*[A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z]))^.{8,64}$/.test(
-      value
-    );
+    return /(?=(.*[0-9]))((?=.*[A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z]))^.{8,64}$/.test(value);
   },
-  params: ["xpass"],
+  params: ['xpass'],
   message:
-    "The password must be 10 to 64 characters with at least one capital letter, one lowercase letter, and one numberx"
+    'The password must be 10 to 64 characters with at least one capital letter, one lowercase letter, and one numberx'
 });

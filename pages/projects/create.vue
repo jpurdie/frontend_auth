@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 // import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {
-  layout: "dashboard-layout",
+  layout: 'dashboard',
   data: () => ({}),
   computed: mapGetters({}),
   mounted() {}

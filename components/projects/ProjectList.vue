@@ -9,21 +9,21 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
   computed: mapGetters({
-    projects: "projects/getProjects"
+    projects: 'projects/getProjects'
   }),
   data() {
     return {
       headers: [
-        { text: "Projects", align: "start", sortable: true, value: "name" },
-        { text: "RGT", value: "rgt" },
-        { text: "Status", value: "status.name" },
-        { text: "Type", value: "type.name" },
-        { text: "Complexity", value: "complexity.name" },
-        { text: "Size", value: "size.name" }
+        { text: 'Projects', align: 'start', sortable: true, value: 'name' },
+        { text: 'RGT', value: 'rgt' },
+        { text: 'Status', value: 'status.name' },
+        { text: 'Type', value: 'type.name' },
+        { text: 'Complexity', value: 'complexity.name' },
+        { text: 'Size', value: 'size.name' }
       ]
     };
   },
@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     initValues() {
-      this.$store.dispatch("projects/listProjects");
+      this.$store.dispatch('projects/listProjects');
     }
   }
 };

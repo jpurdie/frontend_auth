@@ -1,8 +1,5 @@
-// import moment from 'moment'
-// import Vue from 'vue'
-
-// Vue.filter('formatDate', function(value) {
-//   if (value) {
-//     return moment(String(value)).format('MMM Do, YYYY')
-//   }
-// })
+export function toJSONLocal(date) {
+  var local = new Date(date);
+  local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  return local.toJSON().slice(0, 10);
+}

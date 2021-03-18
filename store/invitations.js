@@ -1,27 +1,30 @@
 export const state = () => ({
-  invitation: { email: "" },
-  invitationStatus: "",
+  invitation: { email: '' },
+  invitationStatus: '',
   invitations: [],
   errors: [],
-  registerStatus: ""
+  registerStatus: ''
 });
 
 export const actions = {
   register({ commit }, userDetails) {
-    commit("setRegisterStatus", "");
+    commit('setRegisterStatus', '');
 
     return this.$axios
-      .post("api/v1/invitations/users", userDetails)
+      .post('api/v1/invitations/users', userDetails)
       .then(response => {
-        console.log("response", response);
-        commit("setRegisterStatus", "success");
+        console.log('response', response);
+        commit('setRegisterStatus', 'success');
       })
       .catch(error => {
-        commit("setRegisterStatus", "fail");
+        commit('setRegisterStatus', 'fail');
         // Error 😨
         if (error.response) {
-          commit("setErrors", error.response.data);
-
+          if (Array.isArray(error.response.data)) {
+            commit('setErrors', error.response.data);
+          } else {
+            commit('setErrors', [error.response.data]);
+          }
           /*
            * The request was made and the server responded with a
            * status code that falls out of the range of 2xx
@@ -40,7 +43,7 @@ export const actions = {
           return false;
         } else {
           // Something happened in setting up the request and triggered an Error
-          console.log("Error", error.message);
+          console.log('Error', error.message);
         }
         console.log(error.config);
       });
@@ -49,16 +52,16 @@ export const actions = {
     try {
       const response = await this.$axios.get(`api/v1/invitations/validations/${token}`);
       if (response.data != null && response.data.invitation != null) {
-        commit("setInvitation", response.data.invitation);
+        commit('setInvitation', response.data.invitation);
       }
     } catch (error) {
       // Error 😨
-      console.log("invitations checkToken() error", error);
+      console.log('invitations checkToken() error', error);
 
       if (error.response) {
         // this is a "known" error type and handle it with the UI
         if (error.response.status >= 400 && error.response.status < 500) {
-          commit("setErrors", error.response.data);
+          commit('setErrors', error.response.data);
         }
       }
     }

@@ -38,12 +38,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
-import inviteForm from "~/components/forms/InviteUser.vue";
+import inviteForm from '~/components/forms/InviteUser.vue';
 
 export default {
-  layout: "dashboard-layout",
+  layout: 'dashboard',
   components: {
     inviteForm
   },
@@ -54,23 +54,24 @@ export default {
     };
   },
   computed: mapGetters({
-    selectedProfile: "user/getSelectedProfile",
-    invitations: "admin/invitations/getInvitations",
-    inviteErrors: "admin/invitations/getErrors"
+    selectedProfile: 'user/getSelectedProfile',
+    invitations: 'admin/invitations/getInvitations',
+    inviteErrors: 'admin/invitations/getErrors'
   }),
   watch: {},
   mounted() {
+    this.$store.dispatch('admin/invitations/clearErrors');
     this.list();
   },
   methods: {
     async list() {
-      await this.$store.dispatch("admin/invitations/fetchAll");
+      await this.$store.dispatch('admin/invitations/fetchAll');
     },
     inactivateInvite(email) {
-      this.$store.dispatch("admin/invitations/inactivateInvite", email);
+      this.$store.dispatch('admin/invitations/inactivateInvite', email);
     },
     resendInvite(email) {
-      this.$store.dispatch("admin/invitations/resendInvite", email);
+      this.$store.dispatch('admin/invitations/resendInvite', email);
     }
   }
 };

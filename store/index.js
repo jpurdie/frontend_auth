@@ -1,20 +1,27 @@
 export const state = () => ({
   overlay: false,
-  errors: []
+  errors: [],
+  dispNavDrawer: true
 });
 
 export const actions = {
   updateOverlay({ commit }, overlayStatus) {
-    commit("setOverlay", overlayStatus);
+    commit('setOverlay', overlayStatus);
   },
   updateErrors({ commit }, errors) {
-    commit("setErrors", errors);
+    commit('setErrors', errors);
   },
   authPing({ commit, rootState }) {
-    this.$axios.get("api/v1/authping");
+    this.$axios.get('api/v1/authping');
   },
   nonAuthPing() {
-    this.$axios.get("api/v1/unauthping");
+    this.$axios.get('api/v1/unauthping');
+  },
+  toggleNavDrawer({ commit }) {
+    commit('toggleNavDrawer');
+  },
+  updateNavDrawerDisp({ commit }, vis) {
+    commit('seteNavDrawerDisp', vis);
   }
 };
 
@@ -24,6 +31,14 @@ export const mutations = {
   },
   setErrors(state, errors) {
     state.errors = errors;
+  },
+  toggleNavDrawer(state) {
+    console.log('state.nav.navDrawerDashboard from:' + state.dispNavDrawer + ' to: ' + !state.dispNavDrawer);
+    state.dispNavDrawer = !state.dispNavDrawer;
+  },
+  seteNavDrawerDisp(state, vis) {
+    console.log('seteNavDrawerDisp', vis);
+    state.dispNavDrawer = vis;
   }
 };
 
@@ -33,6 +48,9 @@ export const getters = {
   },
   getErrors(state) {
     return state.errors;
+  },
+  dispNavDrawer(state) {
+    return state.dispNavDrawer;
   }
 };
 

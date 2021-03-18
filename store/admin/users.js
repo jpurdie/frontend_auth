@@ -6,28 +6,24 @@ export const state = () => ({
 
 export const actions = {
   clearErrors({ commit }) {
-    commit("setErrors", []);
+    commit('setErrors', []);
   },
   updateRole({ commit }, updateOptions) {
-    console.log("updateOptions", updateOptions);
+    commit('setErrors', []);
+    console.log('updateOptions', updateOptions);
     const $vm = this;
-    const userID = updateOptions.userID;
-    const role = updateOptions.role;
 
     const options = {
-      method: "PATCH",
-      url: "api/v1/users/" + userID,
-      data: {
-        // eslint-disable-next-line object-shorthand
-        role: role
-      }
+      method: 'PATCH',
+      url: 'api/v1/users/' + updateOptions.userID,
+      data: updateOptions.payload
     };
     $vm
       .$axios(options)
       .then(response => {})
       .catch(error => {
         if (error.response && error.response.data) {
-          commit("setErrors", [error.response.data.error]);
+          commit('setErrors', [error.response.data.error]);
           return false;
         } else if (error.request) {
           console.error(error.request);
@@ -38,15 +34,16 @@ export const actions = {
       });
   },
   delete({ commit }, userID) {
+    commit('setErrors', []);
     const $vm = this;
     return $vm.$axios
-      .$delete("api/v1/users/" + userID)
+      .$delete('api/v1/users/' + userID)
       .then(response => {
-        console.log("delete");
+        console.log('delete');
       })
       .catch(error => {
         if (error.response) {
-          commit("setErrors", error.response.data);
+          commit('setErrors', error.response.data);
           return false;
         } else if (error.request) {
           console.error(error.request);
@@ -57,28 +54,29 @@ export const actions = {
       });
   },
   listRoles({ commit }) {
+    commit('setErrors', []);
     const $vm = this;
     return $vm.$axios
-      .get("api/v1/users/roles")
+      .get('api/v1/users/roles')
       .then(response => {
         const rolesResp = response.data;
-        console.log("rolesResp", rolesResp);
+        console.log('rolesResp', rolesResp);
         if (response.data !== null) {
           const roleArr = [];
-          console.log("rolesResp", rolesResp);
+          console.log('rolesResp', rolesResp);
           for (let i = 0; i < rolesResp.length; i++) {
-            console.log("response.roles[i].name", rolesResp[i].name);
+            console.log('response.roles[i].name', rolesResp[i].name);
             const tempObj = {};
             tempObj.text = $vm.$toTitleCase(rolesResp[i].name);
             tempObj.value = rolesResp[i].id;
             roleArr.push(tempObj);
           }
-          commit("setRoles", roleArr);
+          commit('setRoles', roleArr);
         }
       })
       .catch(error => {
         if (error.response) {
-          commit("setErrors", error.response.data);
+          commit('setErrors', error.response.data);
           return false;
         } else if (error.request) {
           console.error(error.request);
@@ -89,20 +87,21 @@ export const actions = {
       });
   },
   list({ commit }) {
+    commit('setErrors', []);
     // commit("setRegisterStatus", "");
 
     return this.$axios
-      .get("api/v1/users")
+      .get('api/v1/users')
       .then(response => {
         if (response.data !== null) {
-          commit("setUsers", response.data);
+          commit('setUsers', response.data);
         }
       })
       .catch(error => {
         // commit("setRegisterStatus", "fail");
         // Error
         if (error.response) {
-          commit("setErrors", [error.response.data]);
+          commit('setErrors', [error.response.data]);
           return false;
         } else if (error.request) {
           console.error(error.request);
@@ -120,7 +119,6 @@ export const mutations = {
     state.users = users;
   },
   setErrors(state, errors) {
-    state.errors = [];
     state.errors = errors;
   },
   setRoles(state, roles) {

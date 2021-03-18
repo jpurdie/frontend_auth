@@ -1,7 +1,12 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col md="6" xs="12">
+      <v-col cols="1">
+        <h1>Projects</h1>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="1">
         <v-btn color="primary" to="/projects/create">Create</v-btn>
       </v-col>
     </v-row>
@@ -14,16 +19,16 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-  layout: "dashboard-layout",
+  layout: 'dashboard',
   components: {},
   data() {
     return {};
   },
   computed: mapGetters({
-    selectedProfile: "user/getSelectedProfile"
+    selectedProfile: 'user/getSelectedProfile'
   }),
   watch: {},
   mounted() {},

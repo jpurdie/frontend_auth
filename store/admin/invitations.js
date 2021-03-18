@@ -1,17 +1,20 @@
 export const state = () => ({
-  invitation: { email: "" },
-  invitationStatus: "",
+  invitation: { email: '' },
+  invitationStatus: '',
   invitations: undefined,
   errors: [],
-  registerStatus: ""
+  registerStatus: ''
 });
 
 export const actions = {
+  clearErrors({ commit }) {
+    commit('setErrors', []);
+  },
   sendInviteEmailReq({ commit, rootState }, inviteEmail) {
-    commit("setInviteStatus", "pending");
+    commit('setInviteStatus', 'pending');
     const sendData = {
-      method: "post",
-      url: "api/v1/invitations",
+      method: 'post',
+      url: 'api/v1/invitations',
       data: {
         email: inviteEmail
       }
@@ -19,26 +22,26 @@ export const actions = {
     return this.$axios(sendData)
       .then(response => {
         if (response.status === 201) {
-          commit("setInviteStatus", "success");
+          commit('setInviteStatus', 'success');
         }
       })
       .catch(error => {
-        commit("setInviteStatus", "fail");
+        commit('setInviteStatus', 'fail');
         if (error.response) {
-          commit("setErrors", []);
-          commit("addError", error.response.data);
+          commit('setErrors', []);
+          commit('addError', error.response.data);
         } else if (error.request) {
           console.log(error.request);
         } else {
           // Something happened in setting up the request and triggered an Error
-          console.log("Error", error.message);
+          console.log('Error', error.message);
         }
         console.log(error.config);
       });
   },
   resendInvite({ commit, rootState }, inviteEmail) {
     this.$axios
-      .post("api/v1/invitations", {
+      .post('api/v1/invitations', {
         email: inviteEmail
       })
       .then(response => {
@@ -47,8 +50,8 @@ export const actions = {
       .catch(error => {
         // Error 😨
         if (error.response) {
-          commit("setErrors", []);
-          commit("addError", error.response.data);
+          commit('setErrors', []);
+          commit('addError', error.response.data);
           /*
            * The request was made and the server responded with a
            * status code that falls out of the range of 2xx
@@ -65,46 +68,46 @@ export const actions = {
           console.log(error.request);
         } else {
           // Something happened in setting up the request and triggered an Error
-          console.log("Error", error.message);
+          console.log('Error', error.message);
         }
         console.log(error.config);
       });
   },
   inactivateInvite({ commit, rootState }, email) {
     this.$axios
-      .delete("api/v1/invitations/" + email)
+      .delete('api/v1/invitations/' + email)
       .then(response => {
-        commit("removeFromInvitations", email);
+        commit('removeFromInvitations', email);
       })
       .catch(error => {
         // Error 😨
         if (error.response) {
-          commit("setErrors", []);
-          commit("addError", error.response.data);
+          commit('setErrors', []);
+          commit('addError', error.response.data);
         } else if (error.request) {
           console.log(error.request);
         } else {
           // Something happened in setting up the request and triggered an Error
-          console.log("Error", error.message);
+          console.log('Error', error.message);
         }
         console.log(error.config);
       });
   },
   fetchAll({ commit, rootState }) {
-    this.$axios
-      .get("api/v1/invitations")
+    return this.$axios
+      .get('api/v1/invitations')
       .then(response => {
         if (response.data !== undefined && response.data !== null) {
-          commit("setInvitations", response.data);
+          commit('setInvitations', response.data);
         } else {
-          commit("setInvitations", []);
+          commit('setInvitations', []);
         }
       })
       .catch(error => {
         if (error.response) {
-          if (error.response.status >= 400 && error.response.status < 500) {
-            commit("setErrors", []);
-            commit("addError", error.response.data);
+          if (error.response.status == 422 || error.response.status == 400) {
+            commit('setErrors', []);
+            commit('addError', error.response.data);
           } else {
             console.log(error.response.data);
             console.log(error.response.status);
@@ -113,7 +116,7 @@ export const actions = {
         } else if (error.request) {
           console.log(error.request);
         } else {
-          console.log("Error", error.message);
+          console.log('Error', error.message);
         }
       });
   }

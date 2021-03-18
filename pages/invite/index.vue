@@ -87,8 +87,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { ValidationObserver, ValidationProvider } from "vee-validate";
+import { mapGetters } from 'vuex';
+import { ValidationObserver, ValidationProvider } from 'vee-validate';
 
 export default {
   components: {
@@ -100,29 +100,29 @@ export default {
       urlToken: undefined,
       disableRgstrBtn: false,
       profile: {
-        password: "Mock123456",
-        passwordConfirm: "Mock123456",
-        lastName: "",
-        firstName: ""
+        password: 'Mock123456',
+        passwordConfirm: 'Mock123456',
+        lastName: '',
+        firstName: ''
       }
     };
   },
   computed: mapGetters({
-    errors: "user/getErrors",
-    invitation: "invitations/getInvitation",
-    invitationErrors: "invitations/getErrors",
-    registerStatus: "invitations/getRegisterStatus"
+    errors: 'user/getErrors',
+    invitation: 'invitations/getInvitation',
+    invitationErrors: 'invitations/getErrors',
+    registerStatus: 'invitations/getRegisterStatus'
   }),
   mounted() {
     if (this.$route.query.t !== null && this.$route.query.t !== undefined) {
-      console.log("this.$route.query.t", this.$route.query.t);
+      console.log('this.$route.query.t', this.$route.query.t);
       this.urlToken = this.$route.query.t;
     }
     this.validateToken();
   },
   methods: {
     dologin() {
-      this.$auth.loginWith("auth0");
+      this.$auth.loginWith('auth0');
     },
     async register() {
       const $vm = this;
@@ -133,7 +133,7 @@ export default {
         $vm.disableRgstrBtn = false;
         return;
       }
-      $vm.$store.dispatch("updateOverlay", true);
+      $vm.$store.dispatch('updateOverlay', true);
 
       const userDetails = {
         lastName: $vm.profile.lastName,
@@ -144,44 +144,44 @@ export default {
         email: $vm.invitation.email
       };
       console.log(userDetails);
-      console.log("before dispatch");
-      $vm.$store.dispatch("invitations/register", userDetails).then(
+      console.log('before dispatch');
+      $vm.$store.dispatch('invitations/register', userDetails).then(
         response => {
-          $vm.$store.dispatch("updateOverlay", false);
-          if ($vm.registerStatus === "success") {
+          $vm.$store.dispatch('updateOverlay', false);
+          if ($vm.registerStatus === 'success') {
             $vm.$router.push({
-              path: "/register-success"
+              path: '/register-success'
             });
           }
-          $vm.$scrollTo("#errors-div", 200, {
+          $vm.$scrollTo('#errors-div', 200, {
             offset: -10
           });
           $vm.disableRgstrBtn = false;
         },
         error => {
           $vm.disableRgstrBtn = false;
-          $vm.$store.dispatch("updateOverlay", false);
+          $vm.$store.dispatch('updateOverlay', false);
           console.error(error);
-          $vm.$scrollTo("#errors-div");
+          $vm.$scrollTo('#errors-div');
         }
       );
     },
     async validateToken() {
       const $vm = this;
-      $vm.$store.dispatch("updateOverlay", true);
+      $vm.$store.dispatch('updateOverlay', true);
       $vm.disableRgstrBtn = true;
-      console.log("$vm.urlToken", $vm.urlToken);
+      console.log('$vm.urlToken', $vm.urlToken);
 
-      await $vm.$store.dispatch("invitations/checkToken", $vm.urlToken).then(
+      await $vm.$store.dispatch('invitations/checkToken', $vm.urlToken).then(
         response => {
           $vm.disableRgstrBtn = false;
 
-          $vm.$store.dispatch("updateOverlay", false);
+          $vm.$store.dispatch('updateOverlay', false);
         },
         error => {
           $vm.disableRgstrBtn = true;
-          $vm.$store.dispatch("updateOverlay", false);
-          console.log("promise fail");
+          $vm.$store.dispatch('updateOverlay', false);
+          console.log('promise fail');
           console.error(error);
         }
       );

@@ -5,8 +5,7 @@ export default function({ app }) {
     app.store.state.user.me.firstName === null ||
     app.store.state.user.me.firstName === undefined;
   if (iDontExist) {
-    console.log("calling fetchme");
-
-    return app.store.dispatch("user/fetchMe");
+    console.log('calling fetchme');
+    return app.store.dispatch('user/fetchMe');
   }
 }

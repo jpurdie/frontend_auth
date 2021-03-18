@@ -26,20 +26,20 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
-    HomeAppBar: () => import("@/components/home/AppBar")
+    HomeAppBar: () => import('@/components/home/AppBar')
   },
-  transition: "bounces",
+  transition: 'bounces',
   data: () => ({
-    snackSuccessMsg: "",
+    snackSuccessMsg: '',
     successSnackBar: false
   }),
   computed: mapGetters({
-    errors: "getErrors",
-    overlay: "getOverlay"
+    errors: 'getErrors',
+    overlay: 'getOverlay'
   }),
   watch: {
     overlay(newValue, oldValue) {
@@ -47,18 +47,18 @@ export default {
     }
   },
   mounted() {
-    console.log("created default layout");
+    console.log('created default layout');
     this.parseSignUpNotifcations();
   },
   methods: {
     dologin() {
-      this.$auth.loginWith("auth0");
+      this.$auth.loginWith('auth0');
     },
     parseSignUpNotifcations() {
       if (
         this.$route.query != null &&
-        this.$route.query.supportSignUp === "true" &&
-        this.$route.query.code === "success"
+        this.$route.query.supportSignUp === 'true' &&
+        this.$route.query.code === 'success'
       ) {
         this.successSnackBar = true;
         this.snackSuccessMsg = this.$route.query.message.trim();

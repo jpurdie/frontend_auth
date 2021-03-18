@@ -1,5 +1,10 @@
 <template>
-  <v-container>
+  <v-container fluid>
+    <v-row>
+      <v-col>
+        <h1>Project</h1>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col md="12">
         <project-edit-form :id="idBeingEdited"></project-edit-form>
@@ -9,14 +14,14 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 // import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {
-  layout: "dashboard-layout",
+  layout: 'dashboard',
   data: () => ({
-    idBeingEdited: ""
+    idBeingEdited: ''
   }),
   computed: mapGetters({}),
   mounted() {

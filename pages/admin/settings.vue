@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-  layout: "dashboard-layout",
+  layout: 'dashboard',
   components: {},
   data() {
     return {
@@ -21,13 +21,13 @@ export default {
     };
   },
   computed: mapGetters({
-    selectedProfile: "user/getSelectedProfile"
+    selectedProfile: 'user/getSelectedProfile'
   }),
   watch: {},
   mounted() {},
   methods: {
     doAuthPing() {
-      this.$store.dispatch("authPing");
+      this.$store.dispatch('authPing');
     }
   }
 };

@@ -23,7 +23,7 @@
                 <v-list-item-content>
                   <v-list-item-title>
                     <v-select
-                      @change="role => updateRole(user.userID, role)"
+                      @change="role => updateRole(user.id, role)"
                       :disabled="user.email === me.email"
                       :loading="roles.length == 0"
                       :items="roles"
@@ -54,50 +54,55 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-  layout: "dashboard-layout",
+  layout: 'dashboard',
   components: {},
   data() {
     return {};
   },
   computed: mapGetters({
-    selectedProfile: "user/getSelectedProfile",
-    users: "admin/users/getUsers",
-    roles: "admin/users/getRoles",
-    userErrors: "admin/users/getErrors",
-    me: "user/getMe"
+    selectedProfile: 'user/getSelectedProfile',
+    users: 'admin/users/getUsers',
+    roles: 'admin/users/getRoles',
+    userErrors: 'admin/users/getErrors',
+    me: 'user/getMe'
   }),
   mounted() {
-    this.$store.dispatch("admin/users/clearErrors");
+    this.$store.dispatch('admin/users/clearErrors');
     this.list();
     this.listRoles();
   },
   methods: {
     async deleteUser(userID) {
-      console.log("before deleteUser");
-      await this.$store.dispatch("admin/users/delete", userID);
-      console.log("after deleteUser before list");
+      console.log('before deleteUser');
+      await this.$store.dispatch('admin/users/delete', userID);
+      console.log('after deleteUser before list');
 
       this.list();
-      console.log("after list");
+      console.log('after list');
     },
     updateRole(userID, role) {
       const updateOptions = {
-        userID,
-        role
+        userID: userID,
+        payload: {
+          op: 'replace',
+          path: '/role',
+          value: role
+        }
       };
-      this.$store.dispatch("admin/users/updateRole", updateOptions);
+
+      this.$store.dispatch('admin/users/updateRole', updateOptions);
 
       console.log(userID, role);
     },
     async updateUser(userID) {},
     listRoles() {
-      this.$store.dispatch("admin/users/listRoles");
+      this.$store.dispatch('admin/users/listRoles');
     },
     list() {
-      this.$store.dispatch("admin/users/list");
+      this.$store.dispatch('admin/users/list');
     }
   }
 };

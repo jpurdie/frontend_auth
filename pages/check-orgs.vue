@@ -15,11 +15,7 @@
         <v-card class="mx-auto" max-width="" tile>
           <v-list>
             <v-list-item-group color="primary">
-              <v-list-item
-                v-for="(profile, i) in me.profiles"
-                :key="i"
-                @click="selectProfile(profile.profileID, profile.organization.organizationID)"
-              >
+              <v-list-item v-for="(profile, i) in me.profiles" :key="i" @click="selectProfile(profile.organization.id)">
                 <v-list-item-content>
                   <v-list-item-title v-text="profile.organization.name"></v-list-item-title>
                 </v-list-item-content>
@@ -33,18 +29,18 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
 export default {
-  layout: "header-only-layout",
+  layout: 'header-only',
   data() {
     return {
       selectedOrg: undefined
     };
   },
   mounted() {
-    this.$cookies.remove("user.profile"); // clear out any selected profile
-    this.$store.dispatch("updateOverlay", true);
+    this.$cookies.remove('user.profile'); // clear out any selected profile
+    this.$store.dispatch('updateOverlay', true);
     this.doFetchUser();
   },
   computed: {
@@ -54,18 +50,18 @@ export default {
     })
   },
   methods: {
-    async selectProfile(profileID) {
-      await this.$store.dispatch("user/selectProfile", profileID);
-      this.$router.push("/dashboard");
+    async selectProfile(orgID) {
+      await this.$store.dispatch('user/selectProfile', orgID);
+      this.$router.push('/dashboard');
     },
-    async doFetchUser() {
+    doFetchUser() {
       const $vm = this;
-      await this.$store.dispatch("user/fetchMe");
-      $vm.$store.dispatch("updateOverlay", false);
-      console.log("$vm.me.profiles.length", $vm.me.profiles.length);
+      this.$store.dispatch('user/fetchMe');
+      $vm.$store.dispatch('updateOverlay', false);
+      console.log('$vm.me.profiles.length', $vm.me.profiles.length);
       if ($vm.me.profiles.length === 1) {
-        // no need to wait for a selection if they only have one profile
-        $vm.$router.push("/dashboard");
+        //no need to wait for a selection if they only have one profile
+        $vm.$router.push('/dashboard');
       }
     }
   }

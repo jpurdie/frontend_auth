@@ -13,7 +13,18 @@
           <v-card-text>
             <ValidationObserver ref="obs">
               <v-form @keydown.enter="register" @submit.stop.prevent="onSubmit">
-                <ValidationProvider mode="lazy" name="First Name" rules="required|min:2|max:80">
+                <ValidationProvider mode="lazy" name="organization name" rules="required|min:4|max:250">
+                  <v-text-field
+                    slot-scope="{ errors, valid }"
+                    v-model="orgName"
+                    :error-messages="errors"
+                    autocomplete="off"
+                    label="Organization Name"
+                    required
+                  ></v-text-field>
+                </ValidationProvider>
+
+                <ValidationProvider mode="lazy" name="first name" rules="required|min:2|max:100">
                   <v-text-field
                     slot-scope="{ errors, valid }"
                     v-model="firstName"
@@ -24,7 +35,7 @@
                   ></v-text-field>
                 </ValidationProvider>
 
-                <ValidationProvider mode="lazy" name="Last Name" rules="required|min:2|max:80">
+                <ValidationProvider mode="lazy" name="last name" rules="required|min:2|max:80">
                   <v-text-field
                     slot-scope="{ errors, valid }"
                     v-model="lastName"
@@ -35,7 +46,7 @@
                   ></v-text-field>
                 </ValidationProvider>
 
-                <ValidationProvider mode="lazy" name="Email" rules="required|email|max:80">
+                <ValidationProvider mode="lazy" name="email" rules="required|email|max:80">
                   <v-text-field
                     slot-scope="{ errors, valid }"
                     v-model="email"
@@ -46,7 +57,7 @@
                   ></v-text-field>
                 </ValidationProvider>
 
-                <ValidationProvider name="password" rules="required|xpassword">
+                <ValidationProvider mode="lazy" name="password" rules="required|xpassword">
                   <v-text-field
                     slot-scope="{ errors, valid }"
                     v-model="passwordFirst"
@@ -94,9 +105,9 @@
 </style>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
-import { ValidationObserver, ValidationProvider } from "vee-validate";
+import { ValidationObserver, ValidationProvider } from 'vee-validate';
 
 export default {
   components: {
@@ -106,7 +117,7 @@ export default {
   data() {
     return {
       orgName: undefined,
-      email: "",
+      email: 'lutygipahu@test.asu.edu',
       passwordFirst: undefined,
       passwordConfirm: undefined,
       lastName: undefined,
@@ -117,34 +128,34 @@ export default {
     };
   },
   computed: mapGetters({
-    userErrors: "user/getErrors",
-    registerStatus: "user/getSignUpStatus"
+    userErrors: 'user/getUserErrors',
+    registerStatus: 'user/getSignUpStatus'
   }),
   created() {
     this.clearUserErrors();
   },
   methods: {
     clearUserErrors() {
-      this.$store.dispatch("user/clearErrors");
+      this.$store.dispatch('user/clearErrors');
     },
     ping() {
-      this.$store.dispatch("nonAuthPing");
+      this.$store.dispatch('nonAuthPing');
     },
     redirectSuccess() {
-      this.$store.dispatch("updateOverlay", false);
+      this.$store.dispatch('updateOverlay', false);
       this.$router.push({
-        path: "/register-success"
+        path: '/register-success'
       });
     },
     async register() {
       const $vm = this;
       $vm.disableRgstrBtn = true;
-      $vm.$store.dispatch("updateOverlay", true);
+      $vm.$store.dispatch('updateOverlay', true);
 
       const isValid = await $vm.$refs.obs.validate();
       if (!isValid) {
         $vm.disableRgstrBtn = false;
-        $vm.$store.dispatch("updateOverlay", false);
+        $vm.$store.dispatch('updateOverlay', false);
         return;
       }
 
@@ -157,23 +168,20 @@ export default {
         passwordConfirm: $vm.passwordConfirm
       };
 
-      await $vm.$store.dispatch("user/register", profile);
-      console.log("registering done");
+      await $vm.$store.dispatch('user/register', profile);
 
-      if ($vm.errors) {
+      if ($vm.userErrors) {
         this.$nextTick(() => {
-          const el = document.getElementById("errors-div");
+          const el = document.getElementById('errors-div');
           if (el) {
-            el.scrollIntoView(false);
+            el.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
           }
         });
       }
-      $vm.$store.dispatch("updateOverlay", false);
+      $vm.$store.dispatch('updateOverlay', false);
       $vm.disableRgstrBtn = false;
-      console.log("redirecting1", $vm.userErrors);
 
       if ($vm.userErrors !== undefined && $vm.userErrors.length === 0) {
-        console.log("redirecting2");
         $vm.redirectSuccess();
       }
     }
