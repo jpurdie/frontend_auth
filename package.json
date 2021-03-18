@@ -2,7 +2,7 @@
   "name": "Vitae",
   "version": "1.0.0",
   "description": "Auth template with Nuxt, Auth0, Vuetify, VeeValidate, REST API",
-  "author": "justindpurdie",
+  "author": "jpurdie",
   "private": true,
   "scripts": {
     "dev": "nuxt",
